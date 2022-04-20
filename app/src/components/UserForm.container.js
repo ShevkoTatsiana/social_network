@@ -1,29 +1,57 @@
-import React from 'react';
-import { useForm } from 'react-hook-form'; 
+import React, {useEffect, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 import axios from 'axios';
+import { UserFormComponent } from './UserForm.component';
 
-export const CreateUserFormComponent = () => {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = async ({name, email, password}) => {
-    await axios.post('http://localhost:8000/users/create', {
-      name,
-      email,
-      password
+export const UserFormContainer = () => {
+  const {state: id} = useLocation();
+  const [user, setUser] = useState();
+  const [validationError, setValidationError] = useState();
+
+  const onLoadUser = async () => {
+    const resp = await axios.get(`http://localhost:8000/users/${id}`);
+    setUser(resp?.data);
+  };
+
+  const onSubmitUpdate = async ({name, email, password}) => {
+    await axios.put(`http://localhost:8000/users/${id}`, {
+      name: name || user?.name,
+      email: email || user?.email,
+      password: password || user?.password
     });
   };
 
+  const onSubmitCreate = async ({name, email, password}) => {
+    try {
+      const result = await axios.post('http://localhost:8000/users/create', {
+        name,
+        email,
+        password
+      });
+      console.log(result);
+    } catch (e) {
+      console.log(e.message);
+      setValidationError(e);
+    }
+    
+  };
+
+  const handleOnFormSubmit = (data) => {
+    if(!!id) return onSubmitUpdate(data);
+    return onSubmitCreate(data);
+  };
+
+  useEffect(() => {
+    if(!!user || !id) return;
+    onLoadUser();
+  }, [user]);
+
   return (
-    <div className="create-user-form-component">
-      <form  onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name">Name</label>
-        <input {...register("name")} id="name"/>
-        <label htmlFor="email">Email</label>
-        <input {...register("email")} id="email"/>
-        <label htmlFor="password">Password</label>
-        <input {...register("password")} id="password"/>
-        <input type="submit" />
-      </form>
-    </div>
+    <UserFormComponent name={user?.name}
+                       email={user?.email}
+                       error={validationError}
+                       password={user?.password}
+                       onFormSubmit={handleOnFormSubmit}/>
   );
 }
 

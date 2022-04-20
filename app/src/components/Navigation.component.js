@@ -16,6 +16,9 @@ export const NavigationComponent = () => {
             <li>
               <Link to="/create">Create user</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
           </ul>
         </nav>
         </div>

@@ -1,47 +1,40 @@
-const userService = require('../services/user.service')    
-
-// exports.getUsers = async function (req, res, next) {
-//     // Validate request parameters, queries using express-validator
-    
-//     var page = req.params.page ? req.params.page : 1;
-//     var limit = req.params.limit ? req.params.limit : 10;
-//     try {
-//         const users = await UserService.getUsers({}, page, limit)
-//         return res.status(200).json({ status: 200, data: users, message: "Succesfully Users Retrieved" });
-//     } catch (e) {
-//         return res.status(400).json({ status: 400, message: e.message });
-//     }
-// }
-
-// exports.getUsers = async function (req, res) {
-//     // Validate request parameters, queries using express-validator
-    
-//     try {
-//         res.send(UserService.getUsers())
-//     } catch (e) {
-//         return res.status(400).json({ status: 400, message: e.message });
-//     }
-// }
+const userService = require('../services/user.service');
+const bcrypt = require('bcrypt');    
 
 class UsersController {
 
-  getAll(req, res) {
-    userService.getAll(req, res)
+  async getAll(req, res) {
+    await userService.getAll().then(users => res.json(users))
+       .catch(err => res.status(400).json('Error: ' + err));
   }
-  getById(req, res) {
-    res.send(userService.getById(req.params.id))
+ 
+  async createUser(req, res) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      const userData = {
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      };
+      await userService.createUser(userData).then((user) => res.json(user), (reason) => res.json(reason))
+         .catch(err => res.status(400).json('Error: ' + err));
   }
-  createUser(req, res) {
-      userService.createUser(req, res);
+  async getUser(req, res) {
+   await userService.getUser(req.params.id).then(user => res.json(user))
+    .catch(err => res.status(400).json('Error: ' + err));;
   }
-  getUser(req, res) {
-    userService.getUser(req, res);
+  async deleteUser(req, res) {
+    await userService.deleteUser(req.params.id).then(() => res.json('User deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));;;
   }
-  deleteUser(req, res) {
-    userService.deleteUser(req, res);
-  }
-  editUser(req, res) {
-    userService.editUser(req, res);
+  async editUser(req, res) {
+    const userData = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    };
+    await userService.editUser(req.params.id, userData).then(() => res.json('User updated!'))
+    .catch(err => res.status(400).json('Error: ' + err));;
   }
 }
 

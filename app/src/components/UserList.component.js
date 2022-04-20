@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table'
 
 export const UserListComponent = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const onLoadUsers = async () => {
         const resp = await axios.get('http://localhost:8000/users');
@@ -23,10 +23,10 @@ export const UserListComponent = () => {
         }
     };
     const onEditUser = (id) => {
-        history.push(`/edit/:${id}`);
+        navigate('edit', {state: id});
         // const resp = await axios.post(`http://localhost:8000/users/edit/${id}`);
         // //setUsers(resp?.data);
-        // console.log(`edit ${id}`, resp);
+         console.log(`edit ${id}`);
     };
 
     useEffect(() => {
@@ -42,7 +42,7 @@ console.log(users);
                         <tr key={user.name}>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                            <td><Button variant="primary">Edit</Button></td>
+                            <td><Button variant="primary" onClick={() => onEditUser(user._id)}>Edit</Button></td>
                             <td><Button variant="primary" onClick={() => onDeleteUser(user._id)}>Delete</Button></td>
                         </tr>
                     ))}

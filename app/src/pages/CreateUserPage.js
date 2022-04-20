@@ -1,11 +1,11 @@
 import React from 'react';
-import {CreateUserFormComponent} from '../components';
+import {UserFormContainer} from '../components';
 
 export const CreateUserPage = () => {
     return (
         <div className="create-user-page">
             <h1>Create User</h1>
-            <CreateUserFormComponent/>
+            <UserFormContainer/>
         </div>
     );
 }

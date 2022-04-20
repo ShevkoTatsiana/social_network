@@ -9,7 +9,8 @@ import {
   CreateUserPage, 
   UsersListPage,
   HomePage, 
-  EditUserPage
+  EditUserPage,
+  LoginPage
  } from './pages';
  import {NavigationComponent} from './components';
 import './App.css';
@@ -27,7 +28,9 @@ function App() {
                           
                       <Route path="/users" element={<UsersListPage/>}/>
 
-                      <Route path="/edit" element={<EditUserPage/>}/>
+                      <Route path="/users/edit" element={<EditUserPage/>}/>
+
+                      <Route path="/login" element={<LoginPage/>}/>
                       
                       <Route path="/" element={<HomePage/>}/>
                     
