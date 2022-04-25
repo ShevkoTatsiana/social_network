@@ -1,13 +1,13 @@
-const router = require('express').Router();
-const userController = require('../controllers/user.controller');
-const validator = require('../middlewares/validation.middleware')
-const schema = require('../validationSchemas/createUser.schema');
+import {Router} from 'express';
+import {userController} from '../controllers/user.controller.js';
+import {validator} from '../middlewares/validation.middleware.js';
+import {createUser} from '../validationSchemas/createUser.schema.js';
 
-router
+export const usersRouter = new Router();
+
+usersRouter
   .get('/', userController.getAll)
   .get('/:id', userController.getUser)
   .delete('/:id', userController.deleteUser)
-  .post('/create', validator(schema), userController.createUser)
+  .post('/create', validator(createUser), userController.createUser)
   .put('/:id', userController.editUser);
-
-module.exports = router;

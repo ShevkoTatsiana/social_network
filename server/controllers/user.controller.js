@@ -1,5 +1,5 @@
-const userService = require('../services/user.service');
-const bcrypt = require('bcrypt');    
+import {userService} from '../services/user.service.js';
+//import bcrypt from 'bcrypt';    
 
 class UsersController {
 
@@ -9,12 +9,10 @@ class UsersController {
   }
  
   async createUser(req, res) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
       const userData = {
         name: req.body.name,
         email: req.body.email,
-        password: hashedPassword,
+        password: req.body.password,
       };
       await userService.createUser(userData).then((user) => res.json(user), (reason) => res.json(reason))
          .catch(err => res.status(400).json('Error: ' + err));
@@ -38,6 +36,4 @@ class UsersController {
   }
 }
 
-const userController = new UsersController()
-
-module.exports = userController
+export const userController = new UsersController();

@@ -1,31 +1,30 @@
- const User = require('../models/user.model')
+import {UserModel} from '../models/user.model.js';
 
 class UsersService {
     constructor() {
       this.users = [];
     }
     getAll() {
-      return User.find();
+      console.log(UserModel);
+      return UserModel.find();
     }
 
     getUser(userId) {
-      return User.findById(userId);
+      return UserModel.findById(userId);
     }
 
     createUser(userData) {
-        const newUser = new User(userData);
+        const newUser = new UserModel(userData);
         return newUser.save();
     }
 
     deleteUser(userId) {
-      return User.findByIdAndDelete(userId);
+      return UserModel.findByIdAndDelete(userId);
     }
 
     editUser(userId, userData) {
-      return User.findByIdAndUpdate(userId, userData);
+      return UserModel.findByIdAndUpdate(userId, userData);
     }
   }
   
-  const usersService = new UsersService()
-  
-  module.exports = usersService
+  export const userService = new UsersService();

@@ -1,5 +1,5 @@
-const Joi = require("joi");
-const schema = Joi.object({
+import Joi from "joi";
+export const createUser = Joi.object({
   name: Joi.string()
     .alphanum()
     .min(3)
@@ -21,5 +21,3 @@ const schema = Joi.object({
 })
   //.with('name', 'birth_year')
   //.with('password', 'repeat_password');
-
-module.exports = schema

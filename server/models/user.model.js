@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
@@ -10,12 +11,38 @@ const userSchema = new Schema({
     trim: true,
     minlength: 2
    },
-  email: { type: String, required: false },
-  password: { type: String, required: false }
+  email: { 
+    type: String, 
+    unique: true,
+    required: true 
+  },
+  password_hash: { type: String, required: false }
 }, {
   timestamps: true,
 });
 
-const User = mongoose.model('User', userSchema);
+userSchema.virtual('password')
+  .set(function(password) {
+    this._password = password;
+    this.password_hash = this.encryptPassword(password);
+  })
+  .get(function() {
+    return this._password;
+  });
 
-module.exports = User;
+userSchema.methods = {
+  authenticate: function(password) {
+    return bcrypt.compareSync(password, this.password_hash);
+  },
+
+  encryptPassword: function(password) {
+    if (!password) return '';
+    try {
+      return bcrypt.hashSync(password, 10);
+    } catch (err) {
+      return '';
+    }
+  },
+};
+
+export const UserModel = mongoose.model('User', userSchema);
