@@ -9,12 +9,12 @@ export const UserFormContainer = () => {
   const [validationError, setValidationError] = useState();
 
   const onLoadUser = async () => {
-    const resp = await axios.get(`http://localhost:8000/users/${id}`);
+    const resp = await axios.get(`http://localhost:8000/api/users/${id}`);
     setUser(resp?.data);
   };
 
   const onSubmitUpdate = async ({name, email, password}) => {
-    await axios.put(`http://localhost:8000/users/${id}`, {
+    await axios.put(`http://localhost:8000/api/users/${id}`, {
       name: name || user?.name,
       email: email || user?.email,
       password: password || user?.password
@@ -23,7 +23,7 @@ export const UserFormContainer = () => {
 
   const onSubmitCreate = async ({name, email, password}) => {
     try {
-      const result = await axios.post('http://localhost:8000/users/create', {
+      const result = await axios.post('http://localhost:8000/api/users/create', {
         name,
         email,
         password

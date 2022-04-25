@@ -1,9 +1,7 @@
 import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useToken} from '../utils/useToken';
-import {LoginFormContainer} from '../components';
 
-export const LoginPage = () => {
+export const AccountPage = ({user}) => {
     // const navigate = useNavigate();
     // const {token} = useToken();
 
@@ -15,9 +13,8 @@ export const LoginPage = () => {
     // }, [token]);
 
     return (
-        <div className="login-user-page">
-            <h1>Login</h1>
-            <LoginFormContainer/>
+        <div className="account-page">
+            <h1>Wellcome {user?.name}</h1>
         </div>
     );
 }

@@ -10,9 +10,10 @@ import {
   UsersListPage,
   HomePage, 
   EditUserPage,
-  LoginPage
+  LoginPage,
+  AccountPage
  } from './pages';
- import {NavigationComponent} from './components';
+ import {NavigationComponent, AccountSwitchComponent} from './components';
 import './App.css';
 
 function App() {
@@ -24,16 +25,13 @@ function App() {
               <NavigationComponent/>
               <div className="app-content">
                   <Routes>
-                      <Route path="/create" element={<CreateUserPage/>}/>
-                          
+                      <Route path="/create" element={<CreateUserPage/>}/>                          
                       <Route path="/users" element={<UsersListPage/>}/>
-
                       <Route path="/users/edit" element={<EditUserPage/>}/>
-
-                      <Route path="/login" element={<LoginPage/>}/>
-                      
-                      <Route path="/" element={<HomePage/>}/>
-                    
+                      <Route path="/account/login" element={<LoginPage/>}/>
+                      <Route path="/account/info" element={<AccountPage/>}/>
+                      <Route path="/account" element={<AccountSwitchComponent/>}/>
+                      <Route path="/" element={<HomePage/>}/>                   
                   </Routes>
               </div>
           </div>

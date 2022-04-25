@@ -1,12 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'; 
 
-export const LoginFormComponent = ({error}) => {
+export const LoginFormComponent = ({error, onFormSubmit}) => {
  
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    //onFormSubmit(data)
-    console.log(data);
+    onFormSubmit(data)
   };
 
   return (

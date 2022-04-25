@@ -8,11 +8,11 @@ export const UserListComponent = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const onLoadUsers = async () => {
-        const resp = await axios.get('http://localhost:8000/users');
+        const resp = await axios.get('http://localhost:8000/api/users');
         setUsers(resp?.data);
     };
     const onDeleteUser = async (id) => {
-        const resp = await axios.delete(`http://localhost:8000/users/${id}`);
+        const resp = await axios.delete(`http://localhost:8000/api/users/${id}`);
         //setUsers(resp?.data);
         console.log(`delete ${id}`, resp);
         if (resp.status === 'error') {

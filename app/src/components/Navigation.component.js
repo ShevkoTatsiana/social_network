@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useToken} from '../utils/useToken';
 
 export const NavigationComponent = () => {
-
+  const {token} = useToken();
+  console.log(token);
     return (
         <div className="navigation-component">
             <nav>
@@ -17,7 +19,11 @@ export const NavigationComponent = () => {
               <Link to="/create">Create user</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              {!!token ? (
+                <Link to="/account/info">Account</Link>
+              ) : (
+                <Link to="/account/login">Login</Link>
+              )}
             </li>
           </ul>
         </nav>
