@@ -4,8 +4,7 @@ import {userService} from '../services/user.service.js';
 class UsersController {
 
   async getAll(req, res) {
-    await userService.getAll().then(users => res.json(users))
-       .catch(err => res.status(400).json('Error: ' + err));
+    res.send(await userService.getAll());
   }
  
   async createUser(req, res) {
@@ -14,16 +13,14 @@ class UsersController {
         email: req.body.email,
         password: req.body.password,
       };
-      await userService.createUser(userData).then((user) => res.json(user), (reason) => res.json(reason))
-         .catch(err => res.status(400).json('Error: ' + err));
+      
+      res.send(await userService.createUser(userData));
   }
   async getUser(req, res) {
-   await userService.getUser(req.params.id).then(user => res.json(user))
-    .catch(err => res.status(400).json('Error: ' + err));;
+   res.send(await userService.getUser(req.params.id));
   }
   async deleteUser(req, res) {
-    await userService.deleteUser(req.params.id).then(() => res.json('User deleted.'))
-    .catch(err => res.status(400).json('Error: ' + err));;;
+    res.send(await userService.deleteUser(req.params.id));
   }
   async editUser(req, res) {
     const userData = {
@@ -31,8 +28,7 @@ class UsersController {
       email: req.body.email,
       password: req.body.password,
     };
-    await userService.editUser(req.params.id, userData).then(() => res.json('User updated!'))
-    .catch(err => res.status(400).json('Error: ' + err));;
+    res.send(await userService.editUser(req.params.id, userData));
   }
 }
 

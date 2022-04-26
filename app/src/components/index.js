@@ -4,4 +4,5 @@ export {UserFormContainer} from './UserForm.container';
 export {UserFormComponent} from './UserForm.component';
 export {LoginFormContainer} from './LoginForm.container';
 export {LoginFormComponent} from './LoginForm.component';
-export {AccountSwitchComponent} from './AccountSwitch.component';
+export {AccountInfoContainer} from './AccountInfo.container';
+export {AccountInfoComponent} from './AccountInfo.component';

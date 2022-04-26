@@ -4,15 +4,16 @@ import axios from 'axios';
 import { LoginFormComponent } from './LoginForm.component';
 import {useToken} from '../utils/useToken';
 
-export const LoginFormContainer = () => {
+export const LoginFormContainer = ({onUserLogin}) => {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [data, setData] = useState({});
-  const {setToken} = useToken();
+  const {token, setToken} = useToken();
 
   const navigateToAccount = (token, user) => {
-    setToken(token);
-    navigate('/account', {state: user});
+    console.log(token);
+    setToken(user._id);
+    navigate('/account/info', {state: user});
   };
 
   const handleOnFormSubmit = async ({email, password}) => {
@@ -23,15 +24,19 @@ export const LoginFormContainer = () => {
       });
       console.log(result);
       setData(result?.data);
+      onUserLogin();
+      navigateToAccount(result?.token, result?.data?.user);
     } catch (e) {
+      console.log(e);
       setError(e);
     }
   };
 
   useEffect(() => {
-    if(!data.token) return;
-    navigateToAccount(data.token, data.user);
-  }, [data?.token]);
+    console.log(data);
+    if(!token) return;
+    navigateToAccount(data?.user);
+  }, [token]);
 
   // const handleOnFormSubmit = ({email, password}) => {
   //     const result = (axios.post('http://localhost:8000/api/auth/login', {

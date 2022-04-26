@@ -13,7 +13,6 @@ export const UserListComponent = () => {
     };
     const onDeleteUser = async (id) => {
         const resp = await axios.delete(`http://localhost:8000/api/users/${id}`);
-        //setUsers(resp?.data);
         console.log(`delete ${id}`, resp);
         if (resp.status === 'error') {
             alert('Something went wrong')
@@ -24,15 +23,12 @@ export const UserListComponent = () => {
     };
     const onEditUser = (id) => {
         navigate('edit', {state: id});
-        // const resp = await axios.post(`http://localhost:8000/users/edit/${id}`);
-        // //setUsers(resp?.data);
          console.log(`edit ${id}`);
     };
 
     useEffect(() => {
         onLoadUsers();
     }, []);
-console.log(users);
 
     return (
         <div className="user-list-component">

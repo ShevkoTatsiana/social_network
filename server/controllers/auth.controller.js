@@ -1,9 +1,14 @@
 import {authService} from '../services/auth.service.js';
 
 class AuthController {
-  async authenticate(req, res) {
-    console.log(req.body);
-    res.send(await authService.authenticate(req.body.email, req.body.password))
+   async authenticate(req, res) {
+    try {
+      const result =  await authService.authenticate(req.body.email, req.body.password);
+      res.send(result);
+    } catch(err) {
+      console.log(err);
+      res.status(400).json(err)
+    }
   }
 }
 

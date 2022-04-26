@@ -30,7 +30,7 @@ export const UserFormContainer = () => {
       });
       console.log(result);
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       setValidationError(e);
     }
     

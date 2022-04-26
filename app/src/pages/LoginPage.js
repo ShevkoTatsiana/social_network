@@ -1,23 +1,11 @@
-import React, {useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
-import {useToken} from '../utils/useToken';
+import React from 'react';
 import {LoginFormContainer} from '../components';
 
-export const LoginPage = () => {
-    // const navigate = useNavigate();
-    // const {token} = useToken();
-
-    // useEffect(() => {
-    //     if(!!token) {
-    //         navigate('/account');
-    //     }
-    //     console.log(token);
-    // }, [token]);
-
+export const LoginPage = ({onUserLogin}) => {
     return (
         <div className="login-user-page">
             <h1>Login</h1>
-            <LoginFormContainer/>
+            <LoginFormContainer onUserLogin={onUserLogin}/>
         </div>
     );
 }

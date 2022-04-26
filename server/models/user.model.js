@@ -16,7 +16,14 @@ const userSchema = new Schema({
     unique: true,
     required: true 
   },
-  password_hash: { type: String, required: false }
+  password_hash: { 
+    type: String, 
+    required: false 
+  },
+  profilePicture: {
+    type: String,
+    default: ""
+  }
 }, {
   timestamps: true,
 });
