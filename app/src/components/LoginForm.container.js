@@ -12,7 +12,7 @@ export const LoginFormContainer = ({onUserLogin}) => {
 
   const navigateToAccount = (token, user) => {
     console.log(token);
-    setToken(user._id);
+    setToken(token);
     navigate('/account/info', {state: user});
   };
 
@@ -25,7 +25,7 @@ export const LoginFormContainer = ({onUserLogin}) => {
       console.log(result);
       setData(result?.data);
       onUserLogin();
-      navigateToAccount(result?.token, result?.data?.user);
+      navigateToAccount(result?.data?.token, result?.data?.user);
     } catch (e) {
       console.log(e);
       setError(e);

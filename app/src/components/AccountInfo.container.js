@@ -10,7 +10,7 @@ export const AccountInfoContainer = () => {
 
 
   const onLoadUser = async () => {
-    const resp = await axios.get(`http://localhost:8000/api/users/${token}`);
+    const resp = await axios.get(`http://localhost:8000/api/users/${token}`, { headers: {"Authorization" : `Bearer ${token}`}});
     setUser(resp?.data);
   };
 

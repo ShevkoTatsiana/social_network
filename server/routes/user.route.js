@@ -8,7 +8,7 @@ export const usersRouter = new Router();
 
 usersRouter
   .get('/', userController.getAll)
-  .get('/:id', userController.getUser)
+  .get('/:id', auth, userController.getUser)
   .delete('/:id', userController.deleteUser)
   .post('/create', validator(createUser), userController.createUser)
   .put('/:id', auth, userController.editUser);
