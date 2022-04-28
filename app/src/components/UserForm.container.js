@@ -18,44 +18,22 @@ export const UserFormContainer = () => {
     setUser(resp?.data);
   };
 
-  const onSubmitUpdate = async ({ name, email, password, profile_photo }) => {
-    console.log(profile_photo, user);
-    const newFileObject  = {
-      'lastModified'     : profile_photo.lastModified,
-      'lastModifiedDate' : profile_photo.lastModifiedDate,
-      'name'             : profile_photo.name,
-      'size'             : profile_photo.size,
-      'type'             : profile_photo.type
-    };  
-    const profilePhoto = JSON.stringify(newFileObject);
+  const onSubmitUpdate = async (formData) => {    
     try {
-      await axios.put(`http://localhost:8000/api/users/${token}`, {
-        name: name || user?.name,
-        email: email || user?.email,
-        password: password || user?.password,
-        profile_photo: profilePhoto || user?.profile_photo
-      }, { headers: { "Authorization": `Bearer ${token}` } });
+      await axios.put(`http://localhost:8000/api/users/${token}`, formData,
+       { headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        } });
     } catch (e) {
       setValidationError(e.response?.data?.details[0]);
     }   
   };
 
-  const onSubmitCreate = async ({ name, email, password, profile_photo }) => {
-    const newFileObject  = {
-      'lastModified'     : profile_photo.lastModified,
-      'lastModifiedDate' : profile_photo.lastModifiedDate,
-      'name'             : profile_photo.name,
-      'size'             : profile_photo.size,
-      'type'             : profile_photo.type
-    };  
-    const profilePhoto = JSON.stringify(newFileObject);
+  const onSubmitCreate = async (formData) => {
     try {
-      const result = await axios.post('http://localhost:8000/api/users/create', {
-        name,
-        email,
-        password,
-        profile_photo: profilePhoto
-      });
+      const result = await axios.post('http://localhost:8000/api/users/create', formData,
+      { headers: {"Content-Type": "multipart/form-data"}});
     } catch (e) {
       setValidationError(e.response?.data?.details[0]);
     }

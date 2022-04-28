@@ -13,9 +13,14 @@ export const UserFormComponent = (props) => {
   const { register, handleSubmit } = useForm();
   const [profilePhoto, setProfilePhoto] = useState('');
   const onSubmit = (data) => {
+    const formData = new FormData();
     data.profile_photo = profilePhoto;
+    for (let key in data) {
+      formData.append(key, data[key])
+    };
+  
     console.log(data);
-    onFormSubmit(data)
+    onFormSubmit(formData)
   };
   const onFileUpload = (e) => {
     setProfilePhoto(e.target.files[0]);

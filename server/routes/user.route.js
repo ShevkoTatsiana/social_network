@@ -12,4 +12,4 @@ usersRouter
   .get('/:id', auth, userController.getUser)
   .delete('/:id', userController.deleteUser)
   .post('/create', upload.single('profile_photo'), validator(createUser), userController.createUser)
-  .put('/:id', auth, validator(createUser), upload.single('profile_photo'), userController.editUser);
+  .put('/:id', upload.single('profile_photo'), auth, validator(createUser), userController.editUser);

@@ -15,7 +15,11 @@ connection.once("open", function () {
   console.log("MongoDB connected successfully");
 });
 
+app.use(express.static('public'));
+app.use('/images', express.static('./images'));
+app.use(express.urlencoded({ extended: true }));
 app.use(rootRouter);
+
 
 app.listen(config.port, () => {
   console.log(`Server is running at port ${config.port}`);
