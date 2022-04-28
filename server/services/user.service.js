@@ -14,6 +14,7 @@ class UsersService {
     }
 
     createUser(userData) {
+      console.log(userData);
         const newUser = new UserModel(userData);
         return newUser.save();
     }

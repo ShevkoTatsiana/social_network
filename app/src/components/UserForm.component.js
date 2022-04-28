@@ -1,15 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useForm } from 'react-hook-form'; 
 
-type UserFormComponentProps = {
-  name?: String;
-  email?: String;
-  password?: String;
-  error?: Object;
-  onFormSubmit?: (data: Object) => void
-}
-
-export const UserFormComponent = (props: UserFormComponentProps) => {
+export const UserFormComponent = (props) => {
   const {
     name = '',
     email = '',
@@ -19,16 +11,23 @@ export const UserFormComponent = (props: UserFormComponentProps) => {
   } = props;
 
   const { register, handleSubmit } = useForm();
+  const [profilePhoto, setProfilePhoto] = useState('');
   const onSubmit = (data) => {
+    data.profile_photo = profilePhoto;
+    console.log(data);
     onFormSubmit(data)
   };
+  const onFileUpload = (e) => {
+    setProfilePhoto(e.target.files[0]);
+  }
 
   return (
     <div className="user-form-component">
       {!!error && error.message && (
         <div>{error.message}</div>
       )}
-      <form  onSubmit={handleSubmit(onSubmit)}>
+      <form  onSubmit={handleSubmit(onSubmit)}
+             encType="multipart/form-data">
         <label htmlFor="name">Name</label>
         <input defaultValue={name}
               {...register("name")} id="name"/>
@@ -38,6 +37,13 @@ export const UserFormComponent = (props: UserFormComponentProps) => {
         <label htmlFor="password">Password</label>
         <input defaultValue={password}
               {...register("password")} id="password"/>
+        <label htmlFor="profile_photo">Upload your Profile Photo here</label>
+        <input type="file" 
+               className="user-form-component-photo" 
+               name="profile_photo"
+               {...register("profile_photo")} 
+               id="profile_photo"
+               onChange={onFileUpload}/>
         <input type="submit" />
       </form>
     </div>

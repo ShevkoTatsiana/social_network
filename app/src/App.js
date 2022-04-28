@@ -38,7 +38,7 @@ function App() {
                   <Routes>
                       <Route path="/create" element={<CreateUserPage/>}/>                          
                       <Route path="/users" element={<UsersListPage/>}/>
-                      <Route path="/users/edit" element={<EditUserPage/>}/>
+                      <Route path="/account/info/edit" element={<EditUserPage/>}/>
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
                       <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}/>}/>
                       <Route path="/" element={<HomePage/>}/>                   

@@ -21,10 +21,6 @@ export const UserListComponent = () => {
             setUsers([...updatedUsers]);
         }
     };
-    const onEditUser = (id) => {
-        navigate('edit', {state: id});
-         console.log(`edit ${id}`);
-    };
 
     useEffect(() => {
         onLoadUsers();
@@ -38,7 +34,6 @@ export const UserListComponent = () => {
                         <tr key={user.name}>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                            <td><Button variant="primary" onClick={() => onEditUser(user._id)}>Edit</Button></td>
                             <td><Button variant="primary" onClick={() => onDeleteUser(user._id)}>Delete</Button></td>
                         </tr>
                     ))}

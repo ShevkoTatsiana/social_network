@@ -11,6 +11,8 @@ export const createUser = Joi.object({
 
   repeat_password: Joi.ref('password'),
 
+  profile_photo: Joi.any(),
+
   birth_year: Joi.number()
     .integer()
     .min(1900)
