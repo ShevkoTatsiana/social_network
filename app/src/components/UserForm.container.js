@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { UserFormComponent } from './UserForm.component';
 
 export const UserFormContainer = () => {
   const { state: userData } = useLocation();
-  console.log(userData);
+  const navigate = useNavigate();
   const { token } = useToken();
-  console.log(token);
   const [user, setUser] = useState(userData);
   const [validationError, setValidationError] = useState();
 
   const onLoadUser = async () => {
-    console.log('adadad');
     const resp = await axios.get(`http://localhost:8000/api/users/${token}`, { headers: { "Authorization": `Bearer ${token}` } });
     setUser(resp?.data);
   };
 
   const onSubmitUpdate = async (formData) => {    
     try {
-      await axios.put(`http://localhost:8000/api/users/${token}`, formData,
+      const result = await axios.put(`http://localhost:8000/api/users/${token}`, formData,
        { headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
         } });
+        navigate('/account/info', {state: result?.data});
     } catch (e) {
       setValidationError(e.response?.data?.details[0]);
     }   
@@ -45,7 +44,6 @@ export const UserFormContainer = () => {
   };
 
   useEffect(() => {
-    console.log(!!token);
     if (!!token) {
       onLoadUser();
     }

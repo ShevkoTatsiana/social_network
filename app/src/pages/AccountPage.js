@@ -1,24 +1,11 @@
-import React, {useEffect} from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import {useToken} from '../utils/useToken';
+import React from 'react';
 import { AccountInfoContainer } from '../components';
 
-export const AccountPage = () => {
-    const navigate = useNavigate();
-    const {state: user} = useLocation();
-    const {token} = useToken();
-
-    useEffect(() => {
-        if(!token) {
-            navigate('/account/login');
-        }
-        console.log(token);
-    }, [token]);
-
+export const AccountPage = ({onUserLogout}) => {    
     return (
         <div className="account-page">
             <h1>Wellcome</h1>
-            <AccountInfoContainer/>
+            <AccountInfoContainer onUserLogout={onUserLogout}/>
         </div>
     );
 }

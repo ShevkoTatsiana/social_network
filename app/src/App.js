@@ -40,7 +40,8 @@ function App() {
                       <Route path="/users" element={<UsersListPage/>}/>
                       <Route path="/account/info/edit" element={<EditUserPage/>}/>
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
-                      <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}/>}/>
+                      <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}
+                                                                        onUserLogout={onUserLogout}/>}/>
                       <Route path="/" element={<HomePage/>}/>                   
                   </Routes>
               </div>

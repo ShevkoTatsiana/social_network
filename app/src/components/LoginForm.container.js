@@ -11,7 +11,6 @@ export const LoginFormContainer = ({onUserLogin}) => {
   const {token, setToken} = useToken();
 
   const navigateToAccount = (token, user) => {
-    console.log(token);
     setToken(token);
     navigate('/account/info', {state: user});
   };

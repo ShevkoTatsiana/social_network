@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Nav from 'react-bootstrap/Nav'
 import {useToken} from '../utils/useToken';
 
 export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
@@ -9,6 +10,7 @@ export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
   const navigate = useNavigate();
   const isLogedInUser = isAuthorised || !!token;
   const [show, setShow] = useState(false);
+  const [selectKey, setSelectKey] = useState('1');
   const handleClose = () => setShow(false);
   const handleLogout = () => {
     removeToken();
@@ -16,37 +18,55 @@ export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
     handleClose();
     navigate('/account/login');
   };
+  console.log(isAuthorised, token, isLogedInUser);
 
     return (
       <div className="navigation-component">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/users">List of users</Link>
-            </li>
-            <li>
-              <Link to="/create">Register user</Link>
-            </li>
+        <Nav activeKey={selectKey} onSelect={(eventKey) => setSelectKey(eventKey)}>         
+            <Nav.Item>
+              <Nav.Link href="/"
+                        eventKey="1">
+                Home
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href="/users" 
+                        eventKey="2">
+                List of users
+              </Nav.Link>
+            </Nav.Item>           
               {isLogedInUser ? (
                 <>
-                  <li>
-                    <Link to="/account/info">Account</Link>
-                  </li>
-                  <li>
-                  <Button onClick={()=> setShow(true)}
-                          variant="link">Logout</Button>
-                  </li>
+                  <Nav.Item>
+                    <Nav.Link href="/account/info"
+                              eventKey="3">
+                      Account
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Button onClick={()=> setShow(true)}
+                            variant="link">
+                      Logout
+                    </Button>
+                  </Nav.Item>
                 </>                
               ) : (
-                <li>
-                  <Link to="/account/login">Login</Link>
-                </li>
-              )}           
-          </ul>
-        </nav>
+                <>
+                  <Nav.Item>
+                    <Nav.Link href="/account/login"
+                              eventKey="4">
+                      Login
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link href="/create" 
+                              eventKey="5">
+                      Register user
+                    </Nav.Link>
+                  </Nav.Item>
+              </>
+              )}                    
+        </Nav>
         <Modal show={show} onHide={handleClose}>    
           <Modal.Body>Are you sure you want to log out?</Modal.Body>
           <Modal.Footer>

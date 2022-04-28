@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table'
 
 export const UserListComponent = () => {
@@ -10,16 +10,6 @@ export const UserListComponent = () => {
     const onLoadUsers = async () => {
         const resp = await axios.get('http://localhost:8000/api/users');
         setUsers(resp?.data);
-    };
-    const onDeleteUser = async (id) => {
-        const resp = await axios.delete(`http://localhost:8000/api/users/${id}`);
-        console.log(`delete ${id}`, resp);
-        if (resp.status === 'error') {
-            alert('Something went wrong')
-        } else {
-            const updatedUsers = users.filter(user => user._id !== id);
-            setUsers([...updatedUsers]);
-        }
     };
 
     useEffect(() => {
@@ -32,9 +22,14 @@ export const UserListComponent = () => {
                 <tbody>
                     {users.map(user => (
                         <tr key={user.name}>
+                            <td>
+                            <Image src={`${process.env.REACT_APP_PUBLIC_URL}/images/${user?.profile_photo}`}
+                                   roundedCircle={true}
+                                   thumbnail={true}
+                                   className="profile-image"/>
+                            </td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                            <td><Button variant="primary" onClick={() => onDeleteUser(user._id)}>Delete</Button></td>
                         </tr>
                     ))}
                 </tbody>
