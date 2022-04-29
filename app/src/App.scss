@@ -1,4 +1,7 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "./styles/Image.scss";
+@import "./styles/base.scss";
+@import "./styles/Form.scss";
 
 .App {
   text-align: center;
@@ -20,13 +23,4 @@
   color: #61dafb;
 }
 
-.profile-image {
-  width: 10rem;
-  height: 10rem;
-  object-fit: cover;
-}
 
-.img-thumbnail {
-  width: 5rem;
-  height: 5rem;
-}

@@ -1,0 +1,24 @@
+.form-component {
+    & {
+        max-width: 30rem;
+        margin: auto;
+    }
+    
+    .form-control:invalid {
+        color: red;
+    }
+
+    .form-control:invalid ~ .invalid-feedback {
+        display: block;
+    }
+
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+
+    .form-submit {
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
