@@ -21,36 +21,18 @@ export const LoginFormContainer = ({onUserLogin}) => {
         email,
         password
       });
-      console.log(result);
       setData(result?.data);
       onUserLogin();
       navigateToAccount(result?.data?.token, result?.data?.user);
     } catch (e) {
-      console.log(e);
       setError(e);
     }
   };
 
   useEffect(() => {
-    console.log(data);
     if(!token) return;
     navigateToAccount(data?.user);
   }, [token]);
-
-  // const handleOnFormSubmit = ({email, password}) => {
-  //     const result = (axios.post('http://localhost:8000/api/auth/login', {
-  //       email,
-  //       password
-  //     })).then(res => {
-  //       if (!!res?.token) {
-  //         setToken(result?.token);
-  //         navigate('/account', {state: result.user});
-  //       }
-  //     }).catch(err => {
-  //       setError(err);
-  //     });
-  //     console.log(result);
-  // };
 
   return (
     <LoginFormComponent error={error}

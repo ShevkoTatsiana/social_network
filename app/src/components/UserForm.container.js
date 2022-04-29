@@ -4,16 +4,21 @@ import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { UserFormComponent } from './UserForm.component';
 
-export const UserFormContainer = () => {
+export const UserFormContainer = ({onUserLogin}) => {
   const { state: userData } = useLocation();
   const navigate = useNavigate();
-  const { token } = useToken();
+  const { token, setToken } = useToken();
   const [user, setUser] = useState(userData);
   const [validationError, setValidationError] = useState();
+  const [userCreateData, setUserCreateData] = useState({});
 
   const onLoadUser = async () => {
-    const resp = await axios.get(`http://localhost:8000/api/users/${token}`, { headers: { "Authorization": `Bearer ${token}` } });
-    setUser(resp?.data);
+    try {
+      const resp = await axios.get(`http://localhost:8000/api/users/${token}`, { headers: { "Authorization": `Bearer ${token}` } });
+      setUser(resp?.data);
+    } catch(e) {
+      setValidationError({message: 'Sorry, can\'t load an user data'});
+    }
   };
 
   const onSubmitUpdate = async (formData) => {    
@@ -25,7 +30,9 @@ export const UserFormContainer = () => {
         } });
         navigate('/account/info', {state: result?.data});
     } catch (e) {
-      setValidationError(e.response?.data?.details[0]);
+      if(e.response?.data?.error) {
+        setValidationError({message: e.response?.data?.error});
+      } else setValidationError(e.response?.data?.details[0]);
     }   
   };
 
@@ -33,8 +40,11 @@ export const UserFormContainer = () => {
     try {
       const result = await axios.post('http://localhost:8000/api/users/create', formData,
       { headers: {"Content-Type": "multipart/form-data"}});
+      setUserCreateData({email: formData.get('email'), password: formData.get('password')});
     } catch (e) {
-      setValidationError(e.response?.data?.details[0]);
+      if(e.response?.data?.error) {
+        setValidationError({message: e.response?.data?.error});
+      } else setValidationError(e.response?.data?.details[0]);
     }
   };
 
@@ -43,11 +53,26 @@ export const UserFormContainer = () => {
     return onSubmitCreate(data);
   };
 
+  const handleOnCreateUser = async (email, password) => {
+    const result = await axios.post('http://localhost:8000/api/auth/login', {
+      email,
+      password
+    });
+    setToken(result?.data?.token);
+    onUserLogin();
+    navigate('/account/info', {state: result?.data?.user});
+  };
+
   useEffect(() => {
     if (!!token) {
       onLoadUser();
     }
   }, []);
+
+  useEffect(() => {
+    if (!userCreateData.email) return;
+    handleOnCreateUser(userCreateData.email, userCreateData.password);   
+  }, [userCreateData]);
 
   return (
     <UserFormComponent name={user?.name}

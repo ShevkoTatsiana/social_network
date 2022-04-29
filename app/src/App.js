@@ -36,7 +36,7 @@ function App() {
                                    onUserLogout={onUserLogout}/>
               <div className="app-content">
                   <Routes>
-                      <Route path="/create" element={<CreateUserPage/>}/>                          
+                      <Route path="/create" element={<CreateUserPage onUserLogin={onUserLogin}/>}/>                          
                       <Route path="/users" element={<UsersListPage/>}/>
                       <Route path="/account/info/edit" element={<EditUserPage/>}/>
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>

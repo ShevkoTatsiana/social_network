@@ -6,7 +6,6 @@ class AuthController {
       const result =  await authService.authenticate(req.body.email, req.body.password);
       res.send(result);
     } catch(err) {
-      console.log(err);
       res.status(400).json(err)
     }
   }

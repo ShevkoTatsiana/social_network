@@ -7,13 +7,18 @@ class UsersController {
   }
  
   async createUser(req, res) {
-      const userData = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        profile_photo: req.file?.filename
-      };
-      res.send(await userService.createUser(userData));
+    const userData = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      profile_photo: req.file?.filename
+    };
+    try {
+      const result = await userService.createUser(userData);
+      res.send(result);
+    } catch(e) {
+      res.status(400).json({ error: 'an User is already registered' });
+    }       
   }
   async getUser(req, res) {
    res.send(await userService.getUser(req.params.id));
@@ -28,7 +33,12 @@ class UsersController {
       password: req.body.password,
       profile_photo: req.file?.filename
     };
-    res.send(await userService.editUser(req.params.id, userData));
+    try {
+      const result = await userService.editUser(req.params.id, userData);
+      res.send(result);
+    } catch(e) {
+      res.status(400).json({ error: 'an email adress is already registered' });
+    }   
   }
 }
 

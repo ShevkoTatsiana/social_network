@@ -7,6 +7,12 @@ import Table from 'react-bootstrap/Table'
 export const UserListComponent = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
+    const getImageURL = (profile_photo) => {
+        if (profile_photo) {
+            return `${process.env.REACT_APP_PUBLIC_URL}/images/${profile_photo}`
+        }
+        return `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`;
+    };
     const onLoadUsers = async () => {
         const resp = await axios.get('http://localhost:8000/api/users');
         setUsers(resp?.data);
@@ -23,7 +29,7 @@ export const UserListComponent = () => {
                     {users.map(user => (
                         <tr key={user.name}>
                             <td>
-                            <Image src={`${process.env.REACT_APP_PUBLIC_URL}/images/${user?.profile_photo}`}
+                            <Image src={getImageURL(user.profile_photo)}
                                    roundedCircle={true}
                                    thumbnail={true}
                                    className="profile-image"/>

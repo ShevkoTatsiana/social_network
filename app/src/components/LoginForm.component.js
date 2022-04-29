@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'; 
+import Alert from 'react-bootstrap/Alert';
 
 export const LoginFormComponent = ({error, onFormSubmit}) => {
  
@@ -10,9 +11,10 @@ export const LoginFormComponent = ({error, onFormSubmit}) => {
 
   return (
     <div className="login-form-component">
-      {!!error && error.message && (
-        <div>{error.message}</div>
-      )}
+      <Alert show={!!error && error?.message}
+                   variant="danger">   
+                {error?.message}
+            </Alert> 
       <form  onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">Email</label>
         <input {...register("email")} id="email"/>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useForm } from 'react-hook-form'; 
+import Alert from 'react-bootstrap/Alert';
 
 export const UserFormComponent = (props) => {
   const {
@@ -18,8 +19,6 @@ export const UserFormComponent = (props) => {
     for (let key in data) {
       formData.append(key, data[key])
     };
-  
-    console.log(data);
     onFormSubmit(formData)
   };
   const onFileUpload = (e) => {
@@ -28,9 +27,12 @@ export const UserFormComponent = (props) => {
 
   return (
     <div className="user-form-component">
-      {!!error && error.message && (
-        <div>{error.message}</div>
-      )}
+      {!!error && (
+        <Alert show={!!error?.message}
+             variant="danger">   
+        {error.message}
+      </Alert> 
+      )}       
       <form  onSubmit={handleSubmit(onSubmit)}
              encType="multipart/form-data">
         <label htmlFor="name">Name</label>
