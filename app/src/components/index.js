@@ -6,3 +6,5 @@ export {LoginFormContainer} from './LoginForm.container';
 export {LoginFormComponent} from './LoginForm.component';
 export {AccountInfoContainer} from './AccountInfo.container';
 export {AccountInfoComponent} from './AccountInfo.component';
+export {GroupFormContainer} from './GroupForm.container';
+export {GroupFormComponent} from './GroupForm.component';

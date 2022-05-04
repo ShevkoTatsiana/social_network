@@ -12,6 +12,9 @@ export const AccountInfoComponent = ({user, error, onDeleteUser}) => {
     const imageURL = user?.profile_photo ? 
         `${process.env.REACT_APP_PUBLIC_URL}/images/${user?.profile_photo}` :
         `${process.env.REACT_APP_PUBLIC_URL}/images//profile_placeholder.png`;
+    const onNavigateToGroupCreation = () => {
+        navigate('create_group');
+    }
                   
     return (
         <div className="account-info-component"> 
@@ -25,7 +28,12 @@ export const AccountInfoComponent = ({user, error, onDeleteUser}) => {
                    roundedCircle={true}
                    className="profile-image"/>
             <Button variant="primary" onClick={() => onEditUser()}>Edit</Button> 
-            <Button variant="primary" onClick={onDeleteUser}>Delete Account</Button>                        
+            <Button variant="primary" onClick={onDeleteUser}>Delete Account</Button>  
+            <div className="account-group-block">
+                <h2>Your families:</h2>
+                <div>Your family list has not been created yet</div>
+                <Button variant="secondary" onClick={onNavigateToGroupCreation}>Create a family group</Button> 
+            </div>                      
         </div>
     );
 }

@@ -40,6 +40,15 @@ class UsersController {
       res.status(400).json({ error: 'an email adress is already registered' });
     }   
   }
+  async addGroupToUser(req, res) {
+    const groupId = req.body.groupId;
+    try {
+      const result = await userService.addGroupToUser(req.params.id, groupId);
+      res.send(result);
+    } catch(e) {
+      res.status(400).json({ error: 'can\'t add group to user' });
+    } 
+  }
 }
 
 export const userController = new UsersController();

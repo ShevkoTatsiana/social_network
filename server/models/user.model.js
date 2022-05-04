@@ -3,11 +3,10 @@ import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+export const userSchema = new Schema({
   name: { 
     type: String, 
     required: false,
-    unique: true,
     trim: true,
     minlength: 2
    },
@@ -23,6 +22,14 @@ const userSchema = new Schema({
   profile_photo: {
     type: String,
     default: ""
+  }, 
+  groups: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group"
+      }
+    ]
   }
 }, {
   timestamps: true,

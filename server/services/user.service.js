@@ -35,6 +35,14 @@ class UsersService {
         throw new Error('User already exists!');
       }      
     }
+
+    addGroupToUser(userId, groupId) {
+      return UserModel.findByIdAndUpdate(
+        userId,
+        { $push: { groups: groupId } },
+        { new: true, useFindAndModify: false }
+      );          
+    }
   }
   
   export const userService = new UsersService();

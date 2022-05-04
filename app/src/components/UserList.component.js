@@ -29,10 +29,10 @@ export const UserListComponent = () => {
                     {users.map(user => (
                         <tr key={user.name}>
                             <td>
-                            <Image src={getImageURL(user.profile_photo)}
-                                   roundedCircle={true}
-                                   thumbnail={true}
-                                   className="profile-image"/>
+                                <Image src={getImageURL(user.profile_photo)}
+                                    roundedCircle={true}
+                                    thumbnail={true}
+                                    className="profile-image"/>
                             </td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>

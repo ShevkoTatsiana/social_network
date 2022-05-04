@@ -4,3 +4,4 @@ export {UsersListPage} from './UsersListPage';
 export {HomePage} from './HomePage';
 export {LoginPage} from './LoginPage';
 export {AccountPage} from './AccountPage';
+export {CreateGroupPage} from './CreateGroupPage';
