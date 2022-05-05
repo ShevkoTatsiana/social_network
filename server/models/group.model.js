@@ -11,15 +11,6 @@ const groupSchema = new Schema({
     trim: true,
     minlength: 2
    },
-  members: { 
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ], 
-    required: true 
-  },
   description: {
     type: String
   },

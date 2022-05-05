@@ -5,3 +5,4 @@ export {HomePage} from './HomePage';
 export {LoginPage} from './LoginPage';
 export {AccountPage} from './AccountPage';
 export {CreateGroupPage} from './CreateGroupPage';
+export {GroupPage} from './GroupPage';

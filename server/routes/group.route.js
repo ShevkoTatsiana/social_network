@@ -8,8 +8,8 @@ import { upload } from '../middlewares/uploadFile.js';
 export const groupRouter = new Router();
 
 groupRouter
-  .get('/', groupController.getAllGroups)
-  .get('/:id', auth, groupController.getGroup)
+  .get('/:groupIds', groupController.getAllGroups)
+  .get('/family/:name', groupController.getGroup)
   .delete('/:id', auth, groupController.deleteGroup)
   .post('/create', upload.single('profile_photo'), auth, groupController.createGroup)
   .put('/:id', upload.single('profile_photo'), auth, groupController.editGroup);

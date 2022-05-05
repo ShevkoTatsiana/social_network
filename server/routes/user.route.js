@@ -10,7 +10,8 @@ export const usersRouter = new Router();
 usersRouter
   .get('/', userController.getAll)
   .get('/:id', auth, userController.getUser)
+  .get('/group/:userIds', userController.getAllUserInGroup)
   .delete('/:id', auth, userController.deleteUser)
   .post('/create', upload.single('profile_photo'), validator(createUser), userController.createUser)
-  .post('/:id/addGroup', auth, userController.addGroupToUser)
+  //.post('/:id/addGroup', auth, userController.addGroupToUser)
   .put('/:id', upload.single('profile_photo'), auth, validator(createUser), userController.editUser);

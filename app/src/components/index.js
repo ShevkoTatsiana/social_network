@@ -8,3 +8,5 @@ export {AccountInfoContainer} from './AccountInfo.container';
 export {AccountInfoComponent} from './AccountInfo.component';
 export {GroupFormContainer} from './GroupForm.container';
 export {GroupFormComponent} from './GroupForm.component';
+export {GroupContainer} from './Group.container';
+export {GroupComponent} from './Group.component';

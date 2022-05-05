@@ -36,12 +36,9 @@ class UsersService {
       }      
     }
 
-    addGroupToUser(userId, groupId) {
-      return UserModel.findByIdAndUpdate(
-        userId,
-        { $push: { groups: groupId } },
-        { new: true, useFindAndModify: false }
-      );          
+    getAllUserInGroup(userIds) {
+      const stringIds = userIds.split(',');
+      return UserModel.find({_id: {$in: stringIds}});         
     }
   }
   

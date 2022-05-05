@@ -1,13 +1,13 @@
 import {GroupModel} from '../models/group.model.js';
 
 class GroupService {
-    getAll() {
-      console.log(GroupModel);
-      return GroupModel.find();
+    getAll(groupIds) {
+      const stringIds = groupIds.split(',');
+      return GroupModel.find({_id: {$in: stringIds}});
     }
 
-    getGroup(groupId) {
-      return GroupModel.findById(groupId);
+    getGroup(name) {
+      return GroupModel.find({name: name});
     }
 
     async createGroup(groupData) {

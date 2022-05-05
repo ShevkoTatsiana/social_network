@@ -13,17 +13,17 @@ export const GroupFormContainer = ({onUserLogin}) => {
   const [userCreateData, setUserCreateData] = useState({});
 
   const onSubmitCreate = async (formData) => {
+    console.log(token);
     try {
       const result = await axios.post('http://localhost:8000/api/group/create', formData,
       { headers: {
         "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${token}`
       }});
-      console.log(result);
       const groupId = result?.data?._id;
-      await axios.post(`http://localhost:8000/api/users/${token}/addGroup`, groupId,
+            console.log(groupId);
+      await axios.post(`http://localhost:8000/api/user_group/${token}/create`, {groupId},
       { headers: {
-        "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${token}`
       }});
       //setUserCreateData({email: formData.get('email'), password: formData.get('password')});

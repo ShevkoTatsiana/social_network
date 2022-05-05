@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink  } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 
-export const AccountInfoComponent = ({user, error, onDeleteUser}) => {
+export const AccountInfoComponent = ({user, error, groups, onDeleteUser}) => {
     const navigate = useNavigate();
     const onEditUser = () => {
         navigate('edit', {state: user});
     };
     const imageURL = user?.profile_photo ? 
         `${process.env.REACT_APP_PUBLIC_URL}/images/${user?.profile_photo}` :
-        `${process.env.REACT_APP_PUBLIC_URL}/images//profile_placeholder.png`;
+        `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`;
     const onNavigateToGroupCreation = () => {
         navigate('create_group');
     }
@@ -31,7 +31,15 @@ export const AccountInfoComponent = ({user, error, onDeleteUser}) => {
             <Button variant="primary" onClick={onDeleteUser}>Delete Account</Button>  
             <div className="account-group-block">
                 <h2>Your families:</h2>
-                <div>Your family list has not been created yet</div>
+                {groups?.length ? (
+                    <>
+                    {groups.map((group) => (
+                        <NavLink  key={group.name} to={`/family/${group.name}`}>{group.name}</NavLink >
+                    ))}
+                    </>
+                ) : (
+                    <div>Your family list has not been created yet</div>
+                )}               
                 <Button variant="secondary" onClick={onNavigateToGroupCreation}>Create a family group</Button> 
             </div>                      
         </div>
