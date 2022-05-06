@@ -28,7 +28,9 @@ class UsersService {
     }
 
     async editUser(userId, userData) {
-      const isUserDataUnique = await UserModel.findOne({email: userData.email});
+      const userWithSameEmail = await UserModel.findOne({email: userData.email});
+      const userWithSameEmailId = userWithSameEmail?._id.valueOf();
+      const isUserDataUnique = !!userWithSameEmail && userWithSameEmailId !== userId;
       if (!isUserDataUnique) {
         return UserModel.findByIdAndUpdate(userId, userData);
       } else {

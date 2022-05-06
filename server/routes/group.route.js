@@ -12,4 +12,4 @@ groupRouter
   .get('/family/:name', groupController.getGroup)
   .delete('/:id', auth, groupController.deleteGroup)
   .post('/create', upload.single('profile_photo'), auth, groupController.createGroup)
-  .put('/:id', upload.single('profile_photo'), auth, groupController.editGroup);
+  .put('/:groupId', upload.single('profile_photo'), auth, groupController.editGroup);

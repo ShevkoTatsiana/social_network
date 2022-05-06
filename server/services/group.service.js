@@ -12,7 +12,6 @@ class GroupService {
 
     async createGroup(groupData) {
       const isGroupDataUnique = await GroupModel.findOne({name: groupData.name});
-      console.log(isGroupDataUnique, 'ser');
       if (!isGroupDataUnique) {
         const newGroup = new GroupModel(groupData);
         console.log(newGroup, 'ser');
@@ -27,7 +26,9 @@ class GroupService {
     }
 
     async editGroup(groupId, groupData) {
-      const isGroupDataUnique = await GroupModel.findOne({name: groupData.name});
+      const groupWithSameName = await GroupModel.findOne({name: groupData.name});
+      const groupWithSameNameId = groupWithSameName?._id.valueOf();
+      const isGroupDataUnique = !!groupWithSameName && groupWithSameNameId !== groupId;
       if (!isGroupDataUnique) {
         return GroupModel.findByIdAndUpdate(groupId, groupData);
       } else {

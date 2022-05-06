@@ -14,11 +14,15 @@ export const GroupComponent = ({
     onJoinGroup,
     onLeaveGroup
 }) => {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const isCurrentUserInGroup = users?.some((user) => user._id === currentUser._id);
     const imageURL = (image) => (image ? 
         `${process.env.REACT_APP_PUBLIC_URL}/images/${image}` :
-        `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`);      
+        `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`);  
+    const onEditGroup = () => {
+        navigate('edit', {state: group});
+    };
+
     return (
         <div className="group-component"> 
             {loading && (
@@ -34,6 +38,9 @@ export const GroupComponent = ({
             <Image src={imageURL(group?.profile_photo)}
                    roundedCircle={true}
                    className="profile-image"/>  
+            {isCurrentUserInGroup && (
+                <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
+            )}
             <div>
                 <h2>Our family:</h2>
                 {users?.map(user => (

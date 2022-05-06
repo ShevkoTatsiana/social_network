@@ -1,0 +1,22 @@
+import React from 'react';
+import { useNavigate, useLocation  } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import {GroupFormContainer} from './GroupForm.container';
+
+export const EditGroupComponent = () => {
+    const navigate = useNavigate();
+    const {pathname} = useLocation();
+
+    const onBack = () => {
+        const familyUrl = pathname.split('/edit')[0];
+        navigate(familyUrl);
+    };
+                  
+    return (
+        <div className="edit-group-component"> 
+            <p>You can edit a group profile information here</p>
+            <Button variant="secondary" onClick={onBack}>Back</Button> 
+             <GroupFormContainer onBack={onBack}/>                   
+        </div>
+    );
+}

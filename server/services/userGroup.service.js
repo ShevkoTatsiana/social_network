@@ -3,16 +3,13 @@ import {UserGroupModel} from '../models/userGroup.model.js';
 class UserGroupService {
     getAllUsersInGroup(groupId) {
         const data = UserGroupModel.find({ groupId: groupId }).then((resp) => {
-            console.log(resp, 'model');
             return resp.map((doc)=> doc.userId);
         })
-        console.log(data);
         return data;  
     }
 
     getAllUserGroup(userId) {
         const data = UserGroupModel.find({ userId: userId }).then((resp) => {
-            console.log(resp, 'model');
             return resp.map((doc)=> doc.groupId);
         })
         return data;  

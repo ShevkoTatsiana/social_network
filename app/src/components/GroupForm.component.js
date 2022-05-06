@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useForm, useFormState } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form'; 
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
@@ -8,22 +8,24 @@ import Button from 'react-bootstrap/esm/Button';
 export const GroupFormComponent = (props) => {
   const {
     error,
-    onCreate
+    group,
+    onSubmit
   } = props;
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [profilePhoto, setProfilePhoto] = useState('');
-  const onSubmit = (data) => {
+  const [profilePhoto, setProfilePhoto] = useState(group?.profile_photo || '');
+  const onFormSubmit = (data) => {
     const formData = new FormData();
     data.profile_photo = profilePhoto;
     for (let key in data) {
       formData.append(key, data[key])
     };
-    onCreate(formData)
+    onSubmit(formData)
   };
   const onFileUpload = (e) => {
     setProfilePhoto(e.target.files[0]);
-  }
+  };
+  const buttonTitle = group?.name ? 'Update' : 'Create';
 
   return (
     <div className="group-form-component">
@@ -33,11 +35,12 @@ export const GroupFormComponent = (props) => {
         {error.message}
       </Alert> 
       )}       
-      <form noValidate onSubmit={handleSubmit(onSubmit)}
+      <form noValidate onSubmit={handleSubmit(onFormSubmit)}
              encType="multipart/form-data"
              className="form-component">
         <FloatingLabel label="Family Name">
           <Form.Control placeholder="Family Name"
+                        defaultValue={group?.name}
                         isInvalid={errors?.name} 
                         {...register("name", {
                           required: {value: true, message: "This is a required field"},
@@ -50,6 +53,7 @@ export const GroupFormComponent = (props) => {
         
         <FloatingLabel label="Family intro">
           <Form.Control placeholder="Family intro"
+                        defaultValue={group?.description}
                         isInvalid={errors?.description}
                         {...register("description", {
                           required:{value: false}
@@ -69,7 +73,7 @@ export const GroupFormComponent = (props) => {
         <Button variant="primary" 
                 type="submit"
                 className="form-submit">
-          Create
+          {buttonTitle}
         </Button>
       </form>
     </div>

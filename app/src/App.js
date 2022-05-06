@@ -15,7 +15,7 @@ import {
   CreateGroupPage,
   GroupPage
  } from './pages';
- import {NavigationComponent, AccountSwitchComponent} from './components';
+ import {NavigationComponent, GroupFormContainer} from './components';
  import {useToken} from './utils/useToken';
 import './App.scss';
 
@@ -46,7 +46,9 @@ function App() {
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
                       <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}
                                                                         onUserLogout={onUserLogout}/>}/>
-                      <Route path="/family/:name" element={<GroupPage/>}/>
+                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>
+                        {/* <Route path="edit" element={<GroupFormContainer/>}/> */}
+                                       
                       <Route path="/" element={<HomePage/>}/>                   
                   </Routes>
               </div>

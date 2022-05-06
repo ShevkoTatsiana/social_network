@@ -30,15 +30,15 @@ class GroupController {
   async editGroup(req, res) {
     const groupData = {
       name: req.body.name,
-      users: req.body.users,
       description: req.body.description,
       profile_photo: req.file?.filename
     };
+    console.log(req.params, 'param', groupData);
     try {
-      const result = await groupService.editGroup(req.params.id, groupData);
+      const result = await groupService.editGroup(req.params.groupId, groupData);
       res.send(result);
     } catch(e) {
-      res.status(400).json({ error: 'a group name is already registered' });
+      res.status(400).json({ error: 'a group can\'/t be updated' });
     }   
   }
 }
