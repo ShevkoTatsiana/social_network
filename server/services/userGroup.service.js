@@ -15,7 +15,6 @@ class UserGroupService {
             console.log(resp, 'model');
             return resp.map((doc)=> doc.groupId);
         })
-        console.log(data);
         return data;  
     }
 
@@ -24,9 +23,9 @@ class UserGroupService {
         return newUserGroup.save();
     }
 
-    // deleteGroup(groupId) {
-    //   return GroupModel.findByIdAndDelete(groupId);
-    // }
+    deleteUserGroup(id, groupId) {
+        return UserGroupModel.findOneAndDelete({userId: id, groupId: groupId});
+    }
 
     // async editGroup(groupId, groupData) {
     //   const isGroupDataUnique = await GroupModel.findOne({name: groupData.name});

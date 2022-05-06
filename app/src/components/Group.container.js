@@ -5,74 +5,93 @@ import {useToken} from '../utils/useToken';
 import { GroupComponent } from './Group.component';
 
 export const GroupContainer = () => {
-  const {token, removeToken} = useToken();
+  const {token} = useToken();
   const {name} = useParams();
   const navigate = useNavigate();
   const [users, setUsers] = useState();
-  const [usersId, setUsersId] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [group, setGroup] = useState();
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // const onLoadUser = async () => {
-  //   try {
-  //     const resp = await axios.get(`http://localhost:8000/api/users/${token}`, 
-  //     { headers: {"Authorization" : `Bearer ${token}`}});
-  //     setUser(resp?.data);
-  //     if(!groupsId.length) {
-  //       onLoadUserGroups();
-  //     } 
-  //   } catch(e) {
-  //     setError('Sorry, can\'t load an user data');
-  //   }   
-  // };
+  const onLoadUser = async () => {
+    try {
+      const resp = await axios.get(`http://localhost:8000/api/users/${token}`, 
+      { headers: {"Authorization" : `Bearer ${token}`}});
+      setCurrentUser(resp?.data);
+    } catch(e) {
+      setError('Sorry, can\'t load an user data');
+    }   
+  };
   const onLoadGroupUsers = async (id) => {
     try {
       const resp =  await axios.get(`http://localhost:8000/api/user_group/group/${id}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
-      setUsersId(resp?.data);
       onLoadUsers(resp?.data);
     } catch(e) {console.log(e)}
   };
   const onLoadGroup = async () => {
+    setLoading(true);
     try {
       const resp =  await axios.get(`http://localhost:8000/api/group/family/${name}`);
       setGroup(resp?.data[0]);
       onLoadGroupUsers(resp?.data[0]?._id);
-    } catch(e) {}
+    } catch(e) {
+      setError('Sorry, can\'t load a group info');
+    }
+    setLoading(false);
   };
   const onLoadUsers = async (userIds) => {
-    console.log(userIds);
+    setLoading(true);
     try {
       const resp =  await axios.get(`http://localhost:8000/api/users/group/${userIds}`);
       setUsers(resp?.data);
+      if(!!token) {
+        onLoadUser();
+      }
     } catch(e) {}
+    setLoading(false);
+  };
+  const onJoinGroup = async () => {
+    setLoading(true);
+    try {
+      await axios.post(`http://localhost:8000/api/user_group/${token}/create`, {groupId: group._id},
+      { headers: {
+        "Authorization": `Bearer ${token}`
+      }});
+      navigate('/account/info', {replace: true});
+    } catch(e) {
+      setError('Sorry, can\'t join family');
+    }
+    setLoading(false);
+  };
+  const onLeaveGroup = async () => {
+    setLoading(true);
+    try {
+      await axios.delete(`http://localhost:8000/api/user_group/${token}/delete/${group._id}`,
+      { headers: {
+        "Authorization": `Bearer ${token}`
+      }});
+      navigate('/account/info', {replace: true});
+    } catch(e) {
+      setError('Sorry, can\'t leave family');
+    }
+    setLoading(false);
   }
-
-  // const onDeleteUser = async () => {
-  //   try {
-  //     await axios.delete(`http://localhost:8000/api/users/${token}`,
-  //     { headers: {"Authorization" : `Bearer ${token}`}});
-  //     removeToken();
-  //     onUserLogout();
-  //     navigate('/');
-  //   } catch(e) {
-  //     setError('Sorry, can\'t delete the user');
-  //   }
-//};
 
   useEffect(() => {
     if(!!group) return;
     onLoadGroup();   
   }, [group]);
 
-  // useEffect(() => {
-    
-  // }, [groups])
-
   return (
     <GroupComponent group={group}
                     users={users}
-                    error={error}/>
+                    onJoinGroup={onJoinGroup}
+                    onLeaveGroup={onLeaveGroup}
+                    currentUser={currentUser}
+                    error={error}
+                    loading={loading}/>
   );
 }
 

@@ -10,6 +10,6 @@ export const userGroupRouter = new Router();
 userGroupRouter
   .get('/group/:id', userGroupController.getAllUsersInGroups)
   .get('/:id', auth, userGroupController.getAllUserGroup)
-  // .delete('/:id', auth, groupController.deleteGroup)
+  .delete('/:id/delete/:groupId', auth, userGroupController.deleteUserGroup)
   .post('/:id/create', auth, userGroupController.createUserGroup)
  // .put('/:id', upload.single('profile_photo'), auth, groupController.editGroup);

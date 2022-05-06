@@ -1,21 +1,15 @@
 import {userGroupService} from '../services/userGroup.service.js';   
 
 class UserGroupController {
-
-  
- 
   async createUserGroup(req, res) {
     const data = {
       userId: req.params.id,
       groupId: req.body.groupId
     };
-    console.log(data, 'cont');
     try {
       const result = await userGroupService.createUserGroup(data);
-      console.log(result, 'cont');
       res.send(result);
     } catch(e) {
-      console.log(e, 'cont');
       res.status(400).json({ error: 'a Group is already registered' });
     }       
   }
@@ -25,9 +19,9 @@ class UserGroupController {
   async getAllUsersInGroups(req, res) {
     res.send(await userGroupService.getAllUsersInGroup(req.params.id));
   }
-  // async deleteGroup(req, res) {
-  //   res.send(await groupService.deleteGroup(req.params.id));
-  // }
+  async deleteUserGroup(req, res) {
+    res.send(await userGroupService.deleteUserGroup(req.params.id, req.params.groupId));
+  }
   // async editGroup(req, res) {
   //   const groupData = {
   //     name: req.body.name,

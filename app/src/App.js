@@ -21,6 +21,7 @@ import './App.scss';
 
 function App() {
   const [isAuthorised, setIsAuthorised] = useState(false);
+  const [accountGroups, setAccountGroups] = useState({});
 
   const onUserLogin = () => {
     setIsAuthorised(true)

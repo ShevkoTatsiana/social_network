@@ -3,14 +3,28 @@ import { useNavigate, NavLink  } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 
-export const GroupComponent = ({group, users, error}) => {
+export const GroupComponent = ({
+    group, 
+    users, 
+    currentUser, 
+    error, 
+    loading,
+    onJoinGroup,
+    onLeaveGroup
+}) => {
     //const navigate = useNavigate();
+    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser._id);
     const imageURL = (image) => (image ? 
         `${process.env.REACT_APP_PUBLIC_URL}/images/${image}` :
         `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`);      
     return (
         <div className="group-component"> 
+            {loading && (
+                <Spinner animation="border"
+                         variant="info"/>
+            )}
             <Alert show={error}
                    variant="danger">   
                 {error}
@@ -30,6 +44,11 @@ export const GroupComponent = ({group, users, error}) => {
                                 className="profile-image"/>  
                     </div>
                 ))}
+                {!isCurrentUserInGroup ? (
+                   <Button variant="primary" onClick={onJoinGroup}>Join Family</Button> 
+                ) : (
+                    <Button variant="primary" onClick={onLeaveGroup}>Leave Family</Button>
+                )}
             </div>                
         </div>
     );

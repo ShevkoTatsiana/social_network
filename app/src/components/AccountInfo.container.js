@@ -11,8 +11,10 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   const [groupsId, setGroupsId] = useState([]);
   const [groups, setGroups] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onLoadUser = async () => {
+    setLoading(true);
     try {
       const resp = await axios.get(`http://localhost:8000/api/users/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
@@ -23,18 +25,17 @@ export const AccountInfoContainer = ({onUserLogout}) => {
     } catch(e) {
       setError('Sorry, can\'t load an user data');
     }   
+    setLoading(false);
   };
   const onLoadUserGroups = async () => {
     try {
       const resp =  await axios.get(`http://localhost:8000/api/user_group/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
-      console.log(resp);
       setGroupsId(resp?.data);
       onLoadGroup(resp?.data);
     } catch(e) {}
   };
   const onLoadGroup = async (groupIds) => {
-    console.log(groupIds);
     try {
       const resp =  await axios.get(`http://localhost:8000/api/group/${groupIds}`);
       console.log(resp);
@@ -43,6 +44,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   }
 
   const onDeleteUser = async () => {
+    setLoading(true);
     try {
       await axios.delete(`http://localhost:8000/api/users/${token}`,
       { headers: {"Authorization" : `Bearer ${token}`}});
@@ -52,6 +54,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
     } catch(e) {
       setError('Sorry, can\'t delete the user');
     }
+    setLoading(false);
 };
 
   useEffect(() => {
@@ -59,14 +62,11 @@ export const AccountInfoContainer = ({onUserLogout}) => {
     onLoadUser();   
   }, [user]);
 
-  // useEffect(() => {
-    
-  // }, [groups])
-
   return (
     <AccountInfoComponent user={user}
                           groups={groups}
                           error={error}
+                          loading={loading}
                           onDeleteUser={onDeleteUser}/>
   );
 }
