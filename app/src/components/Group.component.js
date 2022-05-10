@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigate, NavLink  } from 'react-router-dom';
+import React from 'react';
+import { useNavigate  } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
+import {PostContainer} from './Post.container';
 
 export const GroupComponent = ({
     group, 
@@ -27,28 +28,34 @@ export const GroupComponent = ({
         <div className="group-component"> 
             {loading && (
                 <Spinner animation="border"
+                         className="group-component__loader"
                          variant="info"/>
             )}
             <Alert show={error}
+                   className="group-component__alert"
                    variant="danger">   
                 {error}
             </Alert>      
-            <div>{group?.name}</div>
-            <div>{group?.description}</div>  
-            <Image src={imageURL(group?.profile_photo)}
-                   roundedCircle={true}
-                   className="profile-image"/>  
-            {isCurrentUserInGroup && (
-                <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
-            )}
-            <div>
+            <div className="group-info">
+                <div className="group-info__name">{group?.name}</div>
+                <div className="group-info__description">{group?.description}</div>  
+                <Image src={imageURL(group?.profile_photo)}
+                    roundedCircle={true}
+                    className="group-info__image profile-image"/>  
+                {isCurrentUserInGroup && (
+                    <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
+                )}
+                <PostContainer author={currentUser}
+                               groupId={group?._id}/>
+            </div>
+            <div className="user-list">
                 <h2>Our family:</h2>
                 {users?.map(user => (
                     <div key={user.name}>
                         {user.name}
                         <Image src={imageURL(user?.profile_photo)}
                                 roundedCircle={true}
-                                className="profile-image"/>  
+                                className="user-list__image profile-image_sm"/>  
                     </div>
                 ))}
                 {!isCurrentUserInGroup ? (

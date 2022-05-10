@@ -1,0 +1,31 @@
+.post-component {
+    $post-component-max-width: 50rem;
+    $post-component-margin: 4rem auto;
+    $post-component-form-max-width: 60rem;
+    $post-component-form-margin-top: 4rem;
+
+    & {
+        max-width: $post-component-max-width;
+        margin: $post-component-margin;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__title {
+        margin-bottom: 2rem;
+    }
+
+    &__form {
+        max-width: $post-component-form-max-width;
+        margin-top:  $post-component-form-margin-top;
+    }
+
+    &__note {
+        color: $gray-500;
+        text-align: left;
+    }
+
+    .form-submit {
+        margin-top: 1rem;
+    }
+}

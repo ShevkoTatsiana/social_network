@@ -1,8 +1,16 @@
 .profile-image {
+  & {
     width: 10rem;
     height: 10rem;
     object-fit: cover;
   }
+  
+  &_sm {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+  }
+}
   
 .img-thumbnail {
 width: 5rem;

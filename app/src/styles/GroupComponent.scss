@@ -1,0 +1,19 @@
+.group-component {
+    & {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    &__loader,
+    &__alert {
+        width: 100%;
+    }
+
+    .group-info {
+        width: 70%;   
+    }
+
+    .user-list {
+        width: 30%;
+    }
+}

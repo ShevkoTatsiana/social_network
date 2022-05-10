@@ -1,0 +1,38 @@
+.group-post-component {
+    $group-post-component-text-max-width: 70%;
+    $group-post-component-text-padding: 1rem 2rem;
+
+    & {       
+        max-width: $group-post-component-text-max-width;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }
+
+    &.active {
+        margin-right: 0;
+        margin-left: auto;
+    }
+
+    &__text {
+        display: inline-block;
+        padding: $group-post-component-text-padding;
+        border-radius: 3px;
+        background-color: $gray-200;
+    }
+
+    &__author {
+        text-align: left;
+        font-weight: 500;
+        color: $purple-500;
+    }
+
+    &.active .group-post-component__text {
+        background-color: $blue-100;
+    }
+
+    &__date {
+        font-size: 10px;
+        color: $gray-500;
+        text-align: right;
+    }
+}

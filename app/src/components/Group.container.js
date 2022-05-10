@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {useToken} from '../utils/useToken';
-import { GroupComponent } from './Group.component';
+import { GroupDashboardComponent } from './GroupDashboard.component';
 
 export const GroupContainer = () => {
   const {token} = useToken();
@@ -85,7 +85,7 @@ export const GroupContainer = () => {
   }, [group]);
 
   return (
-    <GroupComponent group={group}
+    <GroupDashboardComponent group={group}
                     users={users}
                     onJoinGroup={onJoinGroup}
                     onLeaveGroup={onLeaveGroup}

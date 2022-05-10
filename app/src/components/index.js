@@ -1,4 +1,5 @@
 export {NavigationComponent} from './Navigation.component';
+export {GroupNavigationComponent} from './GroupNavigation.component';
 export {UserListComponent} from './UserList.component';
 export {UserFormContainer} from './UserForm.container';
 export {UserFormComponent} from './UserForm.component';
@@ -11,3 +12,6 @@ export {GroupFormComponent} from './GroupForm.component';
 export {GroupContainer} from './Group.container';
 export {GroupComponent} from './Group.component';
 export {EditGroupComponent} from './EditGroup.component';
+export {GroupDashboardComponent} from './GroupDashboard.component';
+export {PostContainer} from './Post.container';
+export {PostComponent} from './Post.component';
