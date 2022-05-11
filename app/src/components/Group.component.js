@@ -45,8 +45,10 @@ export const GroupComponent = ({
                 {isCurrentUserInGroup && (
                     <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
                 )}
-                <PostContainer author={currentUser}
-                               groupId={group?._id}/>
+                {isCurrentUserInGroup && (
+                    <PostContainer author={currentUser}
+                                groupId={group?._id}/>
+                )}
             </div>
             <div className="user-list">
                 <h2>Our family:</h2>

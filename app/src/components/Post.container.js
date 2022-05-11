@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { PostComponent } from './Post.component';
@@ -9,17 +8,16 @@ export const PostContainer = ({ author, groupId }) => {
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const {token} = useToken();
-console.log(groupId);
+
     const onSubmitPost = async (post) => {
         const data = {
             author_name: author.name,
             group_id: groupId,
             text: post.post
         };
-        console.log(data);
         setLoading(true);
         try {
-            const result = await axios.post(`http://localhost:8000/api/posts/${token}/create`, data,
+            await axios.post(`http://localhost:8000/api/posts/${token}/create`, data,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -36,7 +34,6 @@ console.log(groupId);
     };
 
     const onLoadPosts = async () => {
-        console.log(groupId);
         setLoading(true);
         try {
           const resp =  await axios.get(`http://localhost:8000/api/posts/${groupId}`);

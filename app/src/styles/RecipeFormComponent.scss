@@ -1,0 +1,19 @@
+.recipe-form-component {
+    & {
+        margin: 4rem auto;
+        max-width: 40rem;
+    }
+
+    .form-text {
+        position: relative;
+        top: -1rem;
+    }
+    
+    .form-control {
+        margin-bottom: 1rem;
+    }
+
+    .form-floating > .recipe-form-component__textarea {
+        height: auto;
+    }
+}

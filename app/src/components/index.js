@@ -15,3 +15,7 @@ export {EditGroupComponent} from './EditGroup.component';
 export {GroupDashboardComponent} from './GroupDashboard.component';
 export {PostContainer} from './Post.container';
 export {PostComponent} from './Post.component';
+export {RecepiesContainer} from './Recepies.container';
+export {RecepiesComponent} from './Recepies.component';
+export {AddRecipeComponent} from './AddRecipe.component';
+export {RecipeComponent} from './Recipe.component';

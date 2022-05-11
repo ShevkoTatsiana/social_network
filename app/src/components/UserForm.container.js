@@ -22,6 +22,7 @@ export const UserFormContainer = ({onUserLogin}) => {
   };
 
   const onSubmitUpdate = async (formData) => {    
+    console.log(formData);
     try {
       const result = await axios.put(`http://localhost:8000/api/users/${token}`, formData,
        { headers: {

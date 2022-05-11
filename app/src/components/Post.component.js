@@ -7,7 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/esm/Button';
 import { GroupPostComponent } from './GroupPost.component';
 
-export const PostComponent = ({error, loading, posts, currentUserName, onSubmitPost}) => {
+export const PostComponent = ({error, loading, posts, currentUserName,  onSubmitPost}) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm();
 
   const onSubmit = (data) => {
@@ -47,7 +47,7 @@ export const PostComponent = ({error, loading, posts, currentUserName, onSubmitP
       )}
       <div className="post-component__note">Write a message...</div>
       <form noValidate onSubmit={handleSubmit(onSubmit)}
-                        classNmae="post-component__form">
+                        className="post-component__form">
         <FloatingLabel label="Message">
           <Form.Control placeholder="Message"
                         isInvalid={errors?.name} 
