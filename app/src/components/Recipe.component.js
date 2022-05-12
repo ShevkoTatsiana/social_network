@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 
 export const RecipeComponent = ({recipe, isAuthor, onDeleteRecipe}) => {
-    console.log(recipe);
     const date = new Date(recipe.createdAt);
     const dateString = date?.toString().split('GMT')[0];
     const imageURL = recipe?.recipe_photo && 

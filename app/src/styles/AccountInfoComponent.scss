@@ -1,0 +1,61 @@
+.account-info-component {
+    $account-info-width: 70%;
+    $account-group-width: 30%;
+    $account-group-list-min-height: 10rem;
+
+    & {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__title {
+        width: 100%;
+        margin-bottom: $m-primary-lg;
+    }
+
+    .account-info {
+        width: $account-info-width;
+    }
+
+    .account-info__block-title {
+        margin-top: $m-secondary;
+    }
+
+    .account-info__actions .btn {
+        display: block;
+        margin: $m-secondary auto 0;
+    }
+
+    .account-group {
+        width:  $account-group-width;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .account-group__list {
+        position: relative;
+        min-height: $account-group-list-min-height;
+        margin-top: $m-secondary;
+    }
+
+    .account-group__image {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        max-height: $account-group-list-min-height;
+        opacity: 0.3;
+    }
+
+    .account-group__link {
+        display: block;
+    }
+
+   .account-group__actions {
+       display: block;
+       margin: auto auto 0;
+   }
+    
+    .account-group__note {
+        margin: $m-primary 0 $m-secondary;
+    }
+}

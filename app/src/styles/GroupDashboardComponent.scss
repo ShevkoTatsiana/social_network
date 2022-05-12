@@ -1,5 +1,18 @@
 .group-dashboard-component {
     &__title {
+        margin-bottom: $m-primary-lg;
+    }
+
+    &__title--color {
         color: $purple-500;
+    }
+
+    .link--active {
+        color: $secondary;
+        font-weight: bolder;
+    }
+
+    .navigation-component {
+        margin-bottom: $m-secondary;
     }
 }

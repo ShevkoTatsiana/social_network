@@ -20,7 +20,7 @@ export const GroupDashboardComponent = ({
 
     return (
         <div className="group-dashboard-component">
-            <h1>Wellcome to <strong className="group-dashboard-component__title">
+            <h1 className="group-dashboard-component__title">Wellcome to <strong className="group-dashboard-component__title--color">
                 {group?.name}
             </strong> Family!</h1>            
           <div>

@@ -1,0 +1,10 @@
+.navigation-component {
+    &__item {
+        align-self: center;
+    }
+
+    &__link {
+        height: 100%;
+        min-width: auto;
+    }
+}

@@ -5,3 +5,7 @@ h1 {
 td {
     vertical-align: middle;
 }
+
+.btn {
+    min-width: $button-min-width;
+}

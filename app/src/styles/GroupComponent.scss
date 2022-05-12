@@ -1,4 +1,6 @@
 .group-component {
+    $group-component-image-size: 15rem;
+
     & {
         display: flex;
         flex-wrap: wrap;
@@ -15,5 +17,20 @@
 
     .user-list {
         width: 30%;
+    }
+
+    .group-info__image {
+        width: $group-component-image-size;
+        height: $group-component-image-size;
+        object-fit: cover;
+        margin-bottom: $m-secondary;
+    }
+
+    .group-info__description {
+        margin: $m-secondary 0;
+    }
+
+    .user-list__item {
+        margin-bottom: $m-secondary;
     }
 }

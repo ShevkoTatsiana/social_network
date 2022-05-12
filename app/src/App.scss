@@ -1,7 +1,12 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "./styles/variables.scss";
 @import "./styles/Image.scss";
 @import "./styles/base.scss";
 @import "./styles/Form.scss";
+@import "./styles/HomePage.scss";
+@import './styles/AccountPage.scss';
+@import "./styles/GroupPage.scss";
+@import "./styles/NavigationComponent.scss";
 
 .App {
   text-align: center;

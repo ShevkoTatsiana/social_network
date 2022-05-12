@@ -37,11 +37,12 @@ export const GroupComponent = ({
                 {error}
             </Alert>      
             <div className="group-info">
-                <div className="group-info__name">{group?.name}</div>
-                <div className="group-info__description">{group?.description}</div>  
                 <Image src={imageURL(group?.profile_photo)}
-                    roundedCircle={true}
-                    className="group-info__image profile-image"/>  
+                        roundedCircle={true}
+                        className="group-info__image"/> 
+                <h3 className="group-info__name">{group?.name}</h3>
+                <div className="group-info__description"><em>{group?.description}</em></div>  
+                 
                 {isCurrentUserInGroup && (
                     <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
                 )}
@@ -53,7 +54,8 @@ export const GroupComponent = ({
             <div className="user-list">
                 <h2>Our family:</h2>
                 {users?.map(user => (
-                    <div key={user.name}>
+                    <div key={user.name}
+                         className="user-list__item">
                         {user.name}
                         <Image src={imageURL(user?.profile_photo)}
                                 roundedCircle={true}
@@ -61,9 +63,9 @@ export const GroupComponent = ({
                     </div>
                 ))}
                 {!isCurrentUserInGroup ? (
-                   <Button variant="primary" onClick={onJoinGroup}>Join Family</Button> 
+                   <Button variant="outline-primary" onClick={onJoinGroup}>Join Family</Button> 
                 ) : (
-                    <Button variant="primary" onClick={onLeaveGroup}>Leave Family</Button>
+                    <Button variant="outline-primary" onClick={onLeaveGroup}>Leave Family</Button>
                 )}
             </div>                
         </div>

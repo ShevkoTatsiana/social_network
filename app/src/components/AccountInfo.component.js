@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
+import GroupImage from '../resources/tree.svg';
 
 export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser}) => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
                   
     return (
         <div className="account-info-component"> 
+            <h1 className="account-info-component__title">Wellcome {user?.name}</h1>
              {loading && (
                 <Spinner animation="border"
                          variant="info"/>
@@ -26,26 +28,55 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
             <Alert show={error}
                    variant="danger">   
                 {error}
-            </Alert>      
-            <div>{user?.name}</div>
-            <div>{user?.email}</div>  
-            <Image src={imageURL}
-                   roundedCircle={true}
-                   className="profile-image"/>
-            <Button variant="primary" onClick={onEditUser}>Edit</Button> 
-            <Button variant="primary" onClick={onDeleteUser}>Delete Account</Button>  
-            <div className="account-group-block">
-                <h2>Your families:</h2>
-                {groups?.length ? (
-                    <>
-                    {groups.map((group) => (
-                        <NavLink  key={group.name} to={`/family/${group.name}`}>{group.name}</NavLink >
-                    ))}
-                    </>
-                ) : (
-                    <div>Your family list has not been created yet</div>
-                )}               
-                <Button variant="secondary" onClick={onNavigateToGroupCreation}>Create a family group</Button> 
+            </Alert> 
+            <div className="account-info">   
+                <Image src={imageURL}
+                        roundedCircle={true}
+                        className="profile-image"/> 
+                <div className="account-info__block">
+                    <h3 className="account-info__block-title">Profile info:</h3>
+                    <div>name: {user?.name}</div>
+                    <div>email: {user?.email}</div> 
+                    <div className="account-info__actions">
+                        <Button variant="primary" 
+                                onClick={onEditUser}>
+                            Edit Profile Info
+                        </Button> 
+                        <Button variant="outline-primary" 
+                                onClick={onDeleteUser}>
+                            Delete Account
+                        </Button> 
+                    </div>
+                </div>                
+            </div>  
+            <div className="account-group">
+                <h3>Your families:</h3>
+                <div className="account-group__list">
+                    {groups?.length ? (
+                        <>
+                            {groups.map((group) => (
+                                <NavLink  key={group.name} 
+                                          to={`/family/${group.name}`}
+                                          className="account-group__link">
+                                    {group.name}
+                                </NavLink >
+                            ))}
+                        </>
+                    ) : (
+                        <div>Your family list has not been created yet</div>
+                    )}    
+                    <Image src={GroupImage}
+                            className="account-group__image"/>
+                </div>
+                <div className="account-group__note">
+                    You can create as much family groups as you need. 
+                    Just create a group and share its link with your relatives to join the group.
+                </div>       
+                <Button variant="outline-secondary" 
+                        onClick={onNavigateToGroupCreation}
+                        className="account-group__actions">
+                    Create a family group
+                </Button> 
             </div>                      
         </div>
     );
