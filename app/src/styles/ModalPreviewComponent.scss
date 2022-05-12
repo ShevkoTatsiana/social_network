@@ -1,0 +1,11 @@
+.modal-preview {
+    .modal-dialog {
+        max-width: 90%;
+        width: fit-content
+    }
+
+    .preview-component__image {
+        max-width: 100%;
+        max-height: 70vh;;
+    }
+}

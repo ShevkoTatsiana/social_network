@@ -7,7 +7,8 @@ import {
     GroupComponent, 
     EditGroupComponent,
     GroupNavigationComponent,
-    RecepiesContainer
+    RecepiesContainer,
+    GalleryContainer
  } from '../components';
 
 export const GroupDashboardComponent = ({
@@ -19,7 +20,9 @@ export const GroupDashboardComponent = ({
 
     return (
         <div className="group-dashboard-component">
-            <h1>Wellcome to <strong>{group?.name}</strong> Family!</h1>            
+            <h1>Wellcome to <strong className="group-dashboard-component__title">
+                {group?.name}
+            </strong> Family!</h1>            
           <div>
                 <GroupNavigationComponent name={group?.name}/> 
           </div>
@@ -28,7 +31,9 @@ export const GroupDashboardComponent = ({
                 <Route exact path="/recepies" element={<RecepiesContainer author={other.currentUser}
                                                                 isCurrentUserInGroup={isCurrentUserInGroup}
                                                                 groupId={group?._id}/>}/>
-                <Route exact path="/gallery" element={<div>gal,/</div>}/>
+                <Route exact path="/gallery" element={<GalleryContainer author={other.currentUser}
+                                                                isCurrentUserInGroup={isCurrentUserInGroup}
+                                                                groupId={group?._id}/>}/>
                 <Route exact path="/tree" element={<div>tree</div>}/>
                 <Route exact path="/" element={<GroupComponent {...other}
                                                                 group={group}/>}/>

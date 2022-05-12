@@ -19,3 +19,7 @@ export {RecepiesContainer} from './Recepies.container';
 export {RecepiesComponent} from './Recepies.component';
 export {AddRecipeComponent} from './AddRecipe.component';
 export {RecipeComponent} from './Recipe.component';
+export {GalleryContainer} from './Gallery.container';
+export {GalleryComponent} from './Gallery.component';
+export {UploadImageModalComponent} from './UploadImageModal.component';
+export {ImagePreviewModalComponent} from './ImagePreviewModal.component';
