@@ -1,0 +1,10 @@
+.family-component {
+    &__group {
+       display: flex;
+       flex-direction: column;
+    }
+
+    .btn.active {
+        border-color: $secondary;
+    }
+}

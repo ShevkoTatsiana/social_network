@@ -22,8 +22,10 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
         <div className="account-info-component"> 
             <h1 className="account-info-component__title">Wellcome {user?.name}</h1>
              {loading && (
-                <Spinner animation="border"
-                         variant="info"/>
+                <div className="account-info-component__loader">
+                    <Spinner animation="border"
+                            variant="info"/>
+                </div>
             )}
             <Alert show={error}
                    variant="danger">   

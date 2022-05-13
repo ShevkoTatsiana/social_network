@@ -4,7 +4,6 @@ import Nav from 'react-bootstrap/Nav';
 
 export const GroupNavigationComponent = ({name}) => {
   const {pathname} = useLocation();
-  console.log(pathname);
   const rootPath = `/family/${name}`;
   const recepiesPath = `${rootPath}/recepies`;
   const galleryPath = `${rootPath}/gallery`;

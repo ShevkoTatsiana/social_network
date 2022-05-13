@@ -13,6 +13,10 @@
         margin-bottom: $m-primary-lg;
     }
 
+    &__loader {
+        width: 100%;
+    }
+
     .account-info {
         width: $account-info-width;
     }

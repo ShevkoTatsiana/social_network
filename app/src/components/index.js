@@ -23,3 +23,6 @@ export {GalleryContainer} from './Gallery.container';
 export {GalleryComponent} from './Gallery.component';
 export {UploadImageModalComponent} from './UploadImageModal.component';
 export {ImagePreviewModalComponent} from './ImagePreviewModal.component';
+export {FamilyTreeContainer} from './FamilyTree.container';
+export {FamilyTreeComponent} from './FamilyTree.component';
+export {CreateTreeComponent} from './CreateTree.component';

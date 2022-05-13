@@ -10,6 +10,7 @@
     .link--active {
         color: $secondary;
         font-weight: bolder;
+        pointer-events: none;
     }
 
     .navigation-component {

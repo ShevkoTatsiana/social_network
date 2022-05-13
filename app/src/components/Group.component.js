@@ -27,9 +27,10 @@ export const GroupComponent = ({
     return (
         <div className="group-component"> 
             {loading && (
-                <Spinner animation="border"
-                         className="group-component__loader"
-                         variant="info"/>
+                <div className="group-component__loader">
+                    <Spinner animation="border"
+                            variant="info"/>
+                </div>
             )}
             <Alert show={error}
                    className="group-component__alert"

@@ -25,10 +25,11 @@ export const RecepiesComponent = ({
       </Alert> 
       )}  
       {loading && (
-                <Spinner animation="border"
-                         className="group-component__loader"
-                         variant="info"/>
-            )}   
+        <div className="group-component__loader">
+          <Spinner animation="border"
+                    variant="info"/>
+        </div>
+      )}   
       <h3 className="recepies-component__title">Family's recepies:</h3>  
       {!!recepies?.length ? (
         <>
