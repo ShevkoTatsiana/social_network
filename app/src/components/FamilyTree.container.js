@@ -10,10 +10,11 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     const [members, setMembers] = useState([]);
     const {token} = useToken();
 
-    const onSubmitMember = async (formData, currentItem, operation) => {
-        const updatedArray = (!!currentItem && !!operation) ?onUpdateCurrentMember(currentItem, operation, formData.id) : [...members];
-        const newMembers = [...updatedArray, formData];
-        setMembers(newMembers);
+    const onSubmitMember = async (data, currentItem, operation) => {      
+            const updatedArray = (!!currentItem && !!operation) ?onUpdateCurrentMember(currentItem, operation, formData.id) : [...members];       
+            const newMembers = [...updatedArray, data];
+            setMembers(newMembers);
+       
     //     setLoading(true);
     //     try {
     //         await axios.post(`http://localhost:8000/api/family/create`, formData,
@@ -32,28 +33,57 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     //     setLoading(false);
     };
 
+    const onSaveTree = () => {};
+
     const onUpdateCurrentMember = (currentItemId, operation, newItemId) => {
-        const updatedMembers = members.map((item) => {
-            if(!item.id === currentItemId) return item;
+        const updatedMembers = [...members];
+        const updatedMembersArr = updatedMembers.map((item) => {
+            if(item.id !== currentItemId) return item;
             switch (operation) {
+                // add child operation
                 case 1:
                     item['children'].push(newItemId);
+                    if (!!item.partner) {
+                        // add child to partner
+                        const partner = updatedMembers.find(member => member.id === item.partner);
+                        partner['children'].push(newItemId);
+                    }
                     break; 
+                // add parent operation    
                 case 2:
                     item['parents'].push(newItemId);
+                    if(item.siblings?.length) {
+                        item.siblings.forEach((id) => {
+                            // add parent id to siblings
+                            const sibling = updatedMembers.find(member => member.id === id);
+                            console.log(sibling, 'sibling');
+                            sibling['parents'].push(newItemId);
+                        })
+                    }
                     break; 
+                // add partner operation
                 case 3:
                     item.partner = newItemId;
                     break; 
+                // add siblings operation
                 case 4:
-                    item['siblings'].push(newItemId);
+                    item['siblings'].push(newItemId); 
+                    // add a child id to sibling's parent
+                    if(item.parents.length) {
+                        item.parents.forEach(parentId => {
+                            console.log(parentId);
+                            const parentItem = updatedMembers.find(member => member.id === parentId);
+                            console.log(parentItem['children']);
+                            parentItem['children'].push(newItemId); 
+                        })
+                    }                                   
                     break; 
                 default:
                     break;           
             }
             return item;          
         });
-        return updatedMembers;       
+        return updatedMembersArr;       
     };
 
     const onLoadMembers = async () => {
@@ -66,13 +96,27 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     };
 
     const onDeleteMember = async (id) => {
-        setLoading(true);
-        try {
-          const resp =  await axios.delete(`http://localhost:8000/api/family/${id}`);
-          setMembers(resp?.data);
-          onLoadMembers();
-        } catch(e) {}
-        setLoading(false);
+        // setLoading(true);
+        // try {
+        //   const resp =  await axios.delete(`http://localhost:8000/api/family/${id}`);
+        //   setMembers(resp?.data);
+        //   onLoadMembers();
+        // } catch(e) {}
+        // setLoading(false);
+        const updatedMembers = members.filter((member)=> member.id !== id).map(member => {
+            if(member.partner.id === id) {
+                member.partner = {};
+                return member;
+            } else if(member.parents.includes(id)) {
+                member.parents.splice(member.parents.indexOf(id), 1);
+                return member;
+            } else if(member.children.includes(id)) {
+                member.children.splice(member.parents.indexOf(id), 1);
+                return member;
+            } else return member;
+        });
+        console.log(updatedMembers);
+        setMembers(updatedMembers);
     };
 
     // useEffect(() => {

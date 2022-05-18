@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 
 export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentItem, currentLevel}) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm();
-  //const [currentLevel, setCurrentLevel] = useState(0);
   const [operation, setOperation] = useState(0);
   const [photo, setPhoto] = useState('');
+  const currentMember = members.find((item) => item.id === currentItem);
 
-  const isDisabled = members?.length && !operation;
+  const isDisabled = members?.length && !operation && !currentItem;
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -22,25 +22,33 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
     data.children = [];
     data.siblings = [];
     data.partner = '';
-    console.log(operation);
     switch (operation) {
       case 1:
-        console.log('par', data['parents']);
-        data['parents'].push(data.id);
+        data['parents'].push(currentItem);
+        // if current item has partner they also should be added as parent to new item
+        if(!!currentMember.partner) {
+          data['parents'].push(currentMember.partner)
+        };
         data.level = currentLevel + 1;
         break;
       case 2:
-        console.log('ch', data['children']);
-        data['children'].push(data.id);
+        data['children'].push(currentItem);
+        // if current item has siblings they also should be added as children to new Parent item
+        if(currentMember.siblings.length) {
+          data['children'] = [currentItem, ...currentMember.siblings];
+        }
         data.level = currentLevel - 1;
         break;
       case 3:
-        console.log('partn', data.partner);
-        data.partner = data.id;
+        data.partner = currentItem;
+        //data.id = `${currentItem}-${Date.now()}`
         break;
       case 4:
-        console.log('sib', data['siblings']);
-        data['siblings'].push(data.id);
+        data['siblings'].push(currentItem);
+        // if current item has parents they also should be added to a new sibling item
+        if(currentMember.parents.length) {
+          data.parents = [...currentMember.parents];
+        }
         break;
       default:
         break;
@@ -56,24 +64,6 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
   const onFileUpload = (e) => {
     setPhoto(e.target.files[0]);
   };
-  
-  const onAddChild = () => {
-    //setCurrentLevel(currentLevel-1);
-    setOperation(1);
-  };
-
-  const onAddParents = () => {
-    //setCurrentLevel(currentLevel+1);
-    setOperation(2);
-  };
-
-  const onAddPartner = () => {
-    setOperation(3);
-  };
-
-  const onAddSibling = () => {
-    setOperation(4);
-  };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -85,23 +75,24 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
     <div className="member-form-component"> 
       {members?.length ? (
         <div>
-          <Button variant="primary" 
-                onClick={onAddChild}>
+          <Button variant="outline-primary" 
+                  className="member-form-component__action"
+                  onClick={() => setOperation(1)}>
           Add child
         </Button>
-        <Button variant="primary" 
-                type="submit"
-                onClick={onAddParents}>
+        <Button variant="outline-primary" 
+                className="member-form-component__action"
+                onClick={() => setOperation(2)}>
           Add parents
         </Button>
-        <Button variant="primary" 
-                type="submit"
-                onClick={onAddSibling}>
+        <Button variant="outline-primary" 
+                className="member-form-component__action"
+                onClick={() => setOperation(4)}>
           Add siblings
         </Button>
-        <Button variant="primary" 
-                type="submit"
-                onClick={onAddPartner}>
+        <Button variant="outline-primary" 
+                className="member-form-component__action"
+                onClick={() => setOperation(3)}>
           Add Partner
         </Button>
         </div>
@@ -137,9 +128,7 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
                         className="member-form-component__dates"
                         disabled={isDisabled}
                         isInvalid={errors?.dates} 
-                        {...register("dates", {
-                          required: {value: true, message: "This is a required field"}
-                        })} />
+                        {...register("dates")} />
             <Form.Control.Feedback type="invalid">
               {errors?.dates?.message}
           </Form.Control.Feedback>

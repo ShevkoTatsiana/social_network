@@ -13,5 +13,4 @@ usersRouter
   .get('/group/:userIds', userController.getAllUserInGroup)
   .delete('/:id', auth, userController.deleteUser)
   .post('/create', upload.single('profile_photo'), validator(createUser), userController.createUser)
-  //.post('/:id/addGroup', auth, userController.addGroupToUser)
   .put('/:id', upload.single('profile_photo'), auth, validator(createUser), userController.editUser);

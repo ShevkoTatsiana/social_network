@@ -1,10 +1,48 @@
 .family-component {
+    $delete-button-top: 1rem;
+    $delete-button-right: 2rem;
+    $delete-button-index: 5;
+
     &__group {
        display: flex;
        flex-direction: column;
+       margin: $m-primary-lg;
     }
 
-    .btn.active {
-        border-color: $secondary;
+    &__level {
+        display: flex;
+    }
+
+    &__button,
+    &__button--active {
+        margin: $m-secondary;
+    }
+
+    &__button--active {
+        border: 2px solid $secondary;
+    }
+
+    .arrow {
+        position: absolute;
+    }
+
+    &__block {
+        position: relative;
+    }
+
+    &__delete {
+        position: absolute;
+        z-index: $delete-button-index;
+        top: $delete-button-top;
+        right: $delete-button-right;
+        padding: 0 $p-tertiary;
+        border: 1px solid $primary;
+        border-radius: 0.5rem;
+        cursor: pointer;
+
+        &:hover {
+            border-width: 2px;
+            color: $primary;
+        }
     }
 }
