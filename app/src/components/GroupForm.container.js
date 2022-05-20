@@ -20,7 +20,6 @@ export const GroupFormContainer = ({onBack}) => {
         "Authorization": `Bearer ${token}`
       }});
       const groupId = result?.data?._id;
-            console.log(groupId);
       await axios.post(`http://localhost:8000/api/user_group/${token}/create`, {groupId},
       { headers: {
         "Authorization": `Bearer ${token}`
@@ -41,7 +40,6 @@ export const GroupFormContainer = ({onBack}) => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
         } });
-        console.log(result);
         onBack();
     } catch (e) {
       if(e.response?.data?.error) {

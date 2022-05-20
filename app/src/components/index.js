@@ -26,3 +26,5 @@ export {ImagePreviewModalComponent} from './ImagePreviewModal.component';
 export {FamilyTreeContainer} from './FamilyTree.container';
 export {FamilyTreeComponent} from './FamilyTree.component';
 export {CreateTreeComponent} from './CreateTree.component';
+export {TreeMemberFormComponent} from './TreeMemberForm.component';
+export {EditTreeComponent} from './EditTree.component';

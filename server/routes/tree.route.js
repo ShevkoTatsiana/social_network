@@ -1,6 +1,5 @@
 import {Router} from 'express';
 import {treeController} from '../controllers/tree.controller.js';
-import {auth} from '../middlewares/auth.middleware.js';
 import { upload } from '../middlewares/uploadFile.js';
 
 export const treeRouter = new Router();

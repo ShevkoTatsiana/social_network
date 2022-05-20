@@ -5,7 +5,6 @@ class UsersService {
       this.users = [];
     }
     getAll() {
-      console.log(UserModel);
       return UserModel.find();
     }
 

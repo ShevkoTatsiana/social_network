@@ -1,5 +1,13 @@
-.member-form-component {
+.create-tree-component {
+    &__actions {
+        margin: $m-primary 0;
+    }
+
     &__action {
        margin: $m-tertiary;
+    }
+
+    &__note {
+        margin-bottom: $m-primary-lg;
     }
 }

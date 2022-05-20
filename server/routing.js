@@ -18,7 +18,7 @@ apiRouter.use('/group', groupRouter);
 apiRouter.use('/posts', postRouter);
 apiRouter.use('/recepies', recepiesRouter);
 apiRouter.use('/gallery', galleryRouter);
-apiRouter.use('tree', treeRouter);
+apiRouter.use('/tree', treeRouter);
 apiRouter.use('/user_group', userGroupRouter);
 
 rootRouter.use('/api', apiRouter);

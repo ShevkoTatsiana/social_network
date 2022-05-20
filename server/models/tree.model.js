@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const treeSchema = new Schema({
+  group_id: {
+        type: String, 
+        requred: true
+      },
   name: { 
     type: String, 
     requred: true
@@ -12,10 +16,6 @@ const treeSchema = new Schema({
   },
   dates: {
     type: String
-  },
-  group_id: {
-    type: String, 
-    requred: true
   },
   info: {
     type: String
@@ -36,8 +36,18 @@ const treeSchema = new Schema({
     type: String,
     default: ""
   },
-}, {
-  timestamps: true,
 });
+
+// const treeSchema = new Schema({
+//   group_id: {
+//     type: String, 
+//     requred: true
+//   },
+//   members: {
+//     type: [treeMemberSchema]
+//   }
+// }, {
+//   timestamps: true,
+// })
 
 export const TreeModel = mongoose.model('Tree', treeSchema);

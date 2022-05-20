@@ -11,7 +11,6 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }) => 
     const {token} = useToken();
 
     const onSubmitRecipe = async (formData) => {
-        console.log(formData, 'cont');
         setLoading(true);
         try {
             await axios.post(`http://localhost:8000/api/recepies/create`, formData,
@@ -22,7 +21,6 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }) => 
         onLoadRecepies();
             
         } catch (e) {
-            console.log(e, e?.response);
             if (e.response?.data?.error) {
                 setValidationError({ message: e.response?.data?.error });
             } else setValidationError(e.response?.data?.details[0]);

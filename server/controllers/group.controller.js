@@ -13,7 +13,7 @@ class GroupController {
       description: req.body.description,
       profile_photo: req.file?.filename
     };
-    console.log(groupData, 'cont');
+  
     try {
       const result = await groupService.createGroup(groupData);
       res.send(result);
@@ -33,7 +33,6 @@ class GroupController {
       description: req.body.description,
       profile_photo: req.file?.filename
     };
-    console.log(req.params, 'param', groupData);
     try {
       const result = await groupService.editGroup(req.params.groupId, groupData);
       res.send(result);

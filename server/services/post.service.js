@@ -2,7 +2,6 @@ import {PostModel} from '../models/post.model.js';
 
 class PostService {
     getAll(groupId) {
-      console.log(groupId);
       return PostModel.find({group_id: groupId});
     }
 

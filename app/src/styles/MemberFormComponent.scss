@@ -1,0 +1,16 @@
+.member-form-component {
+    $member-form-max-width: 60rem;
+
+    & {
+       max-width: $member-form-max-width;
+       margin: auto;
+    }
+
+    .form-control {
+        margin-bottom: $m-secondary;
+    }
+
+    &__submit {
+       margin-top: $m-secondary;
+    }
+}

@@ -19,7 +19,6 @@ export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) =
     onSubmitRecipe(formData)
   };
   const onFileUpload = (e) => {
-    console.log(e.target);
     setRecipePhoto(e.target.files[0]);
   }
 

@@ -2,11 +2,31 @@
     $delete-button-top: 1rem;
     $delete-button-right: 2rem;
     $delete-button-index: 5;
+    $loader-top: 4rem;
+    $loader-right: 50%;
+    $image-size: 5rem;
+    $button-min-width: 10rem;
+    $button-image-size: 1rem;
+    $dates-font-size: 12px;
+    $dropdown-menu-transform: translate(-10px, 25px) !important;
+
+    & {
+        position: relative;
+    }
 
     &__group {
        display: flex;
        flex-direction: column;
-       margin: $m-primary-lg;
+       align-items: center;
+       padding: $p-primary-lg;
+       background: url('../resources/bg-tree.svg') no-repeat center;
+       background-size: 100% 100%;
+    }
+
+    &__loader {
+        position: absolute;
+        top: $loader-top;
+        right: $loader-right;
     }
 
     &__level {
@@ -15,34 +35,96 @@
 
     &__button,
     &__button--active {
+        min-width: $button-min-width;
         margin: $m-secondary;
+        border: 1px solid $secondary;
     }
 
     &__button--active {
         border: 2px solid $secondary;
-    }
-
-    .arrow {
-        position: absolute;
-    }
+    }  
 
     &__block {
         position: relative;
     }
 
-    &__delete {
+    &__image {
+        width: $image-size;
+        height: $image-size;
+        object-fit: cover;
+    }
+
+    &__delete, &__edit {
         position: absolute;
         z-index: $delete-button-index;
         top: $delete-button-top;
         right: $delete-button-right;
-        padding: 0 $p-tertiary;
-        border: 1px solid $primary;
-        border-radius: 0.5rem;
+        opacity: 0.5;
         cursor: pointer;
 
         &:hover {
-            border-width: 2px;
+            opacity: 1;
+        }
+    }
+
+    &__edit {
+        left: $delete-button-right;
+        right: auto;
+    }
+
+    &__delete-image,
+    &__edit-image {
+        width: $button-image-size;
+        height: $button-image-size;
+    }
+
+    &__name {
+        font-weight: $font-weight-bolder;
+    }
+
+    &__dates {
+        font-size: $dates-font-size;
+    }
+
+    &__info {
+        padding: $p-tertiary;
+        font-size: $dates-font-size;
+    }
+
+    &__info-toggle {
+        min-width: auto;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        color: $primary;
+
+        &:hover {
+            background-color: transparent;
             color: $primary;
         }
     }
+
+    .show > .btn-primary.dropdown-toggle {
+        background-color: transparent;
+        color: $primary;
+    }
+
+    .dropdown-menu.show {
+        transform: $dropdown-menu-transform;
+    }
+
+    &__download {
+        margin: $m-secondary;
+        text-align: end;
+    }
+}
+
+.line::after {
+    content: '<';
+    position: relative;
+    top: -2px;
+    left: 0;
+    transform: rotate(90deg);
+    font-weight: bold;
+    color: $secondary;
 }

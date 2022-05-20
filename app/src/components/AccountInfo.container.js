@@ -38,7 +38,6 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   const onLoadGroup = async (groupIds) => {
     try {
       const resp =  await axios.get(`http://localhost:8000/api/group/${groupIds}`);
-      console.log(resp);
       setGroups(resp?.data);
     } catch(e) {}
   }

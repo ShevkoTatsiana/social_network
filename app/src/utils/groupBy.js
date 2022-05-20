@@ -12,8 +12,8 @@ export const sortLevel = (arr) => {
         group.reduce((memo, item, index) => {
             memo.push(item);
             if(!!item.partner) {
-                const partner = group.find(member => member.id === item.partner);
-                if(!memo.includes(partner)) {
+                const partner = group.find(member => member._id === item.partner);
+                if(!!partner && !memo.includes(partner)) {
                     const partnerIndex = group.indexOf(partner);
                     memo.push(partner);
                     group.splice(partnerIndex, 1);

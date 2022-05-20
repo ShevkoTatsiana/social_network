@@ -20,7 +20,6 @@ export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }) => {
         onLoadImages();
             
         } catch (e) {
-            console.log(e, e?.response);
             if (e.response?.data?.error) {
                 setValidationError({ message: e.response?.data?.error });
             } else setValidationError(e.response?.data?.details[0]);

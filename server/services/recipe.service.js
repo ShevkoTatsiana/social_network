@@ -5,8 +5,7 @@ class RecipeService {
       return RecipeModel.find({group_id: groupId});
     }
 
-    async createRecipe(recipeData) {   
-      console.log(recipeData, 'cont cr');  
+    async createRecipe(recipeData) {    
       const newRecipe = new RecipeModel(recipeData);
       return newRecipe.save();
     }

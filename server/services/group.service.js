@@ -14,7 +14,6 @@ class GroupService {
       const isGroupDataUnique = await GroupModel.findOne({name: groupData.name});
       if (!isGroupDataUnique) {
         const newGroup = new GroupModel(groupData);
-        console.log(newGroup, 'ser');
         return newGroup.save();
       } else {
         throw new Error('Group already exists!');

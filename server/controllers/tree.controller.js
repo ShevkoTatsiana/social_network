@@ -20,6 +20,7 @@ class TreeController {
       partner: req.body.partner,
       siblings: req.body.siblings
     };
+
     try {
       const result = await treeService.createTree(treeData);
       res.send(result);
@@ -41,6 +42,10 @@ class TreeController {
       partner: req.body.partner,
       siblings: req.body.siblings
     };
+    // const treeData = {
+    //   group_id: req.body.group_id,
+    //   members: req.body.members
+    // }
     try {
       const result = await treeService.editTree(req.params.id, treeData);
       res.send(result);
@@ -54,4 +59,4 @@ class TreeController {
   }
 }
 
-export const recipeController = new RecipeController();
+export const treeController = new TreeController();
