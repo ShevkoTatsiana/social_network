@@ -6,6 +6,7 @@
     $loader-right: 50%;
     $image-size: 5rem;
     $button-min-width: 10rem;
+    $button-max-width: 16rem;
     $button-image-size: 1rem;
     $dates-font-size: 12px;
     $dropdown-menu-transform: translate(-10px, 25px) !important;
@@ -34,14 +35,15 @@
     }
 
     &__button,
-    &__button--active {
+    &__button.active {
         min-width: $button-min-width;
+        max-width: $button-max-width;
         margin: $m-secondary;
         border: 1px solid $secondary;
     }
 
-    &__button--active {
-        border: 2px solid $secondary;
+    &__button.active {
+        border: 3px solid $secondary;
     }  
 
     &__block {

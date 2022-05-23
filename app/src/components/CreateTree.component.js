@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
+import classNames from 'classnames';
 import Button from 'react-bootstrap/Button';
 
 import {TreeMemberFormComponent} from './TreeMemberForm.component';
@@ -7,7 +8,7 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
   const [operation, setOperation] = useState(0);
   const [photo, setPhoto] = useState('');
   const currentMember = members.find((item) => item._id === currentItem);
-  const isDisabled = members?.length && !operation && !currentItem;
+  const isDisabled = !members?.length || !operation || !currentItem;
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -72,24 +73,24 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
       {members?.length ? (
         <div className="create-tree-component__actions">
           <Button variant="outline-primary" 
-                  className="create-tree-component__action"
+                  className={classNames('create-tree-component__action', {'active': operation === 1})}
                   onClick={() => setOperation(1)}>
           Add child
         </Button>
         <Button variant="outline-primary" 
-                className="create-tree-component__action"
+                className={classNames('create-tree-component__action', {'active': operation === 2})}
                 onClick={() => setOperation(2)}>
           Add parents
         </Button>
         <Button variant="outline-primary" 
-                className="create-tree-component__action"
+                className={classNames('create-tree-component__action', {'active': operation === 4})}
                 onClick={() => setOperation(4)}>
           Add siblings
         </Button>
         <Button variant="outline-primary" 
-                className="create-tree-component__action"
+                className={classNames('create-tree-component__action', {'active': operation === 3})}
                 onClick={() => setOperation(3)}>
-          Add Partner
+          Add partner
         </Button>
         </div>
       ) : (

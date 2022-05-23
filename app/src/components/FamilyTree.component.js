@@ -1,4 +1,5 @@
 import React, {useState, useLayoutEffect, useCallback, useRef} from 'react';
+import classNames from 'classnames';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
@@ -33,11 +34,6 @@ export const FamilyTreeComponent = ({
   const [editMember, setEditMember] = useState();
   const [deleteMember, setDeleteMember] = useState();
   const treeRef = useRef();
-  const memberButtonClassName = (id) => {
-    const className = 'family-component__button';
-    if(currentItem === id) className.concat(' ','family-component__button--active');
-    return className;
-  };
 
   const grouppedMembers =  Object.values(groupBy(members, 'level'));
   const grouppedSortedMembers = sortLevel(grouppedMembers);
@@ -116,11 +112,13 @@ export const FamilyTreeComponent = ({
         </div>
         <div className="family-component__group"
              ref={treeRef}>
-        {grouppedSortedMembers?.map((group) => (
+        {grouppedSortedMembers?.map((group, index) => (
             <div style={{order: group[0].level}}
-                 className="family-component__level">
+                 className="family-component__level"
+                 key={index}>
               {group?.map((member) => (
-                <div className="family-component__block">
+                <div className="family-component__block"
+                     key={member.name}>
                   <span className="family-component__edit"
                         onClick={() => {
                           setShowEdit(true);
@@ -129,7 +127,7 @@ export const FamilyTreeComponent = ({
                            className="family-component__edit-image"/>
                   </span>
                     <Button variant="light"
-                            className={memberButtonClassName(member._id, member.partner)}
+                            className={classNames('family-component__button', {'active': member._id===currentItem})}
                             key={member._id}
                             id={member._id}
                             onClick={()=> {
@@ -146,6 +144,7 @@ export const FamilyTreeComponent = ({
                       {member.info && (
                         <Dropdown>
                           <Dropdown.Toggle id="dropdown-basic"
+                                           as="span"
                                            className="family-component__info-toggle">
                             Info
                           </Dropdown.Toggle>                      
