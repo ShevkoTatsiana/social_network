@@ -11,6 +11,10 @@
         flex-direction: column;
     }
 
+    &__loader {
+        margin: auto;
+    }
+
     &__title {
         margin-bottom: 2rem;
     }

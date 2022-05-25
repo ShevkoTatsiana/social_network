@@ -30,7 +30,7 @@ export const PostComponent = ({error, loading, posts, currentUserName,  onSubmit
       )}  
       {loading && (
                 <Spinner animation="border"
-                         className="group-component__loader"
+                         className="post-component__loader"
                          variant="info"/>
             )}   
       <h3 className="post-component__title">Family's conversation:</h3>  

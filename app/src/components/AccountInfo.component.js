@@ -5,15 +5,14 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import GroupImage from '../resources/tree.svg';
+import ImagePlaceholder from '../resources/profile_placeholder.png';
 
 export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser}) => {
     const navigate = useNavigate();
     const onEditUser = () => {
         navigate('edit', {state: user});
     };
-    const imageURL = user?.profile_photo ? 
-        `${process.env.REACT_APP_PUBLIC_URL}/images/${user?.profile_photo}` :
-        `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`;
+    const imageURL = user?.profile_photo ? user?.profile_photo : ImagePlaceholder;
     const onNavigateToGroupCreation = () => {
         navigate('create_group');
     };

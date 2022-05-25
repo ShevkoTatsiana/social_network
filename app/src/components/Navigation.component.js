@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
 import {useToken} from '../utils/useToken';
+import LogoImg from '../resources/Logo.jpg';
 
 export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
   const {token, removeToken} = useToken();
@@ -26,7 +27,7 @@ export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
           <Nav.Item>
             <Nav.Link href="/"
                       eventKey="0">
-              <Image src={`${process.env.REACT_APP_PUBLIC_URL}/images/logo.jpg`}
+              <Image src={LogoImg}
                         alt="logo"
                         className="navigation-component__image"/>
             </Nav.Link>

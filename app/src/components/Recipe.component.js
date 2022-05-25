@@ -5,8 +5,6 @@ import Image from 'react-bootstrap/Image';
 export const RecipeComponent = ({recipe, isAuthor, onDeleteRecipe}) => {
     const date = new Date(recipe.createdAt);
     const dateString = date?.toString().split('GMT')[0];
-    const imageURL = recipe?.recipe_photo && 
-    `${process.env.REACT_APP_PUBLIC_URL}/images/${recipe?.recipe_photo}`;
 
   return (
     <div className="recipe-component">       
@@ -14,7 +12,7 @@ export const RecipeComponent = ({recipe, isAuthor, onDeleteRecipe}) => {
             {recipe.title}
         </h5>
         {recipe?.recipe_photo && (
-            <Image src={imageURL}
+            <Image src={recipe?.recipe_photo}
                 className="recipe-component__image"/>
         )}           
         <div className="recipe-component__text">

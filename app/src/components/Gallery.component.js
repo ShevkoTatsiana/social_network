@@ -30,9 +30,6 @@ export const GalleryComponent = ({
   const isPossibleToDelete = (authorName) => {
     return isCurrentUserInGroup && authorName === currentUserName
   };
-  const imageURL = (url) => {
-    return `${process.env.REACT_APP_PUBLIC_URL}/images/${url}`
-  };
  
   return (
     <div className="gallery-component">
@@ -66,14 +63,14 @@ export const GalleryComponent = ({
               <Button variant="light" 
                       onClick={() => handleShowPreview(image)}
                       className="gallery-item__button">
-                <Image src={imageURL(image.gallery_image)}
+                <Image src={image.gallery_image}
                        alt={image.title}
                        className="gallery-item__image"/>
               </Button>
             </div>
           ))}
           <ImagePreviewModalComponent image={currentImage}
-                                      url={imageURL(currentImage?.gallery_image)}
+                                      url={currentImage?.gallery_image}
                                       show={showImagePreview}
                                       onHide={handleClosePreview}
                                       hasDeleteButton={isPossibleToDelete(currentImage?.author_name)}

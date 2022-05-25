@@ -5,6 +5,7 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import {PostContainer} from './Post.container';
+import ImagePlaceholder from '../resources/profile_placeholder.png';
 
 export const GroupComponent = ({
     group, 
@@ -18,8 +19,7 @@ export const GroupComponent = ({
     const navigate = useNavigate();
     const isCurrentUserInGroup = users?.some((user) => user._id === currentUser._id);
     const imageURL = (image) => (image ? 
-        `${process.env.REACT_APP_PUBLIC_URL}/images/${image}` :
-        `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`);  
+        image : ImagePlaceholder);  
     const onEditGroup = () => {
         navigate('edit', {state: group});
     };

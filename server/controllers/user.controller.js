@@ -1,4 +1,5 @@
 import {userService} from '../services/user.service.js';   
+import {uploadImageToStorage, deleteImageFromStorage} from '../middlewares/uploadFile.js';
 
 class UsersController {
 
@@ -7,11 +8,18 @@ class UsersController {
   }
  
   async createUser(req, res) {
+    let file = req.file;
+    let fileUrl = '';
+    if (file) {
+      fileUrl = await uploadImageToStorage(file).then((url) => {
+        return url;
+      }).catch((e)=> console.log(e));
+    };
     const userData = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile_photo: req.file?.filename
+      profile_photo: fileUrl
     };
     try {
       const result = await userService.createUser(userData);
@@ -24,14 +32,27 @@ class UsersController {
    res.send(await userService.getUser(req.params.id));
   }
   async deleteUser(req, res) {
-    res.send(await userService.deleteUser(req.params.id));
+    try {
+      const result = await userService.deleteUser(req.params.id);
+      deleteImageFromStorage(result.profile_photo);
+      res.send(result);
+    } catch(e) {
+      res.status(400).json({ error: 'can\'t delete a user' });
+    }
   }
   async editUser(req, res) {
+    let file = req.file;
+    let fileUrl = '';
+    if (file) {
+      fileUrl = await uploadImageToStorage(file).then((url) => {
+        return url;
+      }).catch((e)=> console.log(e));
+    };
     const userData = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile_photo: req.file?.filename
+      profile_photo: fileUrl
     };
     try {
       const result = await userService.editUser(req.params.id, userData);

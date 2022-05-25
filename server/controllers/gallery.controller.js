@@ -1,4 +1,5 @@
 import {galleryService} from '../services/gallery.service.js';   
+import {uploadImageToStorage, deleteImageFromStorage} from '../middlewares/uploadFile.js';
 
 class GalleryController {
 
@@ -8,9 +9,17 @@ class GalleryController {
   }
  
   async createImage(req, res) {
+    let file = req.file;
+    let fileUrl = '';
+    if (file) {
+      fileUrl = await uploadImageToStorage(file).then((url) => {
+        return url;
+      }).catch((e)=> console.log(e));
+    };
+
     const imageData = {
       title: req.body.title,
-      gallery_image: req.file?.filename,
+      gallery_image: fileUrl,
       author_name: req.body.author_name,
       group_id: req.body.group_id
     };
@@ -23,7 +32,13 @@ class GalleryController {
   }
   
   async deleteImage(req, res) {
-    res.send(await galleryService.deleteImage(req.params.id));
+    try {
+      const result = await galleryService.deleteImage(req.params.id);
+      deleteImageFromStorage(result.gallery_image);
+      res.send(result);
+    } catch(e) {
+      res.status(400).json({ error: 'can\'t delete an image' });
+    }
   }
 }
 

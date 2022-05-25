@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'react-bootstrap/Image';
+import FamilyImg from '../resources/family-image.jpg';
 
 export const HomePage = () => {
     return (
@@ -14,7 +15,7 @@ export const HomePage = () => {
                 So create an account or login, create or join your own 
                 family group and stay in touch with your loved ones!
             </p>
-            <Image src={`${process.env.REACT_APP_PUBLIC_URL}/images/family-image.jpg`}
+            <Image src={FamilyImg}
                         alt="home-page"
                         className="home-page__image"/>
         </div>

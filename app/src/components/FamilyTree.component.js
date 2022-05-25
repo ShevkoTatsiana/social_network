@@ -14,6 +14,7 @@ import { drawLine, clearLines } from '../utils/drawLine';
 import { groupBy, sortLevel } from '../utils/groupBy';
 import RemoveIcon from '../resources/remove.svg';
 import EditIcon from '../resources/edit.svg';
+import ImagePlaceholder from '../resources/profile_placeholder.png';
 
 const START_TREE_LEVEL = 5;
 
@@ -37,12 +38,7 @@ export const FamilyTreeComponent = ({
 
   const grouppedMembers =  Object.values(groupBy(members, 'level'));
   const grouppedSortedMembers = sortLevel(grouppedMembers);
-  const imageURL = (photo) => {
-    if(!!photo) {
-      return `${process.env.REACT_APP_PUBLIC_URL}/images/${photo}`
-    }
-      return `${process.env.REACT_APP_PUBLIC_URL}/images/profile_placeholder.png`;
-  };
+  const imageURL = (photo) => (photo ? photo : ImagePlaceholder);
 
   const findVertical = useCallback(() => {
     clearLines();
