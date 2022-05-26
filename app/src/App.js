@@ -4,6 +4,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { 
   CreateUserPage, 
@@ -19,9 +20,10 @@ import {
  import {useToken} from './utils/useToken';
 import './App.scss';
 
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+
 function App() {
   const [isAuthorised, setIsAuthorised] = useState(false);
-  const [accountGroups, setAccountGroups] = useState({});
 
   const onUserLogin = () => {
     setIsAuthorised(true)
@@ -32,6 +34,7 @@ function App() {
   }
 
   return (
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
     <div className="App">
         <Router>
           <div>
@@ -46,15 +49,14 @@ function App() {
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
                       <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}
                                                                         onUserLogout={onUserLogout}/>}/>
-                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>
-                        {/* <Route path="edit" element={<GroupFormContainer/>}/> */}
-                                       
+                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>                                       
                       <Route path="/" element={<HomePage/>}/>                   
                   </Routes>
               </div>
           </div>
       </Router>
     </div>
+    </GoogleOAuthProvider>
   );
 }
 

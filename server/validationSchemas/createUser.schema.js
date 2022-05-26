@@ -13,6 +13,8 @@ export const createUser = Joi.object({
 
   profile_photo: Joi.any(),
 
+  social: Joi.boolean(),
+
   birth_year: Joi.number()
     .integer()
     .min(1900)

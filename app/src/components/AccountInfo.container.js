@@ -32,7 +32,9 @@ export const AccountInfoContainer = ({onUserLogout}) => {
       const resp =  await axios.get(`http://localhost:8000/api/user_group/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       setGroupsId(resp?.data);
-      onLoadGroup(resp?.data);
+      if(resp?.data?.length) {
+        onLoadGroup(resp?.data);
+      }    
     } catch(e) {}
   };
   const onLoadGroup = async (groupIds) => {

@@ -1,10 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-//import { initializeApp } from 'firebase/app';
-//import { Storage } from '@google-cloud/storage';
 import {rootRouter} from './routing.js';
-import { config, firebaseConfig } from './config.js';
+import { config } from './config.js';
 
 const app = express();
 
@@ -16,14 +14,6 @@ const connection = mongoose.connection;
 connection.once("open", function () {
   console.log("MongoDB connected successfully");
 });
-
-//const fb = initializeApp(firebaseConfig);
-// const storage = new Storage({
-//   projectId: firebaseConfig.projectId,
-//   keyFilename: firebaseConfig.keyFilename,
-// });
-
-// const bucket = storage.bucket(firebaseConfig.storageBucket);
 
 app.use(express.static('public'));
 app.use('/images', express.static('./images'));

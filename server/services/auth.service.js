@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import {config} from '../config.js';
 
 class AuthService {
-  async authenticate(email, password) {
+  async authenticate(email, password, social) {
     const user = await UserModel.findOne({ email });
-    if (user?.authenticate(password)) {
+    if ((social && user.social) || user?.authenticate(password)) {
       return {
         user: {
           _id: user._id,

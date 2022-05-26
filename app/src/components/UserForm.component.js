@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import { useForm, useFormState } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form'; 
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/esm/Button';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 
 export const UserFormComponent = (props) => {
   const {
@@ -26,7 +28,18 @@ export const UserFormComponent = (props) => {
   };
   const onFileUpload = (e) => {
     setProfilePhoto(e.target.files[0]);
-  }
+  };
+  const responseGoogle = async (response) => {
+    const responsePayload = jwt_decode(response.credential);
+    const formData = new FormData();
+    formData.append('email', responsePayload.email);
+    formData.append('password', null);
+    formData.append('name', responsePayload.given_name);
+    formData.append('profile_photo', responsePayload.picture);
+    formData.append('social', true);
+    onFormSubmit(formData);
+    console.log(responsePayload);
+  };
 
   return (
     <div className="user-form-component">
@@ -93,6 +106,11 @@ export const UserFormComponent = (props) => {
           Submit
         </Button>
       </form>
+      <div>or</div>
+      <GoogleLogin onSuccess={responseGoogle}
+               onError={() => {
+                 console.log('Login Failed');
+               }}/>
     </div>
   );
 }

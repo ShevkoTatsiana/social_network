@@ -2,14 +2,20 @@ import React from 'react';
 import { useForm } from 'react-hook-form'; 
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/esm/Button';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 
 export const LoginFormComponent = ({error, onFormSubmit}) => {
  
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     onFormSubmit(data)
+  };
+  const responseGoogle = async (response) => {
+    const responsePayload = jwt_decode(response.credential);
+    onFormSubmit({email: responsePayload.email, password: null, social: true});
   };
 
   return (
@@ -47,6 +53,11 @@ export const LoginFormComponent = ({error, onFormSubmit}) => {
           Login
         </Button>
       </Form>
+      <div>or</div>
+      <GoogleLogin onSuccess={responseGoogle}
+                   onError={() => {
+                     console.log('Login Failed');
+                   }}/>
     </div>
   );
 }

@@ -23,14 +23,10 @@ export const userSchema = new Schema({
     type: String,
     default: ""
   }, 
-  // groups: {
-  //   type: [String]
-  //   //   {
-  //   //     type: mongoose.Schema.Types.ObjectId,
-  //   //     ref: "Group"
-  //   //   }
-  //   // ]
-  // }
+  social: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true,
 });

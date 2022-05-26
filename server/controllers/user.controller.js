@@ -15,11 +15,13 @@ class UsersController {
         return url;
       }).catch((e)=> console.log(e));
     };
+    const userImage = req.body.social ? req.body.profile_photo : fileUrl;
     const userData = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile_photo: fileUrl
+      profile_photo: userImage,
+      social: req.body.social
     };
     try {
       const result = await userService.createUser(userData);
@@ -52,7 +54,8 @@ class UsersController {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile_photo: fileUrl
+      profile_photo: fileUrl,
+      social: req.body.social
     };
     try {
       const result = await userService.editUser(req.params.id, userData);

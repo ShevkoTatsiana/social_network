@@ -15,11 +15,12 @@ export const LoginFormContainer = ({onUserLogin}) => {
     navigate('/account/info', {state: user});
   };
 
-  const handleOnFormSubmit = async ({email, password}) => {
+  const handleOnFormSubmit = async ({email, password, social}) => {
     try {
       const result = await axios.post('http://localhost:8000/api/auth/login', {
         email,
-        password
+        password, 
+        social
       });
       setData(result?.data);
       onUserLogin();
