@@ -26,7 +26,15 @@ export const userSchema = new Schema({
   social: {
     type: Boolean,
     default: false
-  }
+  },
+  status: {
+    type: String, 
+    enum: ['Pending', 'Active'],
+    default: 'Pending'
+  },
+  confirmationCode: { 
+    type: String, 
+    unique: true }
 }, {
   timestamps: true,
 });

@@ -37,6 +37,20 @@ class UsersService {
       }      
     }
 
+    async verifyUser(code) {
+      const user = await UserModel.findOne({confirmationCode: code});
+      if (user) {
+        user.status = "Active";
+        user.save((err) => {
+          if (err) {
+            throw new Error(err);
+          }
+        });
+      } else {
+        throw new Error('User not found');
+      }
+    }
+
     getAllUserInGroup(userIds) {
       const stringIds = userIds.split(',');
       return UserModel.find({_id: {$in: stringIds}});         

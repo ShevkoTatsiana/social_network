@@ -1,5 +1,8 @@
+import jwt from 'jsonwebtoken';
+import {config} from '../config.js';
 import {userService} from '../services/user.service.js';   
 import {uploadImageToStorage, deleteImageFromStorage} from '../middlewares/uploadFile.js';
+import {sendConfirmationEmail} from '../nodemailer.config.js';
 
 class UsersController {
 
@@ -16,15 +19,19 @@ class UsersController {
       }).catch((e)=> console.log(e));
     };
     const userImage = req.body.social ? req.body.profile_photo : fileUrl;
+    const code = jwt.sign({email: req.body.email}, config.jwtSecret)
     const userData = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
       profile_photo: userImage,
-      social: req.body.social
+      social: req.body.social,
+      confirmationCode: code
     };
     try {
       const result = await userService.createUser(userData);
+      console.log(result, 'user cont');
+      sendConfirmationEmail(userData.name, userData.email, userData.confirmationCode);
       res.send(result);
     } catch(e) {
       res.status(400).json({ error: 'an User is already registered' });
@@ -67,6 +74,15 @@ class UsersController {
   async getAllUserInGroup(req, res) {
     const userGroupIds = req.params.userIds;
     res.send(await userService.getAllUserInGroup(userGroupIds));
+  }
+
+  async verifyUser(req, res) {
+    try {
+      const result = await userService.verifyUser(req.params.confirmationCode);
+      res.send(result);
+    } catch(e) {
+      console.log("error", e);
+    }
   }
 }
 

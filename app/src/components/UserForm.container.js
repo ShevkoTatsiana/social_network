@@ -11,6 +11,7 @@ export const UserFormContainer = ({onUserLogin}) => {
   const [user, setUser] = useState(userData);
   const [validationError, setValidationError] = useState();
   const [userCreateData, setUserCreateData] = useState({});
+  const [successRegister, setSuccessRegister] = useState(false);
 
   const onLoadUser = async () => {
     try {
@@ -71,13 +72,15 @@ export const UserFormContainer = ({onUserLogin}) => {
 
   useEffect(() => {
     if (!userCreateData.email) return;
-    handleOnCreateUser(userCreateData.email, userCreateData.password);   
+    //handleOnCreateUser(userCreateData.email, userCreateData.password);   
+    setSuccessRegister(true);
   }, [userCreateData]);
 
   return (
     <UserFormComponent name={user?.name}
       email={user?.email}
       error={validationError}
+      successRegister={successRegister}
       password={user?.password}
       onFormSubmit={handleOnFormSubmit} />
   );

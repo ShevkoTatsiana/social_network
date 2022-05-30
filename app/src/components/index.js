@@ -28,3 +28,5 @@ export {FamilyTreeComponent} from './FamilyTree.component';
 export {CreateTreeComponent} from './CreateTree.component';
 export {TreeMemberFormComponent} from './TreeMemberForm.component';
 export {EditTreeComponent} from './EditTree.component';
+export {WellcomeContainer} from './Wellcome.container';
+export {WellcomeComponent} from './Wellcome.component';

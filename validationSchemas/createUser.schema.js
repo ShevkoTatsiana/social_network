@@ -21,7 +21,7 @@ export const createUser = Joi.object({
     .max(2013),
 
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'by', 'ru'] } })
 })
   //.with('name', 'birth_year')
   //.with('password', 'repeat_password');

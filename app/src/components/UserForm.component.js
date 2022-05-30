@@ -13,6 +13,7 @@ export const UserFormComponent = (props) => {
     email = '',
     password = '',
     error,
+    successRegister,
     onFormSubmit
   } = props;
 
@@ -48,7 +49,13 @@ export const UserFormComponent = (props) => {
              variant="danger">   
         {error.message}
       </Alert> 
-      )}       
+      )}  
+      {!!successRegister && (
+        <Alert show={successRegister}
+             variant="success">   
+        User was registered successfully! Please, check your email.
+      </Alert> 
+      )}      
       <form noValidate onSubmit={handleSubmit(onSubmit)}
              encType="multipart/form-data"
              className="form-component">

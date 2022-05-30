@@ -5,6 +5,9 @@ import {config} from '../config.js';
 class AuthService {
   async authenticate(email, password, social) {
     const user = await UserModel.findOne({ email });
+    if (user.status === "Pending") {
+      throw new Error('Pending Account. Please Verify Your Email!')
+    }
     if ((social && user.social) || user?.authenticate(password)) {
       return {
         user: {

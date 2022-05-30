@@ -16,7 +16,11 @@ import {
   CreateGroupPage,
   GroupPage
  } from './pages';
- import {NavigationComponent, GroupFormContainer} from './components';
+ import {
+   NavigationComponent, 
+   GroupFormContainer, 
+   WellcomeContainer
+} from './components';
  import {useToken} from './utils/useToken';
 import './App.scss';
 
@@ -49,7 +53,8 @@ function App() {
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
                       <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}
                                                                         onUserLogout={onUserLogout}/>}/>
-                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>                                       
+                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>    
+                      <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
                       <Route path="/" element={<HomePage/>}/>                   
                   </Routes>
               </div>

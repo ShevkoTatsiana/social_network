@@ -23,10 +23,13 @@ export const LoginFormContainer = ({onUserLogin}) => {
         social
       });
       setData(result?.data);
+      console.log(result);
       onUserLogin();
       navigateToAccount(result?.data?.token, result?.data?.user);
     } catch (e) {
-      setError(e);
+      if (e.response?.data?.error) {
+        setError({ message: e.response?.data?.error });
+      } else setError(e);
     }
   };
 
