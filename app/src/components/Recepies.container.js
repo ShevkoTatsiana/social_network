@@ -13,7 +13,7 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }) => 
     const onSubmitRecipe = async (formData) => {
         setLoading(true);
         try {
-            await axios.post(`http://localhost:8000/api/recepies/create`, formData,
+            await axios.post(`${process.env.PUBLIC_URL}/api/recepies/create`, formData,
        { headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": 'multipart/form-data'
@@ -31,7 +31,7 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }) => 
     const onLoadRecepies = async () => {
         setLoading(true);
         try {
-          const resp =  await axios.get(`http://localhost:8000/api/recepies/${groupId}`);
+          const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/recepies/${groupId}`);
           setResepies(resp?.data);
         } catch(e) {}
         setLoading(false);
@@ -40,7 +40,7 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }) => 
     const onDeleteRecipe = async (id) => {
         setLoading(true);
         try {
-          const resp =  await axios.delete(`http://localhost:8000/api/recepies/${id}`);
+          const resp =  await axios.delete(`${process.env.PUBLIC_URL}/api/recepies/${id}`);
           setResepies(resp?.data);
           onLoadRecepies();
         } catch(e) {}

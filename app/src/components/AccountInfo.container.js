@@ -16,7 +16,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   const onLoadUser = async () => {
     setLoading(true);
     try {
-      const resp = await axios.get(`http://localhost:8000/api/users/${token}`, 
+      const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       setUser(resp?.data);
       if(!groupsId.length) {
@@ -29,7 +29,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   };
   const onLoadUserGroups = async () => {
     try {
-      const resp =  await axios.get(`http://localhost:8000/api/user_group/${token}`, 
+      const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/user_group/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       setGroupsId(resp?.data);
       if(resp?.data?.length) {
@@ -39,7 +39,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   };
   const onLoadGroup = async (groupIds) => {
     try {
-      const resp =  await axios.get(`http://localhost:8000/api/group/${groupIds}`);
+      const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/group/${groupIds}`);
       setGroups(resp?.data);
     } catch(e) {}
   }
@@ -47,7 +47,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
   const onDeleteUser = async () => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:8000/api/users/${token}`,
+      await axios.delete(`${process.env.PUBLIC_URL}/api/users/${token}`,
       { headers: {"Authorization" : `Bearer ${token}`}});
       removeToken();
       onUserLogout();

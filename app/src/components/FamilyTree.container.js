@@ -14,7 +14,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     const onSubmitMember = async (data, currentItem, operation) => { 
         setLoading(true);
         try {
-            const result = await axios.post(`http://localhost:8000/api/tree/create`, data,
+            const result = await axios.post(`${process.env.PUBLIC_URL}/api/tree/create`, data,
             { headers: {
                 "Content-Type": 'multipart/form-data'
             }});
@@ -91,7 +91,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     const onUpdateMember = async (data, id) => {           
         const formData = convertFormData(data);
         try {
-          const result = await axios.put(`http://localhost:8000/api/tree/${id}`, formData,
+          const result = await axios.put(`${process.env.PUBLIC_URL}/api/tree/${id}`, formData,
            { headers: {
               "Content-Type": "multipart/form-data"
             } });
@@ -106,7 +106,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
     const onLoadTree = async () => {
         setLoading(true);
         try {
-            const resp =  await axios.get(`http://localhost:8000/api/tree/${groupId}`);
+            const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/tree/${groupId}`);
             const uploadedTree = resp?.data;
             const uploadedMembers = uploadedTree.map(item => {
                 const children = item['children'][0].split(',').filter(item => item !== '');
@@ -145,7 +145,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
             } else return member;
         });
         try {
-            const resp =  await axios.delete(`http://localhost:8000/api/tree/${id}`);
+            const resp =  await axios.delete(`${process.env.PUBLIC_URL}/api/tree/${id}`);
         } catch(e) {}
         setLoading(false);
         setMembers(updatedMembers);

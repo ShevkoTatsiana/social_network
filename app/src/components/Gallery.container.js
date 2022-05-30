@@ -12,7 +12,7 @@ export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }) => {
     const onSubmitImage = async (formData) => {
         setLoading(true);
         try {
-            await axios.post(`http://localhost:8000/api/gallery/create`, formData,
+            await axios.post(`${process.env.PUBLIC_URL}/api/gallery/create`, formData,
        { headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": 'multipart/form-data'
@@ -30,7 +30,7 @@ export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }) => {
     const onLoadImages = async () => {
         setLoading(true);
         try {
-          const resp =  await axios.get(`http://localhost:8000/api/gallery/${groupId}`);
+          const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/gallery/${groupId}`);
           setImages(resp?.data);
         } catch(e) {}
         setLoading(false);
@@ -39,7 +39,7 @@ export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }) => {
     const onDeleteImage = async (id) => {
         setLoading(true);
         try {
-          const resp =  await axios.delete(`http://localhost:8000/api/gallery/${id}`);
+          const resp =  await axios.delete(`${process.env.PUBLIC_URL}/api/gallery/${id}`);
           setImages(resp?.data);
           onLoadImages();
         } catch(e) {}

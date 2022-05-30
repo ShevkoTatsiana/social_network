@@ -15,7 +15,7 @@ export const UserFormContainer = ({onUserLogin}) => {
 
   const onLoadUser = async () => {
     try {
-      const resp = await axios.get(`http://localhost:8000/api/users/${token}`, { headers: { "Authorization": `Bearer ${token}` } });
+      const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users/${token}`, { headers: { "Authorization": `Bearer ${token}` } });
       setUser(resp?.data);
     } catch(e) {
       setValidationError({message: 'Sorry, can\'t load an user data'});
@@ -24,7 +24,7 @@ export const UserFormContainer = ({onUserLogin}) => {
 
   const onSubmitUpdate = async (formData) => {    
     try {
-      const result = await axios.put(`http://localhost:8000/api/users/${token}`, formData,
+      const result = await axios.put(`${process.env.PUBLIC_URL}/api/users/${token}`, formData,
        { headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -39,7 +39,7 @@ export const UserFormContainer = ({onUserLogin}) => {
 
   const onSubmitCreate = async (formData) => {
     try {
-      const result = await axios.post('http://localhost:8000/api/users/create', formData,
+      const result = await axios.post(`${process.env.PUBLIC_URL}/api/users/create`, formData,
       { headers: {"Content-Type": "multipart/form-data"}});
       setUserCreateData({email: formData.get('email'), password: formData.get('password')});
     } catch (e) {
@@ -55,7 +55,7 @@ export const UserFormContainer = ({onUserLogin}) => {
   };
 
   const handleOnCreateUser = async (email, password) => {
-    const result = await axios.post('http://localhost:8000/api/auth/login', {
+    const result = await axios.post(`${process.env.PUBLIC_URL}/api/auth/login`, {
       email,
       password
     });

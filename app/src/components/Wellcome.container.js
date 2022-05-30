@@ -11,7 +11,7 @@ export const WellcomeContainer = () => {
 
   const handleOnVerifyUser = async (confirmationCode) => {
     try {
-      const result = await axios.get(`http://localhost:8000/api/users/confirm/${confirmationCode}`);
+      const result = await axios.get(`${process.env.PUBLIC_URL}/api/users/confirm/${confirmationCode}`);
       setData(result?.data);
     } catch (e) {
       setError(e);

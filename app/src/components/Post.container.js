@@ -17,7 +17,7 @@ export const PostContainer = ({ author, groupId }) => {
         };
         setLoading(true);
         try {
-            await axios.post(`http://localhost:8000/api/posts/${token}/create`, data,
+            await axios.post(`${process.env.PUBLIC_URL}/api/posts/${token}/create`, data,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -36,7 +36,7 @@ export const PostContainer = ({ author, groupId }) => {
     const onLoadPosts = async () => {
         setLoading(true);
         try {
-          const resp =  await axios.get(`http://localhost:8000/api/posts/${groupId}`);
+          const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/posts/${groupId}`);
           setPosts(resp?.data);
         } catch(e) {}
         setLoading(false);

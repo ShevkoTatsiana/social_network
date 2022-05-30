@@ -10,7 +10,7 @@ export const UserListComponent = () => {
     const [users, setUsers] = useState([]);
     const getImageURL = (profile_photo) => (profile_photo ? profile_photo : ImagePlaceholder);
     const onLoadUsers = async () => {
-        const resp = await axios.get('http://localhost:8000/api/users');
+        const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users`);
         setUsers(resp?.data);
     };
 

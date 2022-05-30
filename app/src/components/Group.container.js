@@ -16,7 +16,7 @@ export const GroupContainer = () => {
 
   const onLoadUser = async () => {
     try {
-      const resp = await axios.get(`http://localhost:8000/api/users/${token}`, 
+      const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       setCurrentUser(resp?.data);
     } catch(e) {
@@ -25,7 +25,7 @@ export const GroupContainer = () => {
   };
   const onLoadGroupUsers = async (id) => {
     try {
-      const resp =  await axios.get(`http://localhost:8000/api/user_group/group/${id}`, 
+      const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/user_group/group/${id}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       onLoadUsers(resp?.data);
     } catch(e) {console.log(e)}
@@ -33,7 +33,7 @@ export const GroupContainer = () => {
   const onLoadGroup = async () => {
     setLoading(true);
     try {
-      const resp =  await axios.get(`http://localhost:8000/api/group/family/${name}`);
+      const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/group/family/${name}`);
       setGroup(resp?.data[0]);
       onLoadGroupUsers(resp?.data[0]?._id);
     } catch(e) {
@@ -44,7 +44,7 @@ export const GroupContainer = () => {
   const onLoadUsers = async (userIds) => {
     setLoading(true);
     try {
-      const resp =  await axios.get(`http://localhost:8000/api/users/group/${userIds}`);
+      const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/users/group/${userIds}`);
       setUsers(resp?.data);
       if(!!token) {
         onLoadUser();
@@ -55,7 +55,7 @@ export const GroupContainer = () => {
   const onJoinGroup = async () => {
     setLoading(true);
     try {
-      await axios.post(`http://localhost:8000/api/user_group/${token}/create`, {groupId: group._id},
+      await axios.post(`${process.env.PUBLIC_URL}/api/user_group/${token}/create`, {groupId: group._id},
       { headers: {
         "Authorization": `Bearer ${token}`
       }});
@@ -68,7 +68,7 @@ export const GroupContainer = () => {
   const onLeaveGroup = async () => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:8000/api/user_group/${token}/delete/${group._id}`,
+      await axios.delete(`${process.env.PUBLIC_URL}/api/user_group/${token}/delete/${group._id}`,
       { headers: {
         "Authorization": `Bearer ${token}`
       }});

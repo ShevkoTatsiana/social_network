@@ -17,7 +17,7 @@ export const LoginFormContainer = ({onUserLogin}) => {
 
   const handleOnFormSubmit = async ({email, password, social}) => {
     try {
-      const result = await axios.post('http://localhost:8000/api/auth/login', {
+      const result = await axios.post(`${process.env.PUBLIC_URL}/api/auth/login`, {
         email,
         password, 
         social

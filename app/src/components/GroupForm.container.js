@@ -12,7 +12,7 @@ export const GroupFormContainer = ({ onBack }) => {
 
   const onSubmitCreate = async (formData) => {
     try {
-      const result = await axios.post('http://localhost:8000/api/group/create', formData,
+      const result = await axios.post(`${process.env.PUBLIC_URL}/api/group/create`, formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -20,7 +20,7 @@ export const GroupFormContainer = ({ onBack }) => {
           }
         });
       const groupId = result?.data?._id;
-      await axios.post(`http://localhost:8000/api/user_group/${token}/create`, { groupId },
+      await axios.post(`${process.env.PUBLIC_URL}/api/user_group/${token}/create`, { groupId },
         {
           headers: {
             "Authorization": `Bearer ${token}`
@@ -36,7 +36,7 @@ export const GroupFormContainer = ({ onBack }) => {
 
   const onSubmitUpdate = async (formData) => {
     try {
-      const result = await axios.put(`http://localhost:8000/api/group/${groupData._id}`, formData,
+      const result = await axios.put(`${process.env.PUBLIC_URL}/api/group/${groupData._id}`, formData,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
