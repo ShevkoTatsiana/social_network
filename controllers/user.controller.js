@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken';
 import {config} from '../config.js';
 import {userService} from '../services/user.service.js';   
 import {uploadImageToStorage, deleteImageFromStorage} from '../middlewares/uploadFile.js';
-import {sendConfirmationEmail} from '../nodemailer.config.js';
+//import {sendConfirmationEmail} from '../nodemailer.config.js';
+import {sendConfirmationEmail} from '../awsSES.js';
 
 class UsersController {
 
