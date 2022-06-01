@@ -26,7 +26,7 @@ let sendEmail = (name, recipientEmail, code) => {
           Data: `<h1>Email Confirmation</h1>
           <h2>Hello ${name}</h2>
           <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-          <a href=http://localhost:8081/confirm/${code}> Click here</a>
+          <a href=${process.env.PUBLIC_URL}/confirm/${code}> Click here</a>
           </div>`
         },
       },
