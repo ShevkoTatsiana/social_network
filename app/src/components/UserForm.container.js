@@ -11,6 +11,7 @@ export const UserFormContainer = ({onUserLogin}) => {
   const [user, setUser] = useState(userData);
   const [validationError, setValidationError] = useState();
   const [userCreateData, setUserCreateData] = useState({});
+  // Should be used with Email Confirmation feature
   const [successRegister, setSuccessRegister] = useState(false);
 
   const onLoadUser = async () => {
@@ -72,8 +73,9 @@ export const UserFormContainer = ({onUserLogin}) => {
 
   useEffect(() => {
     if (!userCreateData.email) return;
-    //handleOnCreateUser(userCreateData.email, userCreateData.password);   
-    setSuccessRegister(true);
+    handleOnCreateUser(userCreateData.email, userCreateData.password);   
+    // Don't delete! Should be used for Email confirmation feature
+    //setSuccessRegister(true);
   }, [userCreateData]);
 
   return (

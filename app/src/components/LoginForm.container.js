@@ -23,7 +23,6 @@ export const LoginFormContainer = ({onUserLogin}) => {
         social
       });
       setData(result?.data);
-      console.log(result);
       onUserLogin();
       navigateToAccount(result?.data?.token, result?.data?.user);
     } catch (e) {
