@@ -16,7 +16,7 @@ export const WellcomeComponent = ({data, error}) => {
       <h3>
         <strong>Account confirmed!</strong>
       </h3>
-      <Link to={"/login"}>
+      <Link to={"/account/login"}>
         Please Login
       </Link>
       

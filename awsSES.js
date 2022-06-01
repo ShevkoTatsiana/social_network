@@ -23,7 +23,11 @@ let sendEmail = (name, recipientEmail, code) => {
       Body: {
         Html: {
           Charset: 'UTF-8',
-          Data: 'This is the body of my email!',
+          Data: `<h1>Email Confirmation</h1>
+          <h2>Hello ${name}</h2>
+          <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+          <a href=http://localhost:8081/confirm/${code}> Click here</a>
+          </div>`
         },
       },
       Subject: {
