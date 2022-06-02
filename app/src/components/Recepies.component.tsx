@@ -3,7 +3,20 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { AddRecipeComponent } from './AddRecipe.component';
-import {RecipeComponent} from './Recipe.component';
+import {RecipeComponent, RecipeType} from './Recipe.component';
+
+type Props = {
+  error: {
+    message: string
+  } | undefined,
+  loading: boolean,
+  recepies: RecipeType[],
+  currentUserName: string,
+  isCurrentUserInGroup: boolean,
+  groupId: string,
+  onSubmitRecipe: (recipe: FormData) => void,
+  onDeleteRecipe: (id: string) => void
+}
 
 export const RecepiesComponent = ({
   error, 
@@ -14,7 +27,7 @@ export const RecepiesComponent = ({
   groupId, 
   onSubmitRecipe, 
   onDeleteRecipe
-}) => {
+}: Props) => {
  
   return (
     <div className="recepies-component">
@@ -45,8 +58,8 @@ export const RecepiesComponent = ({
       )}
       {isCurrentUserInGroup && (
         <AddRecipeComponent onSubmitRecipe={onSubmitRecipe}
-                          groupId={groupId}
-                          currentUserName={currentUserName}/>
+                            groupId={groupId}
+                            currentUserName={currentUserName}/>
       )}
     </div>
   );

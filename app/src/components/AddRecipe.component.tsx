@@ -1,24 +1,46 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, ChangeEvent} from 'react';
 import { useForm } from 'react-hook-form'; 
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/esm/Button';
 
-export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm();
-  const [recipePhoto, setRecipePhoto] = useState('');
+type Props = {
+  currentUserName: string,
+  groupId: string,
+  onSubmitRecipe: (data: FormData) => void
+};
+type FormValues = {
+  title: string,
+  recipe_photo: Blob | string,
+  ingredients: string,
+  directions: string,
+};
+export type RecipeFormType = FormValues & {
+  author_name: string,
+  group_id: string
+};
 
-  const onSubmit = (data) => {
+export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}: Props) => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm<FormValues>();
+  const [recipePhoto, setRecipePhoto] = useState<File | string>('');
+
+  const onSubmit = (dataValues: FormValues) => {
+    const data: RecipeFormType = {
+      ...dataValues,
+      recipe_photo: recipePhoto,
+      author_name: currentUserName,
+      group_id: groupId,
+    };
     const formData = new FormData();
-    data.recipe_photo = recipePhoto;
-    data.author_name = currentUserName;
-    data.group_id = groupId;
     for (let key in data) {
-      formData.append(key, data[key])
+      formData.append(key, data[key as keyof RecipeFormType])
     };
     onSubmitRecipe(formData)
   };
-  const onFileUpload = (e) => {
+  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     setRecipePhoto(e.target.files[0]);
   }
 
@@ -35,7 +57,7 @@ export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) =
                        encType="multipart/form-data">
             <FloatingLabel label="Title">
                 <Form.Control placeholder="Title"
-                              isInvalid={errors?.title} 
+                              isInvalid={!!errors?.title} 
                               {...register("title", {
                                 required: {value: true, message: "This is a required field"}
                                })} />
@@ -45,10 +67,9 @@ export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) =
         </FloatingLabel>
         <Form.Label htmlFor="recipe_photo">Upload a Recipe Photo here</Form.Label>
         <Form.Control type="file" 
-               className="recipe-form-component__photo" 
-               name="recipe_photo"
-               {...register("recipe_photo")}              
-               onChange={onFileUpload}/>
+                      className="recipe-form-component__photo" 
+                      {...register("recipe_photo")}              
+                      onChange={onFileUpload}/>
         <Form.Text id="filesHelpBlock" muted
                    className="recipe-form-component__photo-note">
           You can upload '.jpg', '.jpeg' or '.png' files here.
@@ -58,7 +79,7 @@ export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) =
                         as="textarea" 
                         rows={4}
                         className="recipe-form-component__textarea"
-                        isInvalid={errors?.ingredients} 
+                        isInvalid={!!errors?.ingredients} 
                         {...register("ingredients", {
                           required: {value: true, message: "This is a required field"}
                         })} />
@@ -68,7 +89,7 @@ export const AddRecipeComponent = ({onSubmitRecipe, currentUserName, groupId}) =
         </FloatingLabel>
         <FloatingLabel label="Directions">
           <Form.Control placeholder="Directions"
-                        isInvalid={errors?.directions} 
+                        isInvalid={!!errors?.directions} 
                         as="textarea" 
                         rows={4}
                         className="recipe-form-component__textarea"
