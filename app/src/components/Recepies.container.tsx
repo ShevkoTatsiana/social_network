@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { RecepiesComponent } from './Recepies.component';
+import {ValidationError} from '../types';
 
 type Props = {
     author: {
@@ -11,17 +11,6 @@ type Props = {
     groupId: string,
     isCurrentUserInGroup: boolean
 };
-type ValidationError = {
-    message: string
-};
-export type Error = {
-    response: {
-        data: {
-            error: string,
-            details: string[]
-        }
-    }
-}
 
 export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }: Props) => {
     const [validationError, setValidationError] = useState<ValidationError>();

@@ -2,6 +2,16 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
+import {ImageType} from '../types';
+
+type Props = {
+  image: ImageType,
+  url: string,
+  hasDeleteButton: boolean,
+  show: boolean,
+  onDelete: () => void,
+  onHide: () => void
+};
 
 export const ImagePreviewModalComponent = ({
   image, 
@@ -9,7 +19,7 @@ export const ImagePreviewModalComponent = ({
   hasDeleteButton, 
   onDelete,
   show,
-  onHide}) => {
+  onHide}: Props) => {
   const date = new Date(image?.createdAt);
   const dateString = date?.toString().split('GMT')[0];
   const handleOnDelete = () => {

@@ -1,11 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/Button';
 
-export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, onFileUpload }) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm();
+import {MemberType} from '../types';
+
+type FormValue = {
+  name: string,
+  dates: string,
+  info: string,
+  photo: string,
+};
+
+type Props = {
+  member?: MemberType,
+  isDisabled: boolean,
+  onFileUpload: (e: ChangeEvent<HTMLInputElement>) => void,
+  onSubmitMember: (data: FormValue) => void
+};
+
+export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, onFileUpload }: Props) => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm<FormValue>();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -20,7 +36,7 @@ export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, on
         <FloatingLabel label="Full Name">
           <Form.Control placeholder="Full Name"
             defaultValue={member?.name || ''}
-            isInvalid={errors?.name}
+            isInvalid={!!errors?.name}
             disabled={isDisabled}
             {...register("name", {
               required: { value: true, message: "This is a required field" }
@@ -32,7 +48,6 @@ export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, on
         <Form.Label htmlFor="recipe_photo">Upload a Photo here</Form.Label>
         <Form.Control type="file"
           className="member-form-component__photo"
-          name="photo"
           disabled={isDisabled}
           {...register("photo")}
           onChange={onFileUpload} />
@@ -45,7 +60,7 @@ export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, on
             className="member-form-component__dates"
             disabled={isDisabled}
             defaultValue={member?.dates || ''}
-            isInvalid={errors?.dates}
+            isInvalid={!!errors?.dates}
             {...register("dates")} />
           <Form.Control.Feedback type="invalid">
             {errors?.dates?.message}
@@ -53,7 +68,7 @@ export const TreeMemberFormComponent = ({ onSubmitMember, member, isDisabled, on
         </FloatingLabel>
         <FloatingLabel label="Additional Info">
           <Form.Control placeholder="Additional Info"
-            isInvalid={errors?.info}
+            isInvalid={!!errors?.info}
             as="textarea"
             defaultValue={member?.info || ''}
             disabled={isDisabled}

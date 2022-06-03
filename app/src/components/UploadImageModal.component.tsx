@@ -1,31 +1,53 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, ChangeEvent} from 'react';
 import { useForm } from 'react-hook-form'; 
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+type Props = {
+  currentUserName: string,
+  groupId: string,
+  show: boolean,
+  onSubmitImage: (data: FormData) => void,
+  onHide: () => void
+};
+type FormValues = {
+  title: string,
+  gallery_image: Blob | string,
+};
+export type GalleryFormType = FormValues & {
+  author_name: string,
+  group_id: string
+};
+
 export const UploadImageModalComponent = ({
   onSubmitImage, 
   currentUserName, 
   groupId,
   show,
-  onHide}) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm();
-  const [image, setImage] = useState('');
+  onHide}: Props) => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm<FormValues>();
+  const [image, setImage] = useState<File | string>('');
 
-  const onSubmit = (data) => {
+  const onSubmit = (dataValues: FormValues) => {
+    const data = {
+      ...dataValues,
+      gallery_image: image,
+      author_name: currentUserName,
+      group_id: groupId
+    };
     const formData = new FormData();
-    data.gallery_image = image;
-    data.author_name = currentUserName;
-    data.group_id = groupId;
     for (let key in data) {
-      formData.append(key, data[key])
+      formData.append(key, data[key as keyof GalleryFormType])
     };
     onSubmitImage(formData);
     onHide();
   };
-  const onFileUpload = (e) => {
+  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     setImage(e.target.files[0]);
   }
 
@@ -46,7 +68,7 @@ export const UploadImageModalComponent = ({
                             encType="multipart/form-data">
                   <FloatingLabel label="Title">
                       <Form.Control placeholder="Title"
-                                    isInvalid={errors?.title} 
+                                    isInvalid={!!errors?.title} 
                                     {...register("title", {
                                       required: {value: true, message: "This is a required field"}
                                     })} />
@@ -57,7 +79,6 @@ export const UploadImageModalComponent = ({
               <Form.Label htmlFor="gallery_image">Upload a Recipe Photo here</Form.Label>
               <Form.Control type="file" 
                     className="gallery-form-component__photo" 
-                    name="gallery_image"
                     {...register("gallery_image")}              
                     onChange={onFileUpload}/>
               <Form.Text id="filesHelpBlock" muted

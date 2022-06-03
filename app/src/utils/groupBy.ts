@@ -1,15 +1,19 @@
-export  const groupBy = (arr, property) => {
+import {MemberType} from '../types';
+
+export const groupBy =(arr: MemberType[], property: string) => {
     const grouppedArray = arr?.reduce(function(memo, x) {
+      // @ts-ignore  
       if (!memo[x[property]]) { memo[x[property]] = []; }
+      // @ts-ignore
       memo[x[property]].push(x);
       return memo;
     }, {});
     return grouppedArray;
 };
 
-export const sortLevel = (arr) => {
-    arr.forEach((group) => {
-        group.reduce((memo, item, index) => {
+export const sortLevel = (arr:Array<MemberType[]>) => {
+    arr.forEach((group: MemberType[]) => {
+        group.reduce((memo:MemberType[], item, index) => {
             memo.push(item);
             if(!!item.partner) {
                 const partner = group.find(member => member._id === item.partner);

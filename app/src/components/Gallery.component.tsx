@@ -6,6 +6,20 @@ import Image from 'react-bootstrap/Image';
 
 import {UploadImageModalComponent} from './UploadImageModal.component';
 import {ImagePreviewModalComponent} from './ImagePreviewModal.component';
+import {ImageType} from '../types';
+
+type Props = {
+  error: {
+    message: string
+  } | undefined,
+  loading: boolean, 
+  images: ImageType[], 
+  currentUserName: string,
+  isCurrentUserInGroup: boolean,
+  groupId: string, 
+  onSubmitImage: (image: FormData) => void,
+  onDeleteImage: (id: string) => void
+}
 
 export const GalleryComponent = ({
   error, 
@@ -16,18 +30,18 @@ export const GalleryComponent = ({
   groupId, 
   onSubmitImage, 
   onDeleteImage
-}) => {
+}: Props) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showImagePreview, setShowImagePreview] = useState(false);
-  const [currentImage, setCurrentImage] = useState();
+  const [currentImage, setCurrentImage] = useState<ImageType>();
   const handleCloseUpload = () => setShowUploadModal(false);
   const handleShowUpload = () => setShowUploadModal(true);
   const handleClosePreview = () => setShowImagePreview(false);
-  const handleShowPreview = (image) => {
+  const handleShowPreview = (image: ImageType) => {
     setCurrentImage(image);
     setShowImagePreview(true);
   };
-  const isPossibleToDelete = (authorName) => {
+  const isPossibleToDelete = (authorName: string) => {
     return isCurrentUserInGroup && authorName === currentUserName
   };
  
@@ -69,12 +83,14 @@ export const GalleryComponent = ({
               </Button>
             </div>
           ))}
-          <ImagePreviewModalComponent image={currentImage}
-                                      url={currentImage?.gallery_image}
+          {!!currentImage && (
+            <ImagePreviewModalComponent image={currentImage}
+                                      url={currentImage.gallery_image}
                                       show={showImagePreview}
                                       onHide={handleClosePreview}
-                                      hasDeleteButton={isPossibleToDelete(currentImage?.author_name)}
-                                      onDelete={() => onDeleteImage(currentImage?._id)}/>
+                                      hasDeleteButton={isPossibleToDelete(currentImage.author_name)}
+                                      onDelete={() => onDeleteImage(currentImage._id)}/>
+          )}          
         </div>
       ) : (
         <div className="images-component__empty">There are no family photo yet...</div>

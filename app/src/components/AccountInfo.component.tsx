@@ -6,8 +6,17 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import GroupImage from '../resources/tree.svg';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
+import {UserType, GroupType} from '../types';
 
-export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser}) => {
+type Props = {
+    user?: UserType,
+    error: string,
+    loading: boolean,
+    groups: GroupType[],
+    onDeleteUser: () => void
+};
+
+export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser}: Props) => {
     const navigate = useNavigate();
     const onEditUser = () => {
         navigate('edit', {state: user});
@@ -26,7 +35,7 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
                             variant="info"/>
                 </div>
             )}
-            <Alert show={error}
+            <Alert show={!!error}
                    variant="danger">   
                 {error}
             </Alert> 

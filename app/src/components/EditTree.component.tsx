@@ -1,13 +1,27 @@
-import React, {useState} from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import {TreeMemberFormComponent} from './TreeMemberForm.component';
+import {MemberType} from '../types';
 
-export const EditTreeComponent = ({onSubmit, show, member, onHide}) => {
-  const [photo, setPhoto] = useState('');
+type Props = {
+  member: MemberType,
+  show: boolean,
+  onHide: () => void,
+  onSubmit: (data: MemberType, id: string | undefined) => void
+};
+type FormValues = {
+  name: string,
+  dates: string,
+  info: string,
+  photo: string,
+};
 
-  const onSubmitMember = (data) => {
+export const EditTreeComponent = ({onSubmit, show, member, onHide}: Props) => {
+  const [photo, setPhoto] = useState<File | string>('');
+
+  const onSubmitMember = (data: FormValues) => {
     member.photo = photo;
     member.name = data.name;
     member.dates = data.dates;
@@ -16,7 +30,10 @@ export const EditTreeComponent = ({onSubmit, show, member, onHide}) => {
     onHide();
   };
 
-  const onFileUpload = (e) => {
+  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     setPhoto(e.target.files[0]);
   };
 

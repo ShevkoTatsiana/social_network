@@ -1,4 +1,4 @@
-const getOffset = (el) => {
+const getOffset = (el: HTMLElement ) => {
     const rect = el.getBoundingClientRect();
     return {
       left: rect.left + window.pageXOffset,
@@ -8,7 +8,7 @@ const getOffset = (el) => {
     };
 }
 
-export const drawLine = (div1, div2, color, thickness) => {
+export const drawLine = (div1: HTMLElement , div2: HTMLElement , color: string, thickness: number) => {
     const off1 = getOffset(div1);
     const off2 = getOffset(div2);
   

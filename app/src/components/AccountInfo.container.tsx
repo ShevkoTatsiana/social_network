@@ -3,11 +3,16 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {useToken} from '../utils/useToken';
 import { AccountInfoComponent } from './AccountInfo.component';
+import {UserType} from '../types';
 
-export const AccountInfoContainer = ({onUserLogout}) => {
+type Props = {
+  onUserLogout: () => void
+};
+
+export const AccountInfoContainer = ({onUserLogout}: Props) => {
   const {token, removeToken} = useToken();
   const navigate = useNavigate();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<UserType>();
   const [groupsId, setGroupsId] = useState([]);
   const [groups, setGroups] = useState([]);
   const [error, setError] = useState('');
@@ -37,7 +42,7 @@ export const AccountInfoContainer = ({onUserLogout}) => {
       }    
     } catch(e) {}
   };
-  const onLoadGroup = async (groupIds) => {
+  const onLoadGroup = async (groupIds: string[]) => {
     try {
       const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/group/${groupIds}`);
       setGroups(resp?.data);

@@ -15,8 +15,20 @@ import { groupBy, sortLevel } from '../utils/groupBy';
 import RemoveIcon from '../resources/remove.svg';
 import EditIcon from '../resources/edit.svg';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
+import {MemberType, ErrorType} from '../types';
 
 const START_TREE_LEVEL = 5;
+
+type Props = {
+  error: ErrorType, 
+  loading: boolean, 
+  members: MemberType[],  
+  isCurrentUserInGroup: boolean,
+  groupId: string, 
+  onSubmitMember: (data: FormData, currentItem: string, operation: number) => void, 
+  onDeleteMember: (id: string) => void,
+  onUpdateMember: (item: MemberType, id: string | undefined) => void
+};
 
 export const FamilyTreeComponent = ({
   error, 
@@ -27,18 +39,18 @@ export const FamilyTreeComponent = ({
   onSubmitMember, 
   onDeleteMember,
   onUpdateMember
-}) => {
-  const [currentItem, setCurrentItem] = useState();
+}: Props) => {
+  const [currentItem, setCurrentItem] = useState<string>('');
   const [currentLevel, setCurrentLevel] = useState(START_TREE_LEVEL);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-  const [editMember, setEditMember] = useState();
-  const [deleteMember, setDeleteMember] = useState();
-  const treeRef = useRef();
+  const [editMember, setEditMember] = useState<MemberType>();
+  const [deleteMember, setDeleteMember] = useState<string>('');
+  const treeRef = useRef(null);
 
-  const grouppedMembers =  Object.values(groupBy(members, 'level'));
+  const grouppedMembers:Array<MemberType[]> =  Object.values(groupBy(members, 'level'));
   const grouppedSortedMembers = sortLevel(grouppedMembers);
-  const imageURL = (photo) => (photo ? photo : ImagePlaceholder);
+  const imageURL = (photo: string | File) => (photo ? photo : ImagePlaceholder);
 
   const findVertical = useCallback(() => {
     clearLines();
@@ -52,9 +64,11 @@ export const FamilyTreeComponent = ({
     })
   }, [members]);
 
-  const drawVertical = (item, child) => {
+  const drawVertical = (item: MemberType, child: string) => {
+    if(!item._id) return;
     const itemEl = document.getElementById(item._id);
     const childEl = document.getElementById(child);
+    if(!itemEl || !childEl) return;
     const line = drawLine(itemEl, childEl, '#6f42c1', 2);
     document.body.appendChild(line);
   };
@@ -108,10 +122,10 @@ export const FamilyTreeComponent = ({
         </div>
         <div className="family-component__group"
              ref={treeRef}>
-        {grouppedSortedMembers?.map((group, index) => (
+        {grouppedSortedMembers?.map((group: MemberType[]) => (
             <div style={{order: group[0].level}}
                  className="family-component__level"
-                 key={index}>
+                 key={group[0].level}>
               {group?.map((member) => (
                 <div className="family-component__block"
                      key={member.name}>
@@ -127,7 +141,7 @@ export const FamilyTreeComponent = ({
                             key={member._id}
                             id={member._id}
                             onClick={()=> {
-                              setCurrentItem(member._id);
+                              setCurrentItem(member._id || '');
                               setCurrentLevel(member.level)
                             }}>
                       <Image src={imageURL(member.photo)}
@@ -153,7 +167,7 @@ export const FamilyTreeComponent = ({
                     </Button>
                     <span className="family-component__delete"
                           onClick={() => {
-                            setDeleteMember(member._id);
+                            setDeleteMember(member._id || '');
                             setShowDelete(true);
                           }}>
                             <Image src={RemoveIcon}
@@ -161,10 +175,12 @@ export const FamilyTreeComponent = ({
                           </span>
                 </div>
               ))}
-              <EditTreeComponent show={showEdit}
+              {!!editMember && (
+                <EditTreeComponent show={showEdit}
                                      member={editMember}
                                      onHide={() => setShowEdit(false)}
                                      onSubmit={onUpdateMember}/>
+              )}              
             </div>
         ))}  
         </div>
@@ -174,7 +190,6 @@ export const FamilyTreeComponent = ({
       )}
       {isCurrentUserInGroup && (
         <CreateTreeComponent onSubmitMember={onSubmitMember}
-                             groupId={groupId}
                              currentItem={currentItem}
                              currentLevel={currentLevel}
                              members={members}/>

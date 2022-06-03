@@ -1,31 +1,56 @@
-import React, {useState} from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import classNames from 'classnames';
 import Button from 'react-bootstrap/Button';
 
 import {TreeMemberFormComponent} from './TreeMemberForm.component';
+import {MemberType} from '../types';
 
-export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentItem, currentLevel}) => {
+type Props = {
+  currentItem: string,
+  currentLevel: number,
+  members: MemberType[],
+  onSubmitMember: (data: FormData, currentItem: string, operation: number) => void
+};
+
+type FormValue = {
+  name: string,
+  dates: string,
+  info: string,
+  photo: File | string,
+};
+
+type MemberFormData = FormValue & {
+  level: number,
+  parents: string[],
+  children: string[],
+  siblings: string[],
+  partner: string
+};
+ 
+export const CreateTreeComponent = ({onSubmitMember, members, currentItem, currentLevel}: Props) => {
   const [operation, setOperation] = useState(0);
-  const [photo, setPhoto] = useState('');
+  const [photo, setPhoto] = useState<File | string>('');
   const currentMember = members.find((item) => item._id === currentItem);
   const isDisabled = !members?.length || !operation || !currentItem;
 
-  const onSubmit = (data) => {
+  const onSubmit = (dataValues: FormValue) => {
+    const data: MemberFormData = {
+      ...dataValues,
+      photo: photo,
+      level: currentLevel,
+      parents: [],
+      children: [],
+      siblings: [],
+      partner: ''
+    }
     const formData = new FormData();
-    data.photo = photo;
-    data.group_id = groupId;
-    data.level = currentLevel;
-    data.parents = [];
-    data.children = [];
-    data.siblings = [];
-    data.partner = '';
     switch (operation) {
       // add child operation
       case 1:
         data['parents'].push(currentItem);
         // if current item has partner they also should be added as parent to new item
-        if(!!currentMember.partner) {
-          data['parents'].push(currentMember.partner)
+        if(!!currentMember?.partner) {
+          data['parents'].push(currentMember?.partner)
         };
         data.level = currentLevel + 1;
         break;
@@ -33,7 +58,7 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
       case 2:
         data['children'].push(currentItem);
         // if current item has siblings they also should be added as children to new Parent item
-        if(currentMember.siblings.length) {
+        if(currentMember?.siblings.length) {
           data['children'] = [currentItem, ...currentMember.siblings];
         }
         data.level = currentLevel - 1;
@@ -42,7 +67,7 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
       case 3:
         data.partner = currentItem;
         // if current item has children they also should be added as children to partner item
-        if(currentMember.children.length) {
+        if(currentMember?.children.length) {
           data['children'] = [...currentMember.children];
         }
         break;
@@ -50,7 +75,7 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
       case 4:
         data['siblings'].push(currentItem);
         // if current item has parents they also should be added to a new sibling item
-        if(currentMember.parents.length) {
+        if(currentMember?.parents.length) {
           data.parents = [...currentMember.parents];
         }
         break;
@@ -58,13 +83,17 @@ export const CreateTreeComponent = ({onSubmitMember, groupId, members, currentIt
         break;
     };
     for (let key in data) {
-        formData.append(key, data[key])     
+      // @ts-ignore
+        formData.append(key, data[key as keyof MemberFormData])     
     };
     onSubmitMember(formData, currentItem, operation);
     setOperation(0);
   };
 
-  const onFileUpload = (e) => {
+  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     setPhoto(e.target.files[0]);
   };
 
