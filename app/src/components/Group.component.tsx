@@ -6,6 +6,17 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import {PostContainer} from './Post.container';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
+import {GroupType, UserType} from '../types';
+
+type Props = {
+    group: GroupType | undefined,
+    users: UserType[],
+    currentUser: UserType | undefined,
+    onJoinGroup: () => void,
+    onLeaveGroup: () => void,
+    error: string,
+    loading: boolean
+ };
 
 export const GroupComponent = ({
     group, 
@@ -15,10 +26,10 @@ export const GroupComponent = ({
     loading,
     onJoinGroup,
     onLeaveGroup
-}) => {
+}: Props) => {
     const navigate = useNavigate();
-    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser._id);
-    const imageURL = (image) => (image ? 
+    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser?._id);
+    const imageURL = (image: string | undefined | File) => (image ? 
         image : ImagePlaceholder);  
     const onEditGroup = () => {
         navigate('edit', {state: group});
@@ -32,12 +43,13 @@ export const GroupComponent = ({
                             variant="info"/>
                 </div>
             )}
-            <Alert show={error}
+            <Alert show={!!error}
                    className="group-component__alert"
                    variant="danger">   
                 {error}
-            </Alert>      
-            <div className="group-info">
+            </Alert> 
+            {!!group && (
+                <div className="group-info">
                 <Image src={imageURL(group?.profile_photo)}
                         roundedCircle={true}
                         className="group-info__image"/> 
@@ -49,9 +61,10 @@ export const GroupComponent = ({
                 )}
                 {isCurrentUserInGroup && (
                     <PostContainer author={currentUser}
-                                groupId={group?._id}/>
+                                   groupId={group?._id}/>
                 )}
             </div>
+            )}                
             <div className="user-list">
                 <h2>Our family:</h2>
                 {users?.map(user => (

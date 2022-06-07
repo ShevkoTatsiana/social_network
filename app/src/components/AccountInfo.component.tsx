@@ -25,7 +25,7 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
     const onNavigateToGroupCreation = () => {
         navigate('create_group');
     };
-                  
+            
     return (
         <div className="account-info-component"> 
             <h1 className="account-info-component__title">Wellcome {user?.name}</h1>

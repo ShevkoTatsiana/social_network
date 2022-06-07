@@ -19,15 +19,19 @@ import {MemberType, ErrorType} from '../types';
 
 const START_TREE_LEVEL = 5;
 
+type MemberWithIdType = Omit<MemberType, "_id"> & {
+  _id: string
+};
+
 type Props = {
-  error: ErrorType, 
+  error: ErrorType | undefined, 
   loading: boolean, 
   members: MemberType[],  
   isCurrentUserInGroup: boolean,
   groupId: string, 
   onSubmitMember: (data: FormData, currentItem: string, operation: number) => void, 
   onDeleteMember: (id: string) => void,
-  onUpdateMember: (item: MemberType, id: string | undefined) => void
+  onUpdateMember: (item: MemberWithIdType, id: string) => void
 };
 
 export const FamilyTreeComponent = ({
@@ -150,8 +154,10 @@ export const FamilyTreeComponent = ({
                       <div className="family-component__name">                       
                           {member.name}                  
                       </div>
-                      <div className="family-component__dates"><em>{member.dates}</em></div>
-                      {member.info && (
+                      {!!member.dates && member.dates !== "undefined" && (
+                        <div className="family-component__dates"><em>{member.dates}</em></div>
+                      )}                      
+                      {!!member.info && member.info !== "undefined" && (
                         <Dropdown>
                           <Dropdown.Toggle id="dropdown-basic"
                                            as="span"
@@ -192,6 +198,7 @@ export const FamilyTreeComponent = ({
         <CreateTreeComponent onSubmitMember={onSubmitMember}
                              currentItem={currentItem}
                              currentLevel={currentLevel}
+                             groupId={groupId}
                              members={members}/>
       )}
       <Modal show={showDelete} onHide={() => setShowDelete(false)}>    

@@ -13,8 +13,12 @@ type FormValue = {
   photo: string,
 };
 
+type MemberWithIdType = Omit<MemberType, "_id"> & {
+  _id: string
+};
+
 type Props = {
-  member?: MemberType,
+  member?: MemberType | MemberWithIdType,
   isDisabled: boolean,
   onFileUpload: (e: ChangeEvent<HTMLInputElement>) => void,
   onSubmitMember: (data: FormValue) => void

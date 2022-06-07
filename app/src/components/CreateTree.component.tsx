@@ -9,6 +9,7 @@ type Props = {
   currentItem: string,
   currentLevel: number,
   members: MemberType[],
+  groupId: string,
   onSubmitMember: (data: FormData, currentItem: string, operation: number) => void
 };
 
@@ -24,14 +25,20 @@ type MemberFormData = FormValue & {
   parents: string[],
   children: string[],
   siblings: string[],
-  partner: string
+  partner: string,
+  group_id: string
 };
  
-export const CreateTreeComponent = ({onSubmitMember, members, currentItem, currentLevel}: Props) => {
+export const CreateTreeComponent = ({onSubmitMember, members, currentItem, currentLevel, groupId}: Props) => {
   const [operation, setOperation] = useState(0);
   const [photo, setPhoto] = useState<File | string>('');
   const currentMember = members.find((item) => item._id === currentItem);
-  const isDisabled = !members?.length || !operation || !currentItem;
+  const checkIfDisable = () => {
+    if(!members?.length) return false;
+    if(!operation || !currentItem) return true;
+    return false;
+  }
+  const isDisabled = checkIfDisable();
 
   const onSubmit = (dataValues: FormValue) => {
     const data: MemberFormData = {
@@ -41,7 +48,8 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
       parents: [],
       children: [],
       siblings: [],
-      partner: ''
+      partner: '',
+      group_id: groupId
     }
     const formData = new FormData();
     switch (operation) {

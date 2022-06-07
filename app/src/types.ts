@@ -24,7 +24,8 @@ export type UserType = {
 export type GroupType = {
     name: string,
     description: string,
-    profile_photo: string
+    profile_photo: string | File,
+    _id: string
 };
 
 export type MemberType = {
@@ -38,4 +39,13 @@ export type MemberType = {
     siblings: string[],
     photo: string | File,
     _id?: string
-  }
+}
+
+export type PostType = {
+    author_id: string,
+    author_name: string,
+    text: string,
+    group_id: string,
+    _id: string,
+    createdAt: string
+}

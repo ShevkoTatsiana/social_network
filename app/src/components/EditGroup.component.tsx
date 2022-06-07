@@ -20,7 +20,7 @@ export const EditGroupComponent = () => {
         <div className="edit-group-component"> 
             <p>You can edit a group profile information here</p>
             <Button variant="secondary" onClick={onBack}>Back</Button> 
-             <GroupFormContainer onBack={onEdit}/>                   
+            <GroupFormContainer onBack={onEdit}/>                   
         </div>
     );
 }

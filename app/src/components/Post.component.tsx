@@ -1,22 +1,35 @@
 import React, {useEffect} from 'react';
-import { useForm, useFormState } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form'; 
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/esm/Button';
 import { GroupPostComponent } from './GroupPost.component';
+import {ValidationError, PostType} from '../types';
 
-export const PostComponent = ({error, loading, posts, currentUserName,  onSubmitPost}) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm();
+type FormValues = {
+  text: string
+}
+type Props = {
+  posts: PostType[],
+  error: ValidationError | undefined,
+  loading: boolean,
+  currentUserName: string | undefined,
+  onSubmitPost: (post: FormValues) => Promise<void>
+};
 
-  const onSubmit = (data) => {
+
+export const PostComponent = ({error, loading, posts, currentUserName,  onSubmitPost}: Props) => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful  } } = useForm<FormValues>();
+
+  const onSubmit = (data: FormValues) => {
     onSubmitPost(data)
   };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset({ post: '' });
+      reset({ text: '' });
     }
   }, [isSubmitSuccessful, reset]);
 
@@ -50,12 +63,12 @@ export const PostComponent = ({error, loading, posts, currentUserName,  onSubmit
                         className="post-component__form">
         <FloatingLabel label="Message">
           <Form.Control placeholder="Message"
-                        isInvalid={errors?.name} 
-                        {...register("post", {
+                        isInvalid={!!errors?.text} 
+                        {...register("text", {
                           required: {value: true, message: "This is a required field"}
                         })} />
             <Form.Control.Feedback type="invalid">
-              {errors?.post?.message}
+              {errors?.text?.message}
           </Form.Control.Feedback>
         </FloatingLabel>
         <Button variant="primary" 

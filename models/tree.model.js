@@ -38,16 +38,4 @@ const treeSchema = new Schema({
   },
 });
 
-// const treeSchema = new Schema({
-//   group_id: {
-//     type: String, 
-//     requred: true
-//   },
-//   members: {
-//     type: [treeMemberSchema]
-//   }
-// }, {
-//   timestamps: true,
-// })
-
 export const TreeModel = mongoose.model('Tree', treeSchema);

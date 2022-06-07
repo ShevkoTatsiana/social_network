@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     Routes, 
     Route
@@ -10,14 +10,27 @@ import {
     RecepiesContainer,
     GalleryContainer,
     FamilyTreeContainer
+    //@ts-ignore
  } from '../components';
+import {GroupType, UserType} from '../types';
+
+ type Props = {
+    group: GroupType | undefined,
+    users: UserType[],
+    currentUser: UserType | undefined,
+    onJoinGroup: () => void,
+    onLeaveGroup: () => void,
+    error: string,
+    loading: boolean
+ };
 
 export const GroupDashboardComponent = ({
     group,
+    users,
+    currentUser,
     ...other
-}) => {
-
-    const isCurrentUserInGroup = other?.users?.some((user) => user._id === other?.currentUser._id);
+}: Props) => {
+    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser?._id);
 
     return (
         <div className="group-dashboard-component">
@@ -29,17 +42,19 @@ export const GroupDashboardComponent = ({
           </div>
           <Routes>
                 <Route path="/edit" element={<EditGroupComponent/>}/>
-                <Route exact path="/recepies" element={<RecepiesContainer author={other.currentUser}
+                <Route path="/recepies" element={<RecepiesContainer author={currentUser}
                                                                 isCurrentUserInGroup={isCurrentUserInGroup}
                                                                 groupId={group?._id}/>}/>
-                <Route exact path="/gallery" element={<GalleryContainer author={other.currentUser}
+                <Route path="/gallery" element={<GalleryContainer author={currentUser}
                                                                 isCurrentUserInGroup={isCurrentUserInGroup}
                                                                 groupId={group?._id}/>}/>
-                <Route exact path="/tree" element={<FamilyTreeContainer author={other.currentUser}
+                <Route path="/tree" element={<FamilyTreeContainer author={currentUser}
                                                                 isCurrentUserInGroup={isCurrentUserInGroup}
                                                                 groupId={group?._id}/>}/>
-                <Route exact path="/" element={<GroupComponent {...other}
-                                                                group={group}/>}/>
+                <Route path="/" element={<GroupComponent {...other}
+                                                          users={users}
+                                                          currentUser={currentUser}
+                                                          group={group}/>}/>
             </Routes>          
         </div>
     );

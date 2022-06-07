@@ -5,11 +5,14 @@ import Modal from 'react-bootstrap/Modal';
 import {TreeMemberFormComponent} from './TreeMemberForm.component';
 import {MemberType} from '../types';
 
+type MemberWithIdType = Omit<MemberType, "_id"> & {
+  _id: string
+};
 type Props = {
   member: MemberType,
   show: boolean,
   onHide: () => void,
-  onSubmit: (data: MemberType, id: string | undefined) => void
+  onSubmit: (data: MemberWithIdType, id: string) => void
 };
 type FormValues = {
   name: string,
@@ -26,6 +29,7 @@ export const EditTreeComponent = ({onSubmit, show, member, onHide}: Props) => {
     member.name = data.name;
     member.dates = data.dates;
     member.info = data.info;
+    // @ts-ignore
     onSubmit(member, member._id);
     onHide();
   };

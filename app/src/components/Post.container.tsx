@@ -2,18 +2,29 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { PostComponent } from './Post.component';
+import {ValidationError} from '../types';
 
-export const PostContainer = ({ author, groupId }) => {
-    const [validationError, setValidationError] = useState();
+type Props = {
+    author: {
+        name: string
+    } | undefined,
+    groupId: string
+};
+type FormValues = {
+    text: string
+  }
+
+export const PostContainer = ({ author, groupId }: Props) => {
+    const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const {token} = useToken();
 
-    const onSubmitPost = async (post) => {
+    const onSubmitPost = async (post:FormValues) => {
         const data = {
-            author_name: author.name,
+            author_name: author?.name,
             group_id: groupId,
-            text: post.post
+            text: post.text
         };
         setLoading(true);
         try {

@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useToken } from '../utils/useToken';
 import { FamilyTreeComponent } from './FamilyTree.component';
+// @ts-ignore
 import { convertFormData } from '../utils/convertFormData';
+import {ValidationError, MemberType} from '../types';
 
-export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) => {
-    const [validationError, setValidationError] = useState();
+type Props = {
+    groupId: string,
+    isCurrentUserInGroup: boolean
+};
+
+type MemberWithIdType = Omit<MemberType, "_id"> & {
+    _id: string
+};
+
+export const FamilyTreeContainer = ({ groupId, isCurrentUserInGroup }: Props) => {
+    const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
-    const [members, setMembers] = useState([]);
-    const {token} = useToken();
+    const [members, setMembers] = useState<MemberWithIdType[]>([]);
 
-    const onSubmitMember = async (data, currentItem, operation) => { 
+    const onSubmitMember = async (data: FormData, currentItem: string, operation: number) => { 
         setLoading(true);
         try {
             const result = await axios.post(`${process.env.PUBLIC_URL}/api/tree/create`, data,
@@ -31,7 +39,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
         setLoading(false);
     }
 
-    const onUpdateCurrentMember = (currentItemId, operation, newItemId) => {
+    const onUpdateCurrentMember = (currentItemId: string, operation: number, newItemId: string) => {
         const updatedMembers = [...members];
         const updatedMembersArr = updatedMembers.map((item) => {
             if(item._id !== currentItemId) return item;
@@ -43,11 +51,13 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
                     if (!!item.partner) {
                         // add child to partner
                         const partner = updatedMembers.find(member => member._id === item.partner);
-                        partner['children'].push(newItemId);
-                        onUpdateMember(partner, partner._id);
+                        if(!!partner) {
+                            partner['children'].push(newItemId);
+                            onUpdateMember(partner, partner._id);
+                        }                      
                     }
                     break; 
-                // add parent operation    
+                // add parent operation   
                 case 2:
                     item['parents'].push(newItemId);
                     onUpdateMember(item, item._id);
@@ -55,8 +65,10 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
                         item.siblings.forEach((id) => {
                             // add parent id to siblings
                             const sibling = updatedMembers.find(member => member._id === id);
-                            sibling['parents'].push(newItemId);
-                            onUpdateMember(sibling, sibling._id);
+                            if(!!sibling) {
+                                sibling['parents'].push(newItemId);
+                                onUpdateMember(sibling, sibling._id);
+                            }                           
                         })
                     }
                     break; 
@@ -73,8 +85,10 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
                     if(item.parents.length) {
                         item.parents.forEach(parentId => {
                             const parentItem = updatedMembers.find(member => member._id === parentId);
-                            parentItem['children'].push(newItemId); 
-                            onUpdateMember(parentItem, parentItem._id);
+                            if(!!parentItem) {
+                                parentItem['children'].push(newItemId); 
+                                onUpdateMember(parentItem, parentItem._id);
+                            }                           
                         })
                     }                                   
                     break; 
@@ -88,7 +102,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
            
     };
 
-    const onUpdateMember = async (data, id) => {           
+    const onUpdateMember = async (data: MemberType, id: string) => {           
         const formData = convertFormData(data);
         try {
           const result = await axios.put(`${process.env.PUBLIC_URL}/api/tree/${id}`, formData,
@@ -107,7 +121,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
         setLoading(true);
         try {
             const resp =  await axios.get(`${process.env.PUBLIC_URL}/api/tree/${groupId}`);
-            const uploadedTree = resp?.data;
+            const uploadedTree: MemberType[] = resp?.data;
             const uploadedMembers = uploadedTree.map(item => {
                 const children = item['children'][0].split(',').filter(item => item !== '');
                 item.children = children;
@@ -122,7 +136,7 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
         setLoading(false);
     };
 
-    const onDeleteMember = async (id) => {
+    const onDeleteMember = async (id: string) => {
         setLoading(true);
         
         const updatedMembers = members.filter((member)=> member._id !== id).map(member => {
@@ -164,10 +178,8 @@ export const FamilyTreeContainer = ({ author, groupId, isCurrentUserInGroup }) =
                        members={members}
                        groupId={groupId}
                        isCurrentUserInGroup={isCurrentUserInGroup}
-                       currentUserName={author.name}
                        loading={loading}
-                       error={validationError}
-                       onUpdateCurrentMember={onUpdateCurrentMember}/>
+                       error={validationError}/>
     );
 }
 

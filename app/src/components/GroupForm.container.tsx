@@ -3,14 +3,25 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { GroupFormComponent } from './GroupForm.component';
+import {ValidationError, GroupType} from '../types';
 
-export const GroupFormContainer = ({ onBack }) => {
-  const { state: groupData } = useLocation();
+type Props = {
+  onBack: () => void
+};
+
+type StateType = {
+  groupData: GroupType
+}
+
+export const GroupFormContainer = ({ onBack }: Props) => {
+  const location = useLocation();
+  const state = location.state as StateType;
+  const {groupData} = state;
   const navigate = useNavigate();
   const { token } = useToken();
-  const [validationError, setValidationError] = useState();
+  const [validationError, setValidationError] = useState<ValidationError>();
 
-  const onSubmitCreate = async (formData) => {
+  const onSubmitCreate = async (formData: FormData) => {
     try {
       const result = await axios.post(`${process.env.PUBLIC_URL}/api/group/create`, formData,
         {
@@ -34,7 +45,7 @@ export const GroupFormContainer = ({ onBack }) => {
     }
   };
 
-  const onSubmitUpdate = async (formData) => {
+  const onSubmitUpdate = async (formData: FormData) => {
     try {
       const result = await axios.put(`${process.env.PUBLIC_URL}/api/group/${groupData._id}`, formData,
         {
@@ -51,15 +62,15 @@ export const GroupFormContainer = ({ onBack }) => {
     }
   };
 
-  const handleOnFormSubmit = (data) => {
+  const handleOnFormSubmit = (data: FormData) => {
     if (groupData) return onSubmitUpdate(data);
     return onSubmitCreate(data);
   };
 
   return (
     <GroupFormComponent error={validationError}
-      group={groupData}
-      onSubmit={handleOnFormSubmit} />
+                        group={groupData}
+                        onSubmit={handleOnFormSubmit} />
   );
 }
 

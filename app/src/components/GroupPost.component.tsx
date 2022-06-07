@@ -1,6 +1,12 @@
 import React from 'react';
+import {PostType} from '../types';
 
-export const GroupPostComponent = ({post, active}) => {
+type Props = {
+    post: PostType,
+    active: boolean
+};
+
+export const GroupPostComponent = ({post, active}: Props) => {
     const date = new Date(post.createdAt);
     const dateString = date?.toString().split('GMT')[0];
     const isActiveClass = active ? 'active' : '';
