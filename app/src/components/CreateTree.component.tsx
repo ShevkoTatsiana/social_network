@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Button from 'react-bootstrap/Button';
 
 import {TreeMemberFormComponent} from './TreeMemberForm.component';
+import { convertFormData } from '../utils/convertFormData';
 import {MemberType} from '../types';
 
 type Props = {
@@ -51,7 +52,6 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
       partner: '',
       group_id: groupId
     }
-    const formData = new FormData();
     switch (operation) {
       // add child operation
       case 1:
@@ -90,10 +90,7 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
       default:  
         break;
     };
-    for (let key in data) {
-      // @ts-ignore
-        formData.append(key, data[key as keyof MemberFormData])     
-    };
+    const formData = convertFormData(data);
     onSubmitMember(formData, currentItem, operation);
     setOperation(0);
   };

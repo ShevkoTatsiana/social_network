@@ -19,10 +19,6 @@ import {MemberType, ErrorType} from '../types';
 
 const START_TREE_LEVEL = 5;
 
-type MemberWithIdType = Omit<MemberType, "_id"> & {
-  _id: string
-};
-
 type Props = {
   error: ErrorType | undefined, 
   loading: boolean, 
@@ -31,7 +27,7 @@ type Props = {
   groupId?: string, 
   onSubmitMember: (data: FormData, currentItem: string, operation: number) => void, 
   onDeleteMember: (id: string) => void,
-  onUpdateMember: (item: MemberWithIdType, id: string) => void
+  onUpdateMember: (item: MemberType, id: string) => void
 };
 
 export const FamilyTreeComponent = ({

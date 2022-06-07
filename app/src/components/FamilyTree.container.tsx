@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FamilyTreeComponent } from './FamilyTree.component';
-// @ts-ignore
 import { convertFormData } from '../utils/convertFormData';
 import {ValidationError, MemberType} from '../types';
 
