@@ -16,8 +16,8 @@ export const HomePage = () => {
                 family group and stay in touch with your loved ones!
             </p>
             <Image src={FamilyImg}
-                        alt="home-page"
-                        className="home-page__image"/>
+                   alt="home-page"
+                   className="home-page__image"/>
         </div>
     );
 }

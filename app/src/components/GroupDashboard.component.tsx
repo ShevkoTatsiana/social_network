@@ -10,7 +10,6 @@ import {
     RecepiesContainer,
     GalleryContainer,
     FamilyTreeContainer
-    //@ts-ignore
  } from '../components';
 import {GroupType, UserType} from '../types';
 
@@ -46,11 +45,10 @@ export const GroupDashboardComponent = ({
                                                                 isCurrentUserInGroup={isCurrentUserInGroup}
                                                                 groupId={group?._id}/>}/>
                 <Route path="/gallery" element={<GalleryContainer author={currentUser}
-                                                                isCurrentUserInGroup={isCurrentUserInGroup}
-                                                                groupId={group?._id}/>}/>
-                <Route path="/tree" element={<FamilyTreeContainer author={currentUser}
-                                                                isCurrentUserInGroup={isCurrentUserInGroup}
-                                                                groupId={group?._id}/>}/>
+                                                                  isCurrentUserInGroup={isCurrentUserInGroup}
+                                                                  groupId={group?._id}/>}/>
+                <Route path="/tree" element={<FamilyTreeContainer isCurrentUserInGroup={isCurrentUserInGroup}
+                                                                  groupId={group?._id}/>}/>
                 <Route path="/" element={<GroupComponent {...other}
                                                           users={users}
                                                           currentUser={currentUser}

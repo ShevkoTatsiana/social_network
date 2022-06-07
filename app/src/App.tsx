@@ -18,10 +18,8 @@ import {
  } from './pages';
  import {
    NavigationComponent, 
-   GroupFormContainer, 
    WellcomeContainer
 } from './components';
- import {useToken} from './utils/useToken';
 import './App.scss';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -38,7 +36,7 @@ function App() {
   }
 
   return (
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <GoogleOAuthProvider clientId={CLIENT_ID || ''}>
     <div className="App">
         <Router>
           <div>
@@ -51,9 +49,8 @@ function App() {
                       <Route path="/account/info/edit" element={<EditUserPage/>}/>
                       <Route path="/account/info/create_group" element={<CreateGroupPage/>}/>
                       <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
-                      <Route path="/account/info" element={<AccountPage isAuthorised={isAuthorised}
-                                                                        onUserLogout={onUserLogout}/>}/>
-                      <Route exac path="/family/:name/*" element={<GroupPage/>}/>    
+                      <Route path="/account/info" element={<AccountPage onUserLogout={onUserLogout}/>}/>
+                      <Route path="/family/:name/*" element={<GroupPage/>}/>    
                       <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
                       <Route path="/" element={<HomePage/>}/>                   
                   </Routes>

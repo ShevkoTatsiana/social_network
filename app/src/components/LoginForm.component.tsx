@@ -4,23 +4,38 @@ import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/esm/Button';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
+import {ValidationError} from '../types';
 
-export const LoginFormComponent = ({error, onFormSubmit}) => {
+type LoginFormType = {
+  email: string,
+  password: string | null,
+  social: boolean
+};
+type ResponseType = {
+  email: string
+};
+type Props = {
+  error: ValidationError | undefined,
+  onFormSubmit: ({email, password, social}:LoginFormType) => void
+};
+
+export const LoginFormComponent = ({error, onFormSubmit}: Props) => {
  
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormType>();
+  const onSubmit = (data: LoginFormType) => {
     onFormSubmit(data)
   };
-  const responseGoogle = async (response) => {
-    const responsePayload = jwt_decode(response.credential);
+  const responseGoogle = async (response: CredentialResponse) => {
+    if(!response.credential) return;
+    const responsePayload: ResponseType = jwt_decode(response.credential);
     onFormSubmit({email: responsePayload.email, password: null, social: true});
   };
 
   return (
     <div className="login-form-component">
-      <Alert show={!!error && error?.message}
+      <Alert show={!!error && !!error?.message}
                    variant="danger">   
                 {error?.message}
             </Alert> 
@@ -28,7 +43,7 @@ export const LoginFormComponent = ({error, onFormSubmit}) => {
                        className="form-component">
       <FloatingLabel label="User Email">
           <Form.Control placeholder="User Email"
-                        isInvalid={errors?.email}
+                        isInvalid={!!errors?.email}
                         {...register("email", {
                           required:{value: true, message: "This is a required field"}
                         })}/>
@@ -38,7 +53,7 @@ export const LoginFormComponent = ({error, onFormSubmit}) => {
         </FloatingLabel>
         <FloatingLabel label="Password">
           <Form.Control placeholder="Password"
-                        isInvalid={errors?.password}
+                        isInvalid={!!errors?.password}
                         {...register("password", {
                           required: {value: true, message: "This is a required field"},
                           pattern: {value: /^[a-zA-Z0-9]{3,30}$/, message: "Invalid password"}

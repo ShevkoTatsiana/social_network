@@ -7,7 +7,12 @@ import Image from 'react-bootstrap/Image';
 import {useToken} from '../utils/useToken';
 import LogoImg from '../resources/Logo.jpg';
 
-export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
+type Props = {
+  isAuthorised: boolean,
+  onUserLogout: () => void
+};
+
+export const NavigationComponent = ({isAuthorised, onUserLogout}: Props) => {
   const {token, removeToken} = useToken();
   const navigate = useNavigate();
   const isLogedInUser = isAuthorised || !!token;
@@ -23,7 +28,7 @@ export const NavigationComponent = ({isAuthorised, onUserLogout}) => {
 
   return (
     <div className="navigation-component">
-      <Nav activeKey={selectKey} onSelect={(eventKey) => setSelectKey(eventKey)}>   
+      <Nav activeKey={selectKey} onSelect={(eventKey) => {if(eventKey) setSelectKey(eventKey)}}>   
           <Nav.Item>
             <Nav.Link href="/"
                       eventKey="0">

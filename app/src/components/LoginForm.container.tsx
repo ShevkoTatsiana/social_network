@@ -3,19 +3,34 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { LoginFormComponent } from './LoginForm.component';
 import {useToken} from '../utils/useToken';
+import {ValidationError, UserType} from '../types';
 
-export const LoginFormContainer = ({onUserLogin}) => {
+type Props = {
+  onUserLogin: () => void
+};
+
+type LoginFormType = {
+  email: string,
+  password: string | null,
+  social: boolean
+};
+
+type DataType = {
+  user?: UserType | undefined
+}
+
+export const LoginFormContainer = ({onUserLogin}: Props) => {
   const navigate = useNavigate();
-  const [error, setError] = useState();
-  const [data, setData] = useState({});
+  const [error, setError] = useState<ValidationError>();
+  const [data, setData] = useState<DataType>({});
   const {token, setToken} = useToken();
 
-  const navigateToAccount = (token, user) => {
+  const navigateToAccount = (token: string, user: UserType | undefined) => {
     setToken(token);
     navigate('/account/info', {state: user});
   };
 
-  const handleOnFormSubmit = async ({email, password, social}) => {
+  const handleOnFormSubmit = async ({email, password, social}: LoginFormType) => {
     try {
       const result = await axios.post(`${process.env.PUBLIC_URL}/api/auth/login`, {
         email,
@@ -34,7 +49,7 @@ export const LoginFormContainer = ({onUserLogin}) => {
 
   useEffect(() => {
     if(!token) return;
-    navigateToAccount(data?.user);
+    navigateToAccount(token, data?.user);
   }, [token]);
 
   return (

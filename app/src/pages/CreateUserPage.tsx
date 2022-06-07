@@ -1,7 +1,11 @@
 import React from 'react';
 import {UserFormContainer} from '../components';
 
-export const CreateUserPage = ({onUserLogin}) => {
+type Props = {
+    onUserLogin: () => void
+};
+
+export const CreateUserPage = ({onUserLogin}: Props) => {
     return (
         <div className="create-user-page">
             <h1>Create User</h1>

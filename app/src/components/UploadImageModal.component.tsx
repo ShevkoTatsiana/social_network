@@ -17,7 +17,7 @@ type FormValues = {
   gallery_image: Blob | string,
 };
 export type GalleryFormType = FormValues & {
-  author_name: string,
+  author_name?: string,
   group_id: string
 };
 

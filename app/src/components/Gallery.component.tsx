@@ -14,9 +14,9 @@ type Props = {
   } | undefined,
   loading: boolean, 
   images: ImageType[], 
-  currentUserName: string,
+  currentUserName?: string,
   isCurrentUserInGroup: boolean,
-  groupId: string, 
+  groupId?: string, 
   onSubmitImage: (image: FormData) => void,
   onDeleteImage: (id: string) => void
 }
@@ -58,7 +58,7 @@ export const GalleryComponent = ({
                          variant="info"/>
             )}   
       <h3 className="gallery-component__title">Family's gallery:</h3>  
-      {isCurrentUserInGroup && (
+      {isCurrentUserInGroup && !!groupId && currentUserName && (
         <div className="gallery-component__actions">
           <Button variant="outline-primary" onClick={handleShowUpload}>
             Upload new image

@@ -1,7 +1,11 @@
 import React from 'react';
 import { AccountInfoContainer } from '../components';
 
-export const AccountPage = ({onUserLogout}) => {    
+type Props = {
+    onUserLogout: () => void
+};
+
+export const AccountPage = ({onUserLogout}: Props) => {    
     return (
         <div className="account-page">
             <AccountInfoContainer onUserLogout={onUserLogout}/>

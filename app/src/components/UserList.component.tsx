@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
+import {UserType} from '../types';
 
 export const UserListComponent = () => {
-    const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
-    const getImageURL = (profile_photo) => (profile_photo ? profile_photo : ImagePlaceholder);
+    const [users, setUsers] = useState<UserType[]>([]);
+    const getImageURL = (profile_photo: string) => (profile_photo ? profile_photo : ImagePlaceholder);
     const onLoadUsers = async () => {
         const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users`);
         setUsers(resp?.data);

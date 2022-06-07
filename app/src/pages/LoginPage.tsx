@@ -1,7 +1,11 @@
 import React from 'react';
 import {LoginFormContainer} from '../components';
 
-export const LoginPage = ({onUserLogin}) => {
+type Props = {
+    onUserLogin: () => void
+};
+
+export const LoginPage = ({onUserLogin}: Props) => {
     return (
         <div className="login-user-page">
             <h1>Login</h1>

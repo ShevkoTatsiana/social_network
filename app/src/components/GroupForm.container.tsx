@@ -6,7 +6,7 @@ import { GroupFormComponent } from './GroupForm.component';
 import {ValidationError, GroupType} from '../types';
 
 type Props = {
-  onBack: () => void
+  onBack?: () => void
 };
 
 type StateType = {
@@ -54,7 +54,7 @@ export const GroupFormContainer = ({ onBack }: Props) => {
             "Content-Type": "multipart/form-data"
           }
         });
-      onBack();
+        onBack?.();   
     } catch (e) {
       if (e.response?.data?.error) {
         setValidationError({ message: e.response?.data?.error });

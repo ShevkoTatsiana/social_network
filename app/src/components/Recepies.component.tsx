@@ -11,9 +11,9 @@ type Props = {
   } | undefined,
   loading: boolean,
   recepies: RecipeType[],
-  currentUserName: string,
+  currentUserName: string | undefined,
   isCurrentUserInGroup: boolean,
-  groupId: string,
+  groupId: string | undefined,
   onSubmitRecipe: (recipe: FormData) => void,
   onDeleteRecipe: (id: string) => void
 }
@@ -56,7 +56,7 @@ export const RecepiesComponent = ({
       ) : (
         <div className="recepies-component__empty">There are no family recepies yet...</div>
       )}
-      {isCurrentUserInGroup && (
+      {isCurrentUserInGroup && !!currentUserName && !!groupId && (
         <AddRecipeComponent onSubmitRecipe={onSubmitRecipe}
                             groupId={groupId}
                             currentUserName={currentUserName}/>

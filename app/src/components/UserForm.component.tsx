@@ -1,13 +1,35 @@
-import React, {useState} from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import { useForm } from 'react-hook-form'; 
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Button from 'react-bootstrap/esm/Button';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
+import {ValidationError} from '../types';
 
-export const UserFormComponent = (props) => {
+type Props = {
+  name: string,
+  email: string,
+  password: string | null,
+  error: ValidationError | undefined,
+  successRegister: boolean,
+  onFormSubmit: (data: FormData) => void
+};
+
+type FormValues = {
+  name: string,
+  email: string,
+  password: string,
+  profile_photo: string | File
+};
+type ResponseType = {
+  email: string,
+  given_name: string,
+  picture: string
+};
+
+export const UserFormComponent = (props: Props) => {
   const {
     name = '',
     email = '',
@@ -17,29 +39,32 @@ export const UserFormComponent = (props) => {
     onFormSubmit
   } = props;
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [profilePhoto, setProfilePhoto] = useState('');
-  const onSubmit = (data) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const [profilePhoto, setProfilePhoto] = useState<File | string>('');
+  const onSubmit = (data: FormValues) => {
     const formData = new FormData();
     data.profile_photo = profilePhoto;
     for (let key in data) {
-      formData.append(key, data[key])
+      formData.append(key, data[key as keyof FormValues])
     };
     onFormSubmit(formData)
   };
-  const onFileUpload = (e) => {
+  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     setProfilePhoto(e.target.files[0]);
   };
-  const responseGoogle = async (response) => {
-    const responsePayload = jwt_decode(response.credential);
+  const responseGoogle = async (response: CredentialResponse) => {
+    if(!response.credential) return;
+    const responsePayload: ResponseType = jwt_decode(response.credential);
     const formData = new FormData();
     formData.append('email', responsePayload.email);
-    formData.append('password', null);
+    formData.append('password', 'null');
     formData.append('name', responsePayload.given_name);
     formData.append('profile_photo', responsePayload.picture);
-    formData.append('social', true);
+    formData.append('social', 'true');
     onFormSubmit(formData);
-    console.log(responsePayload);
   };
 
   return (
@@ -52,17 +77,17 @@ export const UserFormComponent = (props) => {
       )}  
       {!!successRegister && (
         <Alert show={successRegister}
-             variant="success">   
-        User was registered successfully! Please, check your email.
-      </Alert> 
+               variant="success">   
+          User was registered successfully! Please, check your email.
+        </Alert> 
       )}      
       <form noValidate onSubmit={handleSubmit(onSubmit)}
-             encType="multipart/form-data"
-             className="form-component">
+            encType="multipart/form-data"
+            className="form-component">
         <FloatingLabel label="User Name">
           <Form.Control defaultValue={name}
                         placeholder="User Name"
-                        isInvalid={errors?.name} 
+                        isInvalid={!!errors?.name} 
                         {...register("name", {
                           required: {value: true, message: "This is a required field"},
                           minLength: {value: 3, message: "Min length is 3"}
@@ -75,7 +100,7 @@ export const UserFormComponent = (props) => {
         <FloatingLabel label="User Email">
           <Form.Control defaultValue={email}
                         placeholder="User Email"
-                        isInvalid={errors?.email}
+                        isInvalid={!!errors?.email}
                         {...register("email", {
                           required:{value: true, message: "This is a required field"}
                         })}/>
@@ -85,9 +110,9 @@ export const UserFormComponent = (props) => {
         </FloatingLabel>
        
         <FloatingLabel label="Password">
-          <Form.Control defaultValue={password}
+          <Form.Control defaultValue={!!password ? password : undefined}
                         placeholder="Password"
-                        isInvalid={errors?.password}
+                        isInvalid={!!errors?.password}
                         {...register("password", {
                           required: {value: true, message: "This is a required field"},
                           pattern: {value: /^[a-zA-Z0-9]{3,30}$/, message: "Invalid password"}
@@ -98,11 +123,9 @@ export const UserFormComponent = (props) => {
         </FloatingLabel>
         <Form.Label htmlFor="profile_photo">Upload your Profile Photo here</Form.Label>
         <Form.Control type="file" 
-               className="user-form-component-photo" 
-               name="profile_photo"
-               {...register("profile_photo")} 
-             
-               onChange={onFileUpload}/>
+                      className="user-form-component-photo" 
+                     {...register("profile_photo")}             
+                     onChange={onFileUpload}/>
         <Form.Text id="filesHelpBlock" muted
                    className="form-note">
           You can upload '.jpg', '.jpeg' or '.png' files here.

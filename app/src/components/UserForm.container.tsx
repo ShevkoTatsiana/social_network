@@ -3,16 +3,31 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { UserFormComponent } from './UserForm.component';
+import {ValidationError, UserType} from '../types';
 
-export const UserFormContainer = ({onUserLogin}) => {
-  const { state: userData } = useLocation();
+type Props = {
+  onUserLogin?: () => void
+};
+type UserCreateType = {
+  email?: string,
+  password?: string
+};
+type StateType = {
+  userData: UserType
+}
+
+export const UserFormContainer = ({onUserLogin}: Props) => {
+  const location = useLocation();
+  const state = location.state as StateType;
+  const {userData} = state;
   const navigate = useNavigate();
   const { token, setToken } = useToken();
-  const [user, setUser] = useState(userData);
-  const [validationError, setValidationError] = useState();
-  const [userCreateData, setUserCreateData] = useState({});
+  const [user, setUser] = useState<UserType>(userData);
+  const [validationError, setValidationError] = useState<ValidationError>();
+  const [userCreateData, setUserCreateData] = useState<UserCreateType>({});
   // Should be used with Email Confirmation feature
   const [successRegister, setSuccessRegister] = useState(false);
+
 
   const onLoadUser = async () => {
     try {
@@ -23,7 +38,7 @@ export const UserFormContainer = ({onUserLogin}) => {
     }
   };
 
-  const onSubmitUpdate = async (formData) => {    
+  const onSubmitUpdate = async (formData: FormData) => {    
     try {
       const result = await axios.put(`${process.env.PUBLIC_URL}/api/users/${token}`, formData,
        { headers: {
@@ -38,11 +53,13 @@ export const UserFormContainer = ({onUserLogin}) => {
     }   
   };
 
-  const onSubmitCreate = async (formData) => {
+  const onSubmitCreate = async (formData: FormData) => {
     try {
       const result = await axios.post(`${process.env.PUBLIC_URL}/api/users/create`, formData,
       { headers: {"Content-Type": "multipart/form-data"}});
-      setUserCreateData({email: formData.get('email'), password: formData.get('password')});
+      const formEmail: string = formData.get('email') as string;
+      const formPassword: string = formData.get('password') as string;
+      setUserCreateData({email: formEmail, password: formPassword});
     } catch (e) {
       if(e.response?.data?.error) {
         setValidationError({message: e.response?.data?.error});
@@ -50,18 +67,18 @@ export const UserFormContainer = ({onUserLogin}) => {
     }
   };
 
-  const handleOnFormSubmit = (data) => {
+  const handleOnFormSubmit = (data: FormData) => {
     if (token) return onSubmitUpdate(data);
     return onSubmitCreate(data);
   };
 
-  const handleOnCreateUser = async (email, password) => {
+  const handleOnCreateUser = async (email: string, password: string | undefined | null | File) => {
     const result = await axios.post(`${process.env.PUBLIC_URL}/api/auth/login`, {
       email,
       password
     });
     setToken(result?.data?.token);
-    onUserLogin();
+    onUserLogin?.();
     navigate('/account/info', {state: result?.data?.user});
   };
 

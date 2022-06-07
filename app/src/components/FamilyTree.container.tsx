@@ -6,7 +6,7 @@ import { convertFormData } from '../utils/convertFormData';
 import {ValidationError, MemberType} from '../types';
 
 type Props = {
-    groupId: string,
+    groupId?: string,
     isCurrentUserInGroup: boolean
 };
 

@@ -28,7 +28,7 @@ type Props = {
   loading: boolean, 
   members: MemberType[],  
   isCurrentUserInGroup: boolean,
-  groupId: string, 
+  groupId?: string, 
   onSubmitMember: (data: FormData, currentItem: string, operation: number) => void, 
   onDeleteMember: (id: string) => void,
   onUpdateMember: (item: MemberWithIdType, id: string) => void
@@ -194,7 +194,7 @@ export const FamilyTreeComponent = ({
       ) : (
         <div className="family-component__empty">You can create your family tree</div>
       )}
-      {isCurrentUserInGroup && (
+      {isCurrentUserInGroup && !!groupId && (
         <CreateTreeComponent onSubmitMember={onSubmitMember}
                              currentItem={currentItem}
                              currentLevel={currentLevel}

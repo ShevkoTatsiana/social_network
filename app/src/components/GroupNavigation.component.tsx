@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 
-export const GroupNavigationComponent = ({name}) => {
+type Props = {
+  name: string | undefined
+};
+
+export const GroupNavigationComponent = ({name}: Props) => {
   const {pathname} = useLocation();
   const rootPath = `/family/${name}`;
   const recepiesPath = `${rootPath}/recepies`;

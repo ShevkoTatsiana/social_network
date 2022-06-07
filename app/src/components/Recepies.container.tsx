@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { RecepiesComponent } from './Recepies.component';
-import {ValidationError} from '../types';
+import {ValidationError, UserType} from '../types';
 
 type Props = {
-    author: {
-        name: string
-    }, 
-    groupId: string,
+    author: UserType | undefined, 
+    groupId: string | undefined,
     isCurrentUserInGroup: boolean
 };
 
@@ -66,7 +64,7 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }: Pro
                            recepies={recepies}
                            groupId={groupId}
                            isCurrentUserInGroup={isCurrentUserInGroup}
-                           currentUserName={author.name}
+                           currentUserName={author?.name}
                            loading={loading}
                            error={validationError}/>
     );

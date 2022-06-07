@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
+import {ValidationError} from '../types';
 
-export const WellcomeComponent = ({data, error}) => {
+type Props = {
+  error: ValidationError | undefined
+};
+
+export const WellcomeComponent = ({error}: Props) => {
   return (
     <div className="wellcome-component">
       {!!error && (
@@ -17,10 +22,6 @@ export const WellcomeComponent = ({data, error}) => {
       <Link to={"/account/login"}>
         Please Login
       </Link>
-      
-      
-     
-     
     </div>
   );
 }

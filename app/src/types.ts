@@ -18,7 +18,8 @@ export type UserType = {
     name: string,
     email: string,
     profile_photo: string,
-    _id: string
+    _id: string,
+    password: string
 };
 
 export type GroupType = {
