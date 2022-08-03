@@ -22,3 +22,8 @@
         margin-top: 1rem;
     }
 }
+
+.login-form-component,
+.user-form-component {
+    padding: $p-secondary $p-primary;
+}

@@ -17,3 +17,11 @@
         height: auto;
     }
 }
+
+@media (max-width: $small) {
+    .recipe-form-component {
+        & {
+            margin-top: $m-secondary;
+        }
+    }
+}

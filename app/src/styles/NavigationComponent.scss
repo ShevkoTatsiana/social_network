@@ -8,3 +8,20 @@
         min-width: auto;
     }
 }
+
+@media (max-width: $small) {
+    .navigation-component {
+        .nav {
+            justify-content: center;
+        }
+        
+        .nav-item:not(.navigation-component__item) {
+            width: 100%;
+            text-align: left;
+        }
+
+        &__link {
+            padding: $p-tertiary;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FSW",
+  "name": "Family Social Network",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,9 +11,25 @@
       "src": "Logo.jpg",
       "type": "image/jpg",
       "sizes": "175x59"
+    },
+    {
+      "src": "favicon144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "maskable_icon.png",
+      "sizes": "102x102",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

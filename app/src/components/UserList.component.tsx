@@ -21,7 +21,7 @@ export const UserListComponent = () => {
         <div className="user-list-component">
             <Table>
                 <tbody>
-                    {users.map(user => (
+                    {users?.map(user => (
                         <tr key={user.name}>
                             <td>
                                 <Image src={getImageURL(user.profile_photo)}

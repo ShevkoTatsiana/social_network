@@ -1,0 +1,15 @@
+.footer-component {
+    $footer-background-color: #f2f6f9;
+
+    & {
+        margin-top: auto;
+        padding: $p-secondary;
+        background-color: $footer-background-color;
+    }
+
+    &__text {
+        padding-bottom: 1rem;
+        font-style: italic;
+        color: $purple-500;
+    }
+}

@@ -120,6 +120,7 @@ export const FamilyTreeComponent = ({
             Download tree
           </Button>
         </div>
+        <div className="family-component__scrollable">
         <div className="family-component__group"
              ref={treeRef}>
         {grouppedSortedMembers?.map((group: MemberType[]) => (
@@ -185,6 +186,7 @@ export const FamilyTreeComponent = ({
               )}              
             </div>
         ))}  
+        </div>
         </div>
         </>
       ) : (

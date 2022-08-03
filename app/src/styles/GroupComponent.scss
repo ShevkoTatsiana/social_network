@@ -34,3 +34,15 @@
         margin-bottom: $m-secondary;
     }
 }
+
+@media (max-width: $medium) {
+    .group-component {
+        .group-info {
+            width: 100%;   
+        }
+    
+        .user-list {
+            width: 100%;
+        }
+    }
+}

@@ -17,3 +17,11 @@
         margin-bottom: $m-secondary;
     }
 }
+
+@media (max-width: $small) {
+    .group-dashboard-component {
+        &__title {
+            margin-bottom: $m-primary;
+        }
+    }
+}

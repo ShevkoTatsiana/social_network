@@ -18,8 +18,8 @@ type StateType = {
 
 export const UserFormContainer = ({onUserLogin}: Props) => {
   const location = useLocation();
-  const state = location.state as StateType;
-  const {userData} = state;
+  const state = location?.state as StateType;
+  const userData = state?.userData || null;
   const navigate = useNavigate();
   const { token, setToken } = useToken();
   const [user, setUser] = useState<UserType>(userData);

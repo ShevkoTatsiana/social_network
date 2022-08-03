@@ -130,3 +130,55 @@
     font-weight: bold;
     color: $secondary;
 }
+
+@media (max-width: $medium) {
+    .family-component {
+        $image-size-md: 3rem;
+        $button-min-width-md: 5rem;
+        $button-max-width-md: 5rem;
+        $delete-button-top-md: 0.5rem;
+        $delete-button-right-md: 1rem;
+
+        &__image {
+            width: $image-size-md;
+            height: $image-size-md;
+        }
+
+        &__button,
+        &__button.active {
+            min-width: $button-min-width-md;
+            max-width: $button-max-width-md;
+            margin: $m-tertiary;
+        }
+
+        &__delete, &__edit {
+            top: $delete-button-top-md;
+            right: $delete-button-right-md;
+        }
+    
+        &__edit {
+            left: $delete-button-right-md;
+            right: auto;
+        }
+
+        &__scrollable {
+            width: 100%;
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+
+        &__group {
+            padding: $p-primary 0;
+            width: fit-content;           
+        }
+
+        &__name {
+            white-space: normal;
+            overflow-wrap: break-word;
+        }
+    }
+
+    .line {
+        display: none;
+    }
+}

@@ -63,3 +63,16 @@
         margin: $m-primary 0 $m-secondary;
     }
 }
+
+@media (max-width: $medium) {
+    .account-info-component{
+        .account-info {
+            width: 100%;
+            margin-bottom: $m-primary;
+        }
+
+        .account-group {
+            width: 100%;
+        }
+    }
+}
