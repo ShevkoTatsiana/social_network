@@ -5,7 +5,7 @@ type Props = {
     onUserLogin: () => void
 };
 
-export const LoginPage = ({onUserLogin}: Props) => {
+const LoginPage = ({onUserLogin}: Props) => {
     return (
         <div className="login-user-page">
             <h1>Login</h1>
@@ -13,3 +13,5 @@ export const LoginPage = ({onUserLogin}: Props) => {
         </div>
     );
 }
+
+export default LoginPage;

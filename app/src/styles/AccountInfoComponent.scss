@@ -62,6 +62,10 @@
     .account-group__note {
         margin: $m-primary 0 $m-secondary;
     }
+
+    .alert.show {
+        width: 100%;
+    }
 }
 
 @media (max-width: $medium) {

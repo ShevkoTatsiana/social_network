@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'react-bootstrap/Image';
 import FamilyImg from '../resources/family-image.jpg';
 
-export const HomePage = () => {
+const HomePage = () => {
     return (
         <div className="home-page">
             <h1 className="home-page__title">
@@ -20,4 +20,6 @@ export const HomePage = () => {
                    className="home-page__image"/>
         </div>
     );
-}
+};
+
+export default HomePage;

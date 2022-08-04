@@ -1,7 +1,7 @@
 import React from 'react';
 import {GroupFormContainer} from '../components';
 
-export const CreateGroupPage = () => {
+const CreateGroupPage = () => {
     return (
         <div className="create-group-page">
             <h1>Create Your Family Group</h1>
@@ -9,3 +9,5 @@ export const CreateGroupPage = () => {
         </div>
     );
 }
+
+export default CreateGroupPage;

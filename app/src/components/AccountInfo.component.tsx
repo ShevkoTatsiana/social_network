@@ -62,9 +62,9 @@ export const AccountInfoComponent = ({user, error, loading, groups, onDeleteUser
             <div className="account-group">
                 <h3>Your families:</h3>
                 <div className="account-group__list">
-                    {groups?.length ? (
+                    {!!groups?.length ? (
                         <>
-                            {groups.map((group) => (
+                            {groups?.map((group) => (
                                 <NavLink  key={group.name} 
                                           to={`/family/${group.name}`}
                                           className="account-group__link">

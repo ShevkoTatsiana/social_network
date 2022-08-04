@@ -1,7 +1,7 @@
 import React from 'react';
 import {UserListComponent} from '../components/UserList.component';
 
-export const UsersListPage = () => {
+const UsersListPage = () => {
     return (
         <div className="user-list-page">
             <h1>Our Members</h1>
@@ -9,3 +9,5 @@ export const UsersListPage = () => {
         </div>
     );
 }
+
+export default UsersListPage;

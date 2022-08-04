@@ -1,7 +1,7 @@
 import React from 'react';
 import {UserFormContainer} from '../components';
 
-export const EditUserPage = () => {
+const EditUserPage = () => {
     return (
         <div className="edit-user-page">
             <h1>Edit User</h1>
@@ -9,3 +9,5 @@ export const EditUserPage = () => {
         </div>
     );
 }
+
+export default EditUserPage;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, lazy, Suspense} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,22 +6,21 @@ import {
 } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import { 
-  CreateUserPage, 
-  UsersListPage,
-  HomePage, 
-  EditUserPage,
-  LoginPage,
-  AccountPage,
-  CreateGroupPage,
-  GroupPage
- } from './pages';
  import {
    NavigationComponent, 
    WellcomeContainer,
    FooterComponent
 } from './components';
 import './App.scss';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const CreateUserPage = lazy(() => import('./pages/CreateUserPage'));
+const UsersListPage = lazy(() => import('./pages/UsersListPage'));
+const EditUserPage = lazy(() => import('./pages/EditUserPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const AccountPage = lazy(() => import('./pages/AccountPage'));
+const CreateGroupPage = lazy(() => import('./pages/CreateGroupPage'));
+const GroupPage = lazy(() => import('./pages/GroupPage'));
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 

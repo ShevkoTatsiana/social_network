@@ -16,7 +16,7 @@ export const UserListComponent = () => {
     useEffect(() => {
         onLoadUsers();
     }, []);
-
+console.log(users);
     return (
         <div className="user-list-component">
             <Table>
