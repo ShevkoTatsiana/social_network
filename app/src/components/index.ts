@@ -31,3 +31,4 @@ export {EditTreeComponent} from './EditTree.component';
 export {WellcomeContainer} from './Wellcome.container';
 export {WellcomeComponent} from './Wellcome.component';
 export {FooterComponent} from './Footer.component';
+export {RefreshComponent} from './Refresh.component';

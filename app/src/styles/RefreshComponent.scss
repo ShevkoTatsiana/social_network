@@ -1,0 +1,15 @@
+.refresh-component {
+  $button-width: 8rem;
+
+  & {
+    padding: $p-secondary;
+    background-color: $tertiary;
+    color: $light;
+  }
+
+  .btn {
+    min-width: $button-width;
+    margin-left: $m-secondary;
+  }
+}
+  

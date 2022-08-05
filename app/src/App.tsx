@@ -1,4 +1,4 @@
-import React, {useState, lazy, Suspense} from 'react';
+import React, {useState, useEffect, lazy, Suspense} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,8 +9,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
  import {
    NavigationComponent, 
    WellcomeContainer,
-   FooterComponent
+   FooterComponent,
+   RefreshComponent
 } from './components';
+import { ServiceWorkerUpdateListener } from './serviceWorkerUpdateListener';
 import './App.scss';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -25,7 +27,12 @@ const GroupPage = lazy(() => import('./pages/GroupPage'));
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 function App() {
+  //@ts-ignore
+  const initialListener:ServiceWorkerUpdateListener = {};
   const [isAuthorised, setIsAuthorised] = useState(false);
+  const [updateWaiting, setUpdateWaiting] = useState(false);
+  const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
+  const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>(initialListener);
 
   const onUserLogin = () => {
     setIsAuthorised(true)
@@ -33,15 +40,55 @@ function App() {
 
   const onUserLogout = () => {
     setIsAuthorised(false);
-  }
+  };
+
+  const handleUpdate = () => {   
+    //@ts-ignore
+    swListener.skipWaiting(registration?.waiting);
+  };
+
+  const handleUpdateWating = (waitingEvent: Event) => {
+    console.log("new update waiting", waitingEvent);
+    setUpdateWaiting(true);
+  };
+  const handleUpdateReady = (event: Event) => {
+    console.log("updateready event");
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+      let listener = new ServiceWorkerUpdateListener();
+      setSwListener(listener);
+
+      listener.addEventListener("updatewaiting", handleUpdateWating);
+
+      listener.addEventListener("updateready", handleUpdateReady);
+
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        listener.addRegistration(reg);
+        setRegistration(reg);
+      });
+
+      return () => {
+        listener.removeEventListener("updatewaiting", handleUpdateWating);
+        listener.removeEventListener("updateready", handleUpdateReady);
+      }
+    } else {
+      //do nothing because no sw in development
+    }
+  }, []);
 
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID || ''}>
     <div className="App">
+      <RefreshComponent updateWaiting={updateWaiting}
+                        handleUpdate={handleUpdate}/>
         <Router>         
           <NavigationComponent isAuthorised={isAuthorised}
                                 onUserLogout={onUserLogout}/>
           <div className="app-content">
+            <Suspense fallback={<div>Loading...</div>}>
               <Routes>
                   <Route path="/create" element={<CreateUserPage onUserLogin={onUserLogin}/>}/>                          
                   <Route path="/users" element={<UsersListPage/>}/>
@@ -53,6 +100,7 @@ function App() {
                   <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
                   <Route path="/" element={<HomePage/>}/>                   
               </Routes>
+              </Suspense>
           </div>
           <FooterComponent/>         
       </Router>
