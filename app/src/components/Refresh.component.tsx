@@ -2,7 +2,6 @@ import React from 'react';
 
 import Button from 'react-bootstrap/Button';
 
-
 type Props = {
   updateWaiting: boolean,
   handleUpdate: () => void

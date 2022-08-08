@@ -27,12 +27,11 @@ const GroupPage = lazy(() => import('./pages/GroupPage'));
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 function App() {
-  //@ts-ignore
-  const initialListener:ServiceWorkerUpdateListener = {};
   const [isAuthorised, setIsAuthorised] = useState(false);
   const [updateWaiting, setUpdateWaiting] = useState(false);
   const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
-  const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>(initialListener);
+  //@ts-ignore
+  const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>({});
 
   const onUserLogin = () => {
     setIsAuthorised(true)
