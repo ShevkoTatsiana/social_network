@@ -5,6 +5,7 @@ import {
   Route
 } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Alert from 'react-bootstrap/Alert';
 
  import {
    NavigationComponent, 
@@ -13,6 +14,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
    RefreshComponent
 } from './components';
 import { ServiceWorkerUpdateListener } from './serviceWorkerUpdateListener';
+import {useIsOffline} from './utils/useIsOfflineHook';
 import './App.scss';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -32,6 +34,7 @@ function App() {
   const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
   //@ts-ignore
   const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>({});
+  const isOffline = useIsOffline();
 
   const onUserLogin = () => {
     setIsAuthorised(true)
@@ -83,6 +86,10 @@ function App() {
     <div className="App">
       <RefreshComponent updateWaiting={updateWaiting}
                         handleUpdate={handleUpdate}/>
+      <Alert show={isOffline}
+             variant="danger">   
+        No internet connection
+      </Alert>                
         <Router>         
           <NavigationComponent isAuthorised={isAuthorised}
                                 onUserLogout={onUserLogout}/>
