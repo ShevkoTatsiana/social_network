@@ -1,6 +1,5 @@
 import multer from 'multer';
 
-
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { firebaseConfig } from '../config.js';
 import { Storage } from '@google-cloud/storage';
@@ -53,7 +52,8 @@ export const uploadImageToStorage = (file) => {
 
     const blobStream = fileUpload.createWriteStream({
       metadata: {
-        contentType: file.mimetype
+        contentType: file.mimetype,
+        cacheControl: 'public,max-age=216000'
       }
     });
 
