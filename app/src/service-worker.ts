@@ -107,3 +107,16 @@ registerRoute(
   }),
   "PATCH"
 );
+
+self.addEventListener('push', function(e) {
+  //@ts-ignore
+  const dataObj = e.data?.json() || e.data?.notification;
+  const {notification} = dataObj;
+  const title = notification?.title || 'New Note';
+  const notificationOptions = {body: notification?.body};
+  
+  e.waitUntil(
+    self.registration.showNotification(title, notificationOptions)
+  );
+});
+

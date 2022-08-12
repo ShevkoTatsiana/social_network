@@ -9,6 +9,9 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
+import {messaging, askForPermissionToReceiveNotification} from './push-notification';
+import { onMessage } from "firebase/messaging";
+import { onBackgroundMessage } from "firebase/messaging/sw";
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -45,11 +48,20 @@ export function register(config?: Config) {
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
+        navigator.serviceWorker.ready.then((reg) => {
+          //@ts-ignore
+          //messaging.useServiceWorker(reg);
+          if(!localStorage.getItem("notification-token")) {
+            askForPermissionToReceiveNotification(reg);
+          }
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://cra.link/PWA'
           );
+          onMessage(messaging, (payload) => {
+            console.log('Message received. ', payload);
+            // ...
+          });
         });
       } else {
         // Is not localhost. Just register service worker
