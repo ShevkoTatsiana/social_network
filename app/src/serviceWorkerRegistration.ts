@@ -50,7 +50,6 @@ export function register(config?: Config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then((reg) => {
           //@ts-ignore
-          //messaging.useServiceWorker(reg);
           if(!localStorage.getItem("notification-token")) {
             askForPermissionToReceiveNotification(reg);
           }
