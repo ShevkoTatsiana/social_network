@@ -16,7 +16,7 @@ type StateType = {
 export const GroupFormContainer = ({ onBack }: Props) => {
   const location = useLocation();
   const state = location.state as StateType;
-  const {groupData} = state;
+  const groupData = state?.groupData;
   const navigate = useNavigate();
   const { token } = useToken();
   const [validationError, setValidationError] = useState<ValidationError>();

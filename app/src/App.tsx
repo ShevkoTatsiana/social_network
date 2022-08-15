@@ -85,34 +85,34 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID || ''}>
-    <div className="App">
-      <RefreshComponent updateWaiting={updateWaiting}
-                        handleUpdate={handleUpdate}/>
-      <Alert show={isOffline}
-             variant="danger">   
-        No internet connection
-      </Alert>                
-        <Router>         
-          <NavigationComponent isAuthorised={isAuthorised}
-                                onUserLogout={onUserLogout}/>
-          <div className="app-content">
-            <Suspense fallback={<div>Loading...</div>}>
-              <Routes>
-                  <Route path="/create" element={<CreateUserPage onUserLogin={onUserLogin}/>}/>                          
-                  <Route path="/users" element={<UsersListPage/>}/>
-                  <Route path="/account/info/edit" element={<EditUserPage/>}/>
-                  <Route path="/account/info/create_group" element={<CreateGroupPage/>}/>
-                  <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
-                  <Route path="/account/info" element={<AccountPage onUserLogout={onUserLogout}/>}/>
-                  <Route path="/family/:name/*" element={<GroupPage/>}/>    
-                  <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
-                  <Route path="/" element={<HomePage/>}/>                   
-              </Routes>
-              </Suspense>
-          </div>
-          <FooterComponent/>         
-      </Router>
-    </div>
+        <div className="App">
+          <RefreshComponent updateWaiting={updateWaiting}
+                            handleUpdate={handleUpdate}/>
+          <Alert show={isOffline}
+                variant="danger">   
+            No internet connection
+          </Alert>                
+            <Router>         
+              <NavigationComponent isAuthorised={isAuthorised}
+                                    onUserLogout={onUserLogout}/>
+              <div className="app-content">
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Routes>
+                      <Route path="/create" element={<CreateUserPage onUserLogin={onUserLogin}/>}/>                          
+                      <Route path="/users" element={<UsersListPage/>}/>
+                      <Route path="/account/info/edit" element={<EditUserPage/>}/>
+                      <Route path="/account/info/create_group" element={<CreateGroupPage/>}/>
+                      <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
+                      <Route path="/account/info" element={<AccountPage onUserLogout={onUserLogout}/>}/>
+                      <Route path="/family/:name/*" element={<GroupPage/>}/>    
+                      <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
+                      <Route path="/" element={<HomePage/>}/>                   
+                  </Routes>
+                  </Suspense>
+              </div>
+              <FooterComponent/>         
+          </Router>
+        </div>
     </GoogleOAuthProvider>
   );
 }
