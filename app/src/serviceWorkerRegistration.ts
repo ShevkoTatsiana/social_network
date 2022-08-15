@@ -108,6 +108,9 @@ function registerValidSW(swUrl: string, config?: Config) {
           }
         };
       };
+      if(!localStorage.getItem("notification-token")) {
+        askForPermissionToReceiveNotification(registration);
+      }
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);
