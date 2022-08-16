@@ -39,16 +39,17 @@ class TreeController {
 
   async editTree(req, res) {
     let file = req.file;
-    let fileUrl = '';
+    let fileUrl;
     if (file) {
       fileUrl = await uploadImageToStorage(file).then((url) => {
         return url;
       }).catch((e)=> console.log(e));
     };
+    const memberPhoto = fileUrl || req.body.photo || '';
     const treeData = {
       children: req.body.children,
       dates: req.body.dates,
-      photo: fileUrl,
+      photo: memberPhoto,
       info: req.body.info,
       level: req.body.level,
       name: req.body.name,
