@@ -50,17 +50,17 @@ export function register(config?: Config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then((reg) => {
           //@ts-ignore
-          if(!localStorage.getItem("notification-token")) {
-            askForPermissionToReceiveNotification(reg);
-          }
+          // if(!localStorage.getItem("notification-token")) {
+          //   askForPermissionToReceiveNotification(reg);
+          // }
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://cra.link/PWA'
           );
-          onMessage(messaging, (payload) => {
-            console.log('Message received. ', payload);
-            // ...
-          });
+          // onMessage(messaging, (payload) => {
+          //   console.log('Message received. ', payload);
+          //   // ...
+          // });
         });
       } else {
         // Is not localhost. Just register service worker
@@ -108,9 +108,9 @@ function registerValidSW(swUrl: string, config?: Config) {
           }
         };
       };
-      if(!localStorage.getItem("notification-token")) {
-        askForPermissionToReceiveNotification(registration);
-      }
+      // if(!localStorage.getItem("notification-token")) {
+      //   askForPermissionToReceiveNotification(registration);
+      // }
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);
