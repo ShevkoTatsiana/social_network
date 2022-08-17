@@ -36,7 +36,7 @@ function App() {
   //@ts-ignore
   const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>({});
   const isOffline = useIsOffline();
-  initializeFirebase();
+  //initializeFirebase();
 
   const onUserLogin = () => {
     setIsAuthorised(true)
