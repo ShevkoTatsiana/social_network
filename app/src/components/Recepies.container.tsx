@@ -19,11 +19,12 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }: Pro
     const onSubmitRecipe = async (formData: FormData) => {
         setLoading(true);
         try {
-            await axios.post(`${process.env.PUBLIC_URL}/api/recepies/create`, formData,
+            const result = await axios.post(`${process.env.PUBLIC_URL}/api/recepies/create`, formData,
        { headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": 'multipart/form-data'
         } });
+        console.log(result);
         onLoadRecepies();
             
         } catch (e) {
