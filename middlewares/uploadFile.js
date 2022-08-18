@@ -1,5 +1,6 @@
 import multer from 'multer';
 
+
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { firebaseConfig } from '../config.js';
 import { Storage } from '@google-cloud/storage';
@@ -66,6 +67,7 @@ export const uploadImageToStorage = (file) => {
       const url = `https://firebasestorage.googleapis.com/v0/b/${
         bucket.name
       }/o/${encodeURI(fileUpload.name)}?alt=media`;
+      console.log(url);
       resolve(url);
     });
 
