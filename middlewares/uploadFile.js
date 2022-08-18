@@ -54,7 +54,7 @@ export const uploadImageToStorage = (file) => {
     const blobStream = fileUpload.createWriteStream({
       metadata: {
         contentType: file.mimetype,
-        cacheControl: 'public,max-age=216000'
+        cacheControl: 'public,max-age=0'
       }
     });
 
