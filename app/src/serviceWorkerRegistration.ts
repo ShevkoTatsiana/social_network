@@ -9,9 +9,9 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
-import {messaging, askForPermissionToReceiveNotification} from './push-notification';
-import { onMessage } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+//import {messaging, askForPermissionToReceiveNotification} from './push-notification';
+//import { onMessage } from "firebase/messaging";
+//import { onBackgroundMessage } from "firebase/messaging/sw";
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||

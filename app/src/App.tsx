@@ -15,7 +15,7 @@ import Alert from 'react-bootstrap/Alert';
 } from './components';
 import { ServiceWorkerUpdateListener } from './serviceWorkerUpdateListener';
 import {useIsOffline} from './utils/useIsOfflineHook';
-import {initializeFirebase} from './push-notification';
+//import {initializeFirebase} from './push-notification';
 import './App.scss';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
