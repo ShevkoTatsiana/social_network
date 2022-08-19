@@ -58,7 +58,7 @@ export const uploadImageToStorage = (file) => {
   const imagesRef = ref(storageRef, `/files/${newFileName}`);
   const metadata = {
     contentType: file.mimetype,
-    //cacheControl: 'public,max-age=216000'
+    cacheControl: 'public,max-age=216000'
   };
 
   const uploadTask = uploadBytesResumable(imagesRef, file.buffer, metadata);
