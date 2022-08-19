@@ -60,28 +60,28 @@ function App() {
     window.location.reload();
   };
 
-  // useEffect(() => {
-  //   if (process.env.NODE_ENV !== "development") {
-  //     let listener = new ServiceWorkerUpdateListener();
-  //     setSwListener(listener);
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+      let listener = new ServiceWorkerUpdateListener();
+      setSwListener(listener);
 
-  //     listener.addEventListener("updatewaiting", handleUpdateWating);
+      listener.addEventListener("updatewaiting", handleUpdateWating);
 
-  //     listener.addEventListener("updateready", handleUpdateReady);
+      listener.addEventListener("updateready", handleUpdateReady);
 
-  //     // navigator.serviceWorker.getRegistration().then((reg) => {
-  //     //   listener.addRegistration(reg);
-  //     //   setRegistration(reg);
-  //     // });
+      // navigator.serviceWorker.getRegistration().then((reg) => {
+      //   listener.addRegistration(reg);
+      //   setRegistration(reg);
+      // });
 
-  //     return () => {
-  //       listener.removeEventListener("updatewaiting", handleUpdateWating);
-  //       listener.removeEventListener("updateready", handleUpdateReady);
-  //     }
-  //   } else {
-  //     //do nothing because no sw in development
-  //   }
-  // }, []);
+      return () => {
+        listener.removeEventListener("updatewaiting", handleUpdateWating);
+        listener.removeEventListener("updateready", handleUpdateReady);
+      }
+    } else {
+      //do nothing because no sw in development
+    }
+  }, []);
 
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID || ''}>
