@@ -69,10 +69,10 @@ function App() {
 
       listener.addEventListener("updateready", handleUpdateReady);
 
-      // navigator.serviceWorker.getRegistration().then((reg) => {
-      //   listener.addRegistration(reg);
-      //   setRegistration(reg);
-      // });
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        listener.addRegistration(reg);
+        setRegistration(reg);
+      });
 
       return () => {
         listener.removeEventListener("updatewaiting", handleUpdateWating);
