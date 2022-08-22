@@ -4,6 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
+const swConfig = {
+  onUpdate: (reg: ServiceWorkerRegistration) => {
+    const event = new CustomEvent('updateContentReady', {detail: reg});
+    document.dispatchEvent(event);
+  },
+  onSuccess: (reg: ServiceWorkerRegistration) => {
+    const event = new CustomEvent('updateContentSuccess');
+    document.dispatchEvent(event);
+  }
+}
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -12,4 +22,4 @@ root.render(
     <App />
   </React.StrictMode>
 );
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.register(swConfig);

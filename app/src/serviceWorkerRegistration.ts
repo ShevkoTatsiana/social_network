@@ -11,7 +11,6 @@
 // opt-in, read https://cra.link/PWA
 import {messaging, askForPermissionToReceiveNotification} from './push-notification';
 import { onMessage } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -59,7 +58,6 @@ export function register(config?: Config) {
           );
           onMessage(messaging, (payload) => {
             console.log('Message received. ', payload);
-            // ...
           });
         });
       } else {

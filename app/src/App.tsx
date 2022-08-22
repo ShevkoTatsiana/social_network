@@ -13,7 +13,6 @@ import Alert from 'react-bootstrap/Alert';
    FooterComponent,
    RefreshComponent
 } from './components';
-import { ServiceWorkerUpdateListener } from './serviceWorkerUpdateListener';
 import {useIsOffline} from './utils/useIsOfflineHook';
 import {initializeFirebase} from './push-notification';
 import './App.scss';
@@ -33,8 +32,6 @@ function App() {
   const [isAuthorised, setIsAuthorised] = useState(false);
   const [updateWaiting, setUpdateWaiting] = useState(false);
   const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
-  //@ts-ignore
-  const [swListener, setSwListener] = useState<ServiceWorkerUpdateListener>({});
   const isOffline = useIsOffline();
   initializeFirebase();
 
@@ -46,48 +43,44 @@ function App() {
     setIsAuthorised(false);
   };
 
-  const handleUpdate = () => {   
-    //@ts-ignore
-    swListener.skipWaiting(registration?.waiting);
+  const handleUpdateWating = (event: CustomEvent) => {
+    console.log("new update waiting");
+    setUpdateWaiting(true);
+    setRegistration(event.detail);
   };
 
-  const handleUpdateWating = (waitingEvent: Event) => {
-    console.log("new update waiting", waitingEvent);
-    setUpdateWaiting(true);
+  const handleSuccessUpdate = (event: Event) => {
+    console.log('Page has been saved for offline use')
   };
-  const handleUpdateReady = (event: Event) => {
-    console.log("updateready event");
-    window.location.reload();
+
+  const updateServiceWorker = () => {
+    const registrationWaiting = registration?.waiting;
+    if (registrationWaiting) {
+       registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+       registrationWaiting.addEventListener('statechange', e => {
+         const target = e.target as ServiceWorker;
+        if (target?.state === 'activated') {
+            window.location.reload();
+        }
+       });
+    }
   };
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "development") {
-      let listener = new ServiceWorkerUpdateListener();
-      setSwListener(listener);
+    document.addEventListener('updateContentReady',((e: CustomEvent)=> handleUpdateWating(e))as EventListener);
+    document.addEventListener('updateContentSuccess', handleSuccessUpdate);
 
-      listener.addEventListener("updatewaiting", handleUpdateWating);
-
-      listener.addEventListener("updateready", handleUpdateReady);
-
-      navigator.serviceWorker.getRegistration().then((reg) => {
-        listener.addRegistration(reg);
-        setRegistration(reg);
-      });
-
-      return () => {
-        listener.removeEventListener("updatewaiting", handleUpdateWating);
-        listener.removeEventListener("updateready", handleUpdateReady);
-      }
-    } else {
-      //do nothing because no sw in development
+    return () => {
+      document.addEventListener('updateContentReady', ((e: CustomEvent)=> handleUpdateWating(e))as EventListener);
+      document.addEventListener('updateContentSuccess', handleSuccessUpdate);
     }
-  }, []);
+  })
 
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID || ''}>
         <div className="App">
           <RefreshComponent updateWaiting={updateWaiting}
-                            handleUpdate={handleUpdate}/>
+                            handleUpdate={updateServiceWorker}/>
           <Alert show={isOffline}
                 variant="danger">   
             No internet connection
