@@ -17,24 +17,26 @@ export const drawLine = (div1: HTMLElement , div2: HTMLElement , color: string, 
   
     const x2 = off2.left + off2.width/2;
     const y2 = off2.top;
+
+    const length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) -thickness;
   
-    const length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    const cx = (off1.width/2);
+    const cy = ((off1.height));
+    const horizontalPosition = (x1 < x2) ? `left: ${cx -length}px` : `right: ${cx}px`;
+    const verticalPosition = (x1 < x2) ? `top: ${cy}px` : `top: ${cy - thickness}px`;
   
-    const cx = ((x1 + x2) / 2) - (length / 2);
-    const cy = ((y1 + y2) / 2) - (thickness / 2);
-  
+    const className = (x1 > x2) ? 'line to-left' : 'line to-right';
+    
     const angle = Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
   
     const div = document.createElement('div');
-    const styleAttribute = `padding:0px; margin:0px; height: ${thickness}px; background-color: ${color}; line-height:1px; position:absolute; left: ${cx}px; top: ${cy}px; width: ${length}px; -moz-transform:rotate(${angle}deg); -webkit-transform:rotate(${angle}deg); -o-transform:rotate(${angle}deg); -ms-transform:rotate(${angle}deg); transform:rotate(${angle}deg);`
+    const styleAttribute = `padding:0px; margin:0px; height: ${thickness}px; background-color: ${color}; line-height:1px; position:absolute; ${horizontalPosition}; ${verticalPosition}; width: ${length}px; -moz-transform:rotate(${angle}deg); -webkit-transform:rotate(${angle}deg); -o-transform:rotate(${angle}deg); -ms-transform:rotate(${angle}deg); transform:rotate(${angle}deg);`
     div.setAttribute('style', styleAttribute);
-    div.setAttribute('class', 'line');
+    div.setAttribute('class', className);
     return div;
 };
 
-export const clearLines = () => {
+export const clearLines = (el:HTMLElement | null) => {
     const lines = document.getElementsByClassName('line');
-    while(lines.length > 0) {
-        document.body.removeChild(lines[0])
-    }
+    [...lines].forEach((el) => el.remove());
 }

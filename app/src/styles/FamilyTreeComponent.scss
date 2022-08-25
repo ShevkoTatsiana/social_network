@@ -11,10 +11,6 @@
     $dates-font-size: 12px;
     $dropdown-menu-transform: translate(-10px, 25px) !important;
 
-    & {
-        position: relative;
-    }
-
     &__group {
        display: flex;
        flex-direction: column;
@@ -22,6 +18,7 @@
        padding: $p-primary-lg;
        background: url('../resources/bg-tree.svg') no-repeat center;
        background-size: 100% 100%;
+       background-color: #fff;
     }
 
     &__loader {
@@ -40,6 +37,7 @@
         max-width: $button-max-width;
         margin: $m-secondary;
         border: 1px solid $secondary;
+        position: relative;
     }
 
     &__button.active {
@@ -121,14 +119,22 @@
     }
 }
 
-.line::after {
-    content: '<';
-    position: relative;
-    top: -2px;
-    left: 0;
-    transform: rotate(90deg);
-    font-weight: bold;
-    color: $secondary;
+.line {
+    & {
+        transform-origin: top right;
+        border-bottom-right-radius: 35%;
+        border-top-right-radius: 35%;
+    }
+
+    &:after {
+        content: '<';
+        position: relative;
+        top: -2px;
+        left: calc(-50% + 2px);
+        transform: rotate(90deg);
+        font-weight: bold;
+        color: $secondary;
+    }
 }
 
 @media (max-width: $medium) {

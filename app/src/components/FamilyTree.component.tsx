@@ -53,7 +53,7 @@ export const FamilyTreeComponent = ({
   const imageURL = (photo: string | File) => (photo ? photo : ImagePlaceholder);
 
   const findVertical = useCallback(() => {
-    clearLines();
+    clearLines(treeRef.current);
     members?.forEach((member) => {
       if(member.children.length && !!member.children[0]) {
         const children = member.children;
@@ -70,14 +70,20 @@ export const FamilyTreeComponent = ({
     const childEl = document.getElementById(child);
     if(!itemEl || !childEl) return;
     const line = drawLine(itemEl, childEl, '#6f42c1', 2);
-    document.body.appendChild(line);
+    itemEl.appendChild(line);
   };
+
+  const filter = (node: HTMLElement)=>{
+    const exclusionClasses = ['dropdown'];
+    console.log(node.classList);
+    return !exclusionClasses.some(classname=>!!node.classList && node.classList.contains(classname));
+  }
 
   const onSaveTree = useCallback(() => {
     if (treeRef.current === null) {
       return
     }
-    toPng(treeRef.current, { cacheBust: true, })
+    toPng(treeRef.current, { cacheBust: true, imagePlaceholder: ImagePlaceholder, filter: filter})
       .then((dataUrl) => {
         const link = document.createElement('a');
         link.download = 'my-family-tree.png';
