@@ -74,8 +74,7 @@ export const FamilyTreeComponent = ({
   };
 
   const filter = (node: HTMLElement)=>{
-    const exclusionClasses = ['dropdown'];
-    console.log(node.classList);
+    const exclusionClasses = ['dropdown', 'family-component__edit', 'family-component__delete'];
     return !exclusionClasses.some(classname=>!!node.classList && node.classList.contains(classname));
   }
 
