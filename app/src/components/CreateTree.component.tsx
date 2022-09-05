@@ -40,7 +40,7 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
     return false;
   }
   const isDisabled = checkIfDisable();
-
+console.log(photo);
   const onSubmit = (dataValues: FormValue) => {
     const data: MemberFormData = {
       ...dataValues,
@@ -93,6 +93,7 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
     const formData = convertFormData(data);
     onSubmitMember(formData, currentItem, operation);
     setOperation(0);
+    setPhoto('');
   };
 
   const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
