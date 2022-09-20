@@ -6,7 +6,8 @@ import Image from 'react-bootstrap/Image';
 
 import {UploadImageModalComponent} from './UploadImageModal.component';
 import {ImagePreviewModalComponent} from './ImagePreviewModal.component';
-import {ImageType} from '../types';
+import { useAppSelector} from '../utils/reduxHooks';
+import {ImageType, UserType} from '../types';
 
 type Props = {
   error: {
@@ -14,8 +15,6 @@ type Props = {
   } | undefined,
   loading: boolean, 
   images: ImageType[], 
-  currentUserName?: string,
-  isCurrentUserInGroup: boolean,
   groupId?: string, 
   onSubmitImage: (image: FormData) => void,
   onDeleteImage: (id: string) => void
@@ -25,8 +24,6 @@ export const GalleryComponent = ({
   error, 
   loading, 
   images, 
-  currentUserName, 
-  isCurrentUserInGroup,
   groupId, 
   onSubmitImage, 
   onDeleteImage
@@ -34,6 +31,9 @@ export const GalleryComponent = ({
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showImagePreview, setShowImagePreview] = useState(false);
   const [currentImage, setCurrentImage] = useState<ImageType>();
+  const currentUser = useAppSelector<UserType | null>((state) => state.currentUser);
+  const currentUserName = currentUser?.name;
+  const isCurrentUserInGroup = useAppSelector((state) => state.isCurrentUserInGroup);
   const handleCloseUpload = () => setShowUploadModal(false);
   const handleShowUpload = () => setShowUploadModal(true);
   const handleClosePreview = () => setShowImagePreview(false);
@@ -73,7 +73,7 @@ export const GalleryComponent = ({
       {!!images?.length ? (
         <div className="gallery-component__block">
           {images.map((image) => (
-            <div className="gallery-item">
+            <div className="gallery-item" key={image?._id}>
               <Button variant="light" 
                       onClick={() => handleShowPreview(image)}
                       className="gallery-item__button">

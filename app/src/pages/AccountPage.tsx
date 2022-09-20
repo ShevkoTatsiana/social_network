@@ -1,14 +1,10 @@
 import React from 'react';
 import { AccountInfoContainer } from '../components';
 
-type Props = {
-    onUserLogout: () => void
-};
-
-const AccountPage = ({onUserLogout}: Props) => {    
+const AccountPage = () => {    
     return (
         <div className="account-page">
-            <AccountInfoContainer onUserLogout={onUserLogout}/>
+            <AccountInfoContainer/>
         </div>
     );
 }

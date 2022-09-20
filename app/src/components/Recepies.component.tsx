@@ -4,6 +4,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import { AddRecipeComponent } from './AddRecipe.component';
 import {RecipeComponent, RecipeType} from './Recipe.component';
+import { useAppSelector} from '../utils/reduxHooks';
+import {UserType} from '../types';
 
 type Props = {
   error: {
@@ -11,8 +13,6 @@ type Props = {
   } | undefined,
   loading: boolean,
   recepies: RecipeType[],
-  currentUserName: string | undefined,
-  isCurrentUserInGroup: boolean,
   groupId: string | undefined,
   onSubmitRecipe: (recipe: FormData) => void,
   onDeleteRecipe: (id: string) => void
@@ -22,12 +22,13 @@ export const RecepiesComponent = ({
   error, 
   loading, 
   recepies, 
-  currentUserName, 
-  isCurrentUserInGroup,
   groupId, 
   onSubmitRecipe, 
   onDeleteRecipe
 }: Props) => {
+  const currentUser = useAppSelector<UserType | null>((state) => state.currentUser);
+  const currentUserName = currentUser?.name;
+  const isCurrentUserInGroup = useAppSelector((state) => state.isCurrentUserInGroup);
  
   return (
     <div className="recepies-component">

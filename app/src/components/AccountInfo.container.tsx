@@ -3,15 +3,14 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {useToken} from '../utils/useToken';
 import { AccountInfoComponent } from './AccountInfo.component';
+import { useAppDispatch } from '../utils/reduxHooks';
+import {setCurrentUser} from '../features/familySlice';
 import {UserType} from '../types';
 
-type Props = {
-  onUserLogout: () => void
-};
-
-export const AccountInfoContainer = ({onUserLogout}: Props) => {
+export const AccountInfoContainer = () => {
   const {token, removeToken} = useToken();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState<UserType>();
   const [groupsId, setGroupsId] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -24,6 +23,7 @@ export const AccountInfoContainer = ({onUserLogout}: Props) => {
       const resp = await axios.get(`${process.env.PUBLIC_URL}/api/users/${token}`, 
       { headers: {"Authorization" : `Bearer ${token}`}});
       setUser(resp?.data);
+      dispatch(setCurrentUser(resp?.data));
       if(!groupsId.length) {
         onLoadUserGroups();
       } 
@@ -55,7 +55,7 @@ export const AccountInfoContainer = ({onUserLogout}: Props) => {
       await axios.delete(`${process.env.PUBLIC_URL}/api/users/${token}`,
       { headers: {"Authorization" : `Bearer ${token}`}});
       removeToken();
-      onUserLogout();
+      dispatch(setCurrentUser(null));
       navigate('/');
     } catch(e) {
       setError('Sorry, can\'t delete the user');

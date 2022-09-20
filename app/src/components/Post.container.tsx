@@ -2,27 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
 import { PostComponent } from './Post.component';
-import {ValidationError} from '../types';
+import { useAppSelector} from '../utils/reduxHooks';
+import {ValidationError, UserType} from '../types';
 
-type Props = {
-    author: {
-        name: string
-    } | undefined,
-    groupId: string
-};
 type FormValues = {
     text: string
   }
 
-export const PostContainer = ({ author, groupId }: Props) => {
+export const PostContainer = () => {
     const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const {token} = useToken();
+    const groupId = useAppSelector((state) => state.groupId);
+    const currentUser = useAppSelector<UserType | null>((state) => state.currentUser);
+    const currentUserName = currentUser?.name;
 
     const onSubmitPost = async (post:FormValues) => {
         const data = {
-            author_name: author?.name,
+            author_name: currentUserName,
             group_id: groupId,
             text: post.text
         };
@@ -61,7 +59,7 @@ export const PostContainer = ({ author, groupId }: Props) => {
     return (
         <PostComponent onSubmitPost={onSubmitPost}
                        posts={posts}
-                       currentUserName={author?.name}
+                       currentUserName={currentUserName}
                        loading={loading}
                        error={validationError} />
     );

@@ -5,23 +5,24 @@ import Modal from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
 import {useToken} from '../utils/useToken';
+import { useAppDispatch, useAppSelector} from '../utils/reduxHooks';
+import {setCurrentUser, setGroupId, setIsCurrentUserInGroup} from '../features/familySlice';
 import LogoImg from '../resources/Logo.jpg';
 
-type Props = {
-  isAuthorised: boolean,
-  onUserLogout: () => void
-};
-
-export const NavigationComponent = ({isAuthorised, onUserLogout}: Props) => {
-  const {token, removeToken} = useToken();
+export const NavigationComponent = () => {
+  const {removeToken} = useToken();
   const navigate = useNavigate();
-  const isLogedInUser = isAuthorised || !!token;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.currentUser);
+  const isLogedInUser = !!user
   const [show, setShow] = useState(false);
   const [selectKey, setSelectKey] = useState('1');
   const handleClose = () => setShow(false);
   const handleLogout = () => {
     removeToken();
-    onUserLogout();
+    dispatch(setCurrentUser(null));
+    dispatch(setGroupId(''));
+    dispatch(setIsCurrentUserInGroup(false));
     handleClose();
     navigate('/account/login');
   };

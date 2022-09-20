@@ -12,6 +12,7 @@ import { CreateTreeComponent } from './CreateTree.component';
 import { EditTreeComponent } from './EditTree.component';
 import { drawLine, clearLines } from '../utils/drawLine';
 import { groupBy, sortLevel } from '../utils/groupBy';
+import { useAppSelector} from '../utils/reduxHooks';
 import RemoveIcon from '../resources/remove.svg';
 import EditIcon from '../resources/edit.svg';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
@@ -23,7 +24,6 @@ type Props = {
   error: ErrorType | undefined, 
   loading: boolean, 
   members: MemberType[],  
-  isCurrentUserInGroup: boolean,
   groupId?: string, 
   onSubmitMember: (data: FormData, currentItem: string, operation: number) => void, 
   onDeleteMember: (id: string) => void,
@@ -34,7 +34,6 @@ export const FamilyTreeComponent = ({
   error, 
   loading, 
   members,  
-  isCurrentUserInGroup,
   groupId, 
   onSubmitMember, 
   onDeleteMember,
@@ -46,6 +45,7 @@ export const FamilyTreeComponent = ({
   const [showDelete, setShowDelete] = useState(false);
   const [editMember, setEditMember] = useState<MemberType>();
   const [deleteMember, setDeleteMember] = useState<string>('');
+  const isCurrentUserInGroup = useAppSelector((state) => state.isCurrentUserInGroup);
   const treeRef = useRef(null);
 
   const grouppedMembers:Array<MemberType[]> =  Object.values(groupBy(members, 'level'));

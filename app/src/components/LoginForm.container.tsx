@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { LoginFormComponent } from './LoginForm.component';
 import {useToken} from '../utils/useToken';
+import { useAppDispatch } from '../utils/reduxHooks';
+import {setCurrentUser} from '../features/familySlice';
 import {ValidationError, UserType} from '../types';
-
-type Props = {
-  onUserLogin: () => void
-};
 
 type LoginFormType = {
   email: string,
@@ -19,8 +17,9 @@ type DataType = {
   user?: UserType | undefined
 }
 
-export const LoginFormContainer = ({onUserLogin}: Props) => {
+export const LoginFormContainer = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [error, setError] = useState<ValidationError>();
   const [data, setData] = useState<DataType>({});
   const {token, setToken} = useToken();
@@ -38,7 +37,7 @@ export const LoginFormContainer = ({onUserLogin}: Props) => {
         social
       });
       setData(result?.data);
-      onUserLogin();
+      dispatch(setCurrentUser(result?.data?.user));
       navigateToAccount(result?.data?.token, result?.data?.user);
     } catch (e) {
       if (e.response?.data?.error) {

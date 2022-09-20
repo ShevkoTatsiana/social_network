@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToken } from '../utils/useToken';
+import { useAppSelector} from '../utils/reduxHooks';
 import { GalleryComponent } from './Gallery.component';
-import {ValidationError, UserType} from '../types';
+import {ValidationError} from '../types';
 
-type Props = {
-    author: UserType | undefined,
-    groupId: string | undefined,
-    isCurrentUserInGroup: boolean
-};
-
-export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }: Props) => {
+export const GalleryContainer = () => {
     const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState([]);
     const {token} = useToken();
+    const groupId = useAppSelector((state) => state.groupId);
 
     const onSubmitImage = async (formData: FormData) => {
         setLoading(true);
@@ -63,8 +59,6 @@ export const GalleryContainer = ({ author, groupId, isCurrentUserInGroup }: Prop
                        onDeleteImage={onDeleteImage}
                        images={images}
                        groupId={groupId}
-                       isCurrentUserInGroup={isCurrentUserInGroup}
-                       currentUserName={author?.name}
                        loading={loading}
                        error={validationError}/>
     );
