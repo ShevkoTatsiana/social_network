@@ -40,7 +40,7 @@ export const CreateTreeComponent = ({onSubmitMember, members, currentItem, curre
     return false;
   }
   const isDisabled = checkIfDisable();
-console.log(photo);
+
   const onSubmit = (dataValues: FormValue) => {
     const data: MemberFormData = {
       ...dataValues,

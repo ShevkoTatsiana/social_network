@@ -5,9 +5,6 @@ import { useToken } from '../utils/useToken';
 import { UserFormComponent } from './UserForm.component';
 import {ValidationError, UserType} from '../types';
 
-type Props = {
-  onUserLogin?: () => void
-};
 type UserCreateType = {
   email?: string,
   password?: string
@@ -16,7 +13,7 @@ type StateType = {
   userData: UserType
 }
 
-export const UserFormContainer = ({onUserLogin}: Props) => {
+export const UserFormContainer = () => {
   const location = useLocation();
   const state = location?.state as StateType;
   const userData = state?.userData || null;
@@ -27,7 +24,6 @@ export const UserFormContainer = ({onUserLogin}: Props) => {
   const [userCreateData, setUserCreateData] = useState<UserCreateType>({});
   // Should be used with Email Confirmation feature
   const [successRegister, setSuccessRegister] = useState(false);
-
 
   const onLoadUser = async () => {
     try {
@@ -78,7 +74,6 @@ export const UserFormContainer = ({onUserLogin}: Props) => {
       password
     });
     setToken(result?.data?.token);
-    onUserLogin?.();
     navigate('/account/info', {state: result?.data?.user});
   };
 

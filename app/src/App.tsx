@@ -29,19 +29,10 @@ const GroupPage = lazy(() => import('./pages/GroupPage'));
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 function App() {
-  const [isAuthorised, setIsAuthorised] = useState(false);
   const [updateWaiting, setUpdateWaiting] = useState(false);
   const [registration, setRegistration] = useState<ServiceWorkerRegistration>();
   const isOffline = useIsOffline();
   initializeFirebase();
-
-  const onUserLogin = () => {
-    setIsAuthorised(true)
-  };
-
-  const onUserLogout = () => {
-    setIsAuthorised(false);
-  };
 
   const handleUpdateWating = (event: CustomEvent) => {
     console.log("new update waiting");
@@ -86,17 +77,16 @@ function App() {
             No internet connection
           </Alert>                
             <Router>         
-              <NavigationComponent isAuthorised={isAuthorised}
-                                    onUserLogout={onUserLogout}/>
+              <NavigationComponent />
               <div className="app-content">
                 <Suspense fallback={<div>Loading...</div>}>
                   <Routes>
-                      <Route path="/create" element={<CreateUserPage onUserLogin={onUserLogin}/>}/>                          
+                      <Route path="/create" element={<CreateUserPage/>}/>                          
                       <Route path="/users" element={<UsersListPage/>}/>
                       <Route path="/account/info/edit" element={<EditUserPage/>}/>
                       <Route path="/account/info/create_group" element={<CreateGroupPage/>}/>
-                      <Route path="/account/login" element={<LoginPage onUserLogin={onUserLogin}/>}/>
-                      <Route path="/account/info" element={<AccountPage onUserLogout={onUserLogout}/>}/>
+                      <Route path="/account/login" element={<LoginPage/>}/>
+                      <Route path="/account/info" element={<AccountPage/>}/>
                       <Route path="/family/:name/*" element={<GroupPage/>}/>    
                       <Route path="/confirm/:confirmationCode" element={<WellcomeContainer/>} />                                   
                       <Route path="/" element={<HomePage/>}/>                   

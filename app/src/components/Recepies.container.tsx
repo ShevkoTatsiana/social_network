@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAppSelector} from '../utils/reduxHooks';
 import { useToken } from '../utils/useToken';
 import { RecepiesComponent } from './Recepies.component';
-import {ValidationError, UserType} from '../types';
+import {ValidationError} from '../types';
 
-type Props = {
-    author: UserType | undefined, 
-    groupId: string | undefined,
-    isCurrentUserInGroup: boolean
-};
-
-export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }: Props) => {
+export const RecepiesContainer = () => {
     const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
     const [recepies, setResepies] = useState([]);
     const {token} = useToken();
+    const groupId = useAppSelector((state) => state.groupId);
 
     const onSubmitRecipe = async (formData: FormData) => {
         setLoading(true);
@@ -63,8 +59,6 @@ export const RecepiesContainer = ({ author, groupId, isCurrentUserInGroup }: Pro
                            onDeleteRecipe={onDeleteRecipe}
                            recepies={recepies}
                            groupId={groupId}
-                           isCurrentUserInGroup={isCurrentUserInGroup}
-                           currentUserName={author?.name}
                            loading={loading}
                            error={validationError}/>
     );

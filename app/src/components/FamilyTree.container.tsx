@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FamilyTreeComponent } from './FamilyTree.component';
 import { convertFormData } from '../utils/convertFormData';
+import { useAppSelector} from '../utils/reduxHooks';
 import {ValidationError, MemberType} from '../types';
-
-type Props = {
-    groupId?: string,
-    isCurrentUserInGroup: boolean
-};
 
 type MemberWithIdType = Omit<MemberType, "_id"> & {
     _id: string
 };
 
-export const FamilyTreeContainer = ({ groupId, isCurrentUserInGroup }: Props) => {
+export const FamilyTreeContainer = () => {
     const [validationError, setValidationError] = useState<ValidationError>();
     const [loading, setLoading] = useState(false);
     const [members, setMembers] = useState<MemberWithIdType[]>([]);
+    const groupId = useAppSelector((state) => state.groupId);
 
     const onSubmitMember = async (data: FormData, currentItem: string, operation: number) => { 
         setLoading(true);
@@ -176,7 +173,6 @@ export const FamilyTreeContainer = ({ groupId, isCurrentUserInGroup }: Props) =>
                        onUpdateMember={onUpdateMember}
                        members={members}
                        groupId={groupId}
-                       isCurrentUserInGroup={isCurrentUserInGroup}
                        loading={loading}
                        error={validationError}/>
     );

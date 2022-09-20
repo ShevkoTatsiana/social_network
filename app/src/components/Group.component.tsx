@@ -5,13 +5,13 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import {PostContainer} from './Post.container';
+import { useAppSelector} from '../utils/reduxHooks';
 import ImagePlaceholder from '../resources/profile_placeholder.png';
 import {GroupType, UserType} from '../types';
 
 type Props = {
     group: GroupType | undefined,
     users: UserType[],
-    currentUser: UserType | undefined,
     onJoinGroup: () => void,
     onLeaveGroup: () => void,
     error: string,
@@ -21,14 +21,13 @@ type Props = {
 export const GroupComponent = ({
     group, 
     users, 
-    currentUser, 
     error, 
     loading,
     onJoinGroup,
     onLeaveGroup
 }: Props) => {
     const navigate = useNavigate();
-    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser?._id);
+    const isCurrentUserInGroup = useAppSelector((state) => state.isCurrentUserInGroup);
     const imageURL = (image: string | undefined | File) => (image ? 
         image : ImagePlaceholder);  
     const onEditGroup = () => {
@@ -60,8 +59,7 @@ export const GroupComponent = ({
                     <Button variant="primary" onClick={onEditGroup}>Edit</Button> 
                 )}
                 {isCurrentUserInGroup && (
-                    <PostContainer author={currentUser}
-                                   groupId={group?._id}/>
+                    <PostContainer />
                 )}
             </div>
             )}                

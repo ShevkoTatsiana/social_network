@@ -16,7 +16,6 @@ import {GroupType, UserType} from '../types';
  type Props = {
     group: GroupType | undefined,
     users: UserType[],
-    currentUser: UserType | undefined,
     onJoinGroup: () => void,
     onLeaveGroup: () => void,
     error: string,
@@ -26,10 +25,8 @@ import {GroupType, UserType} from '../types';
 export const GroupDashboardComponent = ({
     group,
     users,
-    currentUser,
     ...other
 }: Props) => {
-    const isCurrentUserInGroup = users?.some((user) => user._id === currentUser?._id);
 
     return (
         <div className="group-dashboard-component">
@@ -41,17 +38,11 @@ export const GroupDashboardComponent = ({
           </div>
           <Routes>
                 <Route path="/edit" element={<EditGroupComponent/>}/>
-                <Route path="/recepies" element={<RecepiesContainer author={currentUser}
-                                                                isCurrentUserInGroup={isCurrentUserInGroup}
-                                                                groupId={group?._id}/>}/>
-                <Route path="/gallery" element={<GalleryContainer author={currentUser}
-                                                                  isCurrentUserInGroup={isCurrentUserInGroup}
-                                                                  groupId={group?._id}/>}/>
-                <Route path="/tree" element={<FamilyTreeContainer isCurrentUserInGroup={isCurrentUserInGroup}
-                                                                  groupId={group?._id}/>}/>
+                <Route path="/recepies" element={<RecepiesContainer/>}/>
+                <Route path="/gallery" element={<GalleryContainer />}/>
+                <Route path="/tree" element={<FamilyTreeContainer />}/>
                 <Route path="/" element={<GroupComponent {...other}
                                                           users={users}
-                                                          currentUser={currentUser}
                                                           group={group}/>}/>
             </Routes>          
         </div>
