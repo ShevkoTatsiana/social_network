@@ -32,7 +32,7 @@ class UsersController {
     try {
       const result = await userService.createUser(userData);
       console.log(result, 'user cont');
-      sendConfirmationEmail(userData.name, userData.email, userData.confirmationCode);
+      //sendConfirmationEmail(userData.name, userData.email, userData.confirmationCode);
       res.send(result);
     } catch(e) {
       res.status(400).json({ error: 'an User is already registered' });
@@ -44,7 +44,9 @@ class UsersController {
   async deleteUser(req, res) {
     try {
       const result = await userService.deleteUser(req.params.id);
-      deleteImageFromStorage(result.profile_photo);
+      if(!!result.profile_photo) {
+        deleteImageFromStorage(result.profile_photo);
+      }
       res.send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t delete a user' });

@@ -1,6 +1,7 @@
 .gallery-component {
     &__block {
         display: flex;
+        flex-wrap: wrap;
     }
 
     &__actions {
@@ -9,7 +10,7 @@
     }
 
     .gallery-item {
-        max-width: 25%;
+        width: 25%;
         margin: 0.5rem;
     }
 
