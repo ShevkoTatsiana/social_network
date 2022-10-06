@@ -20,7 +20,8 @@ class GroupService {
       }
     }
 
-    deleteGroup(groupId) {
+    async deleteGroup(groupId) {
+      const a = await GroupModel.find();
       return GroupModel.findByIdAndDelete(groupId);
     }
 

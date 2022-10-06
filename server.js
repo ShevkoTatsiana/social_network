@@ -27,6 +27,10 @@ app.use(rootRouter);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "app", "build", "index.html"));
 });
-app.listen((process.env.PORT || 8000), () => {
-  console.log(`Server is running at port ${config.port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen((process.env.PORT || 8000), () => {
+    console.log(`Server is running at port ${config.port}`);
+  });
+}
+
+export { app };

@@ -25,7 +25,7 @@ class GalleryController {
     };
     try {
       const result = await galleryService.createImage(imageData);
-      res.send(result);
+      res.status(201).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t publish an image' });
     }       
@@ -35,7 +35,7 @@ class GalleryController {
     try {
       const result = await galleryService.deleteImage(req.params.id);
       deleteImageFromStorage(result.gallery_image);
-      res.send(result);
+      res.status(204).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t delete an image' });
     }

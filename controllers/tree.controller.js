@@ -31,7 +31,7 @@ class TreeController {
 
     try {
       const result = await treeService.createTree(treeData);
-      res.send(result);
+      res.status(201).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t publish a tree' });
     }       
@@ -69,8 +69,10 @@ class TreeController {
   async deleteTree(req, res) {
     try {
       const result = await treeService.deleteTree(req.params.id);
-      deleteImageFromStorage(result.photo);
-      res.send(result);
+      if(!!result.photo) {
+        deleteImageFromStorage(result.photo);
+      }      
+      res.status(204).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t delete a member' });
     }

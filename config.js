@@ -1,8 +1,12 @@
 import 'dotenv/config';
 
+const MONGODB_URI = process.env.NODE_ENV === 'test' 
+  ? process.env.ATLAS_TEST_URI
+  : process.env.ATLAS_URI
+
 export const config = {
   port: process.env.PORT || 8000,
-  uri: process.env.ATLAS_URI,
+  uri: MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET || 'secret'
 }
 

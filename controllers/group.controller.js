@@ -24,7 +24,7 @@ class GroupController {
   
     try {
       const result = await groupService.createGroup(groupData);
-      res.send(result);
+      res.status(201).send(result);
     } catch(e) {
       res.status(400).json({ error: 'a Group is already registered' });
     }       
@@ -34,9 +34,11 @@ class GroupController {
   }
   async deleteGroup(req, res) {
     try {
-      const result = await groupService.deleteGroup(req.params.id);
-      deleteImageFromStorage(result.profile_photo);
-      res.send(result);
+      const result = await groupService.deleteGroup(req.params.groupId);
+      if(!!result?.profile_photo) {
+        deleteImageFromStorage(result.profile_photo);
+      }      
+      res.status(204).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t delete a group' });
     }

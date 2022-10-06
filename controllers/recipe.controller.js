@@ -26,7 +26,7 @@ class RecipeController {
     };
     try {
       const result = await recipeService.createRecipe(recipeData);
-      res.send(result);
+      res.status(201).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t publish a recipe' });
     }       

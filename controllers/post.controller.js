@@ -15,7 +15,7 @@ class PostController {
 
     try {
       const result = await postService.createPost(postData);
-      res.send(result);
+      res.status(201).send(result);
     } catch(e) {
       res.status(400).json({ error: 'can\'t publish the post' });
     }       

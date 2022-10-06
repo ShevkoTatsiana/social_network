@@ -20,7 +20,7 @@ class UserGroupController {
     res.send(await userGroupService.getAllUsersInGroup(req.params.id));
   }
   async deleteUserGroup(req, res) {
-    res.send(await userGroupService.deleteUserGroup(req.params.id, req.params.groupId));
+    res.status(204).send(await userGroupService.deleteUserGroup(req.params.id, req.params.groupId));
   }
 }
 
